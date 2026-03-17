@@ -45,8 +45,10 @@
         .conditions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:40px}
         @media(min-width:640px){.conditions-grid{grid-template-columns:repeat(3,1fr)}}
         @media(min-width:900px){.conditions-grid{grid-template-columns:repeat(5,1fr)}}
-        .condition-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px;cursor:pointer;transition:all .2s;overflow:hidden}
+        .condition-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px;cursor:pointer;transition:all .2s;overflow:hidden;border-top:3px solid var(--accent)}
         .condition-card:hover{box-shadow:var(--sh-lg);transform:translateY(-2px);border-color:var(--accent)}
+        .condition-card:nth-child(even){border-top-color:var(--green)}
+        .condition-card:nth-child(3n){border-top-color:var(--purple)}
         .cond-icon{font-size:1.5rem;margin-bottom:8px;display:block}
         .cond-name{font-size:.88rem;font-weight:700;margin-bottom:2px;line-height:1.3}
         .cond-sub{font-size:.68rem;color:var(--text2);margin-bottom:6px}
@@ -61,9 +63,9 @@
         .detail-header .icon{font-size:2.4rem}
         .detail-header h2{font-size:1.6rem;font-weight:700;letter-spacing:-.02em}
         .detail-header .sub{font-size:.85rem;color:var(--text2)}
-        .detail-section{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:16px;transition:all .2s}
+        .detail-section{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:28px;margin-bottom:16px;transition:all .2s}
         .detail-section:hover{box-shadow:var(--sh)}
-        .detail-section h3{font-size:.95rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+        .detail-section h3{font-size:1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;color:var(--accent)}
         .detail-body{font-size:.88rem;color:var(--text2);line-height:1.7}
         .detail-body p{margin-bottom:10px}
         .detail-body ul{padding-left:20px;margin-bottom:10px}
@@ -246,7 +248,7 @@ heroDesc:'La comunidad latina enfrenta tasas m\u00e1s altas de ciertas condicion
 searchCond:'Buscar condici\u00f3n de salud...',
 conditionsLabel:'10 condiciones prioritarias para la comunidad latina',
 knowMore:'Conoce m\u00e1s \u2192',
-tabConditions:'Condiciones',tabDisparities:'Disparidades',tabResources:'Recursos',tabTrials:'Ensayos Cl\u00ednicos',
+tabConditions:'Condiciones',tabDisparities:'Disparidades',tabResources:'Recursos',tabTrials:'Ensayos',
 trialsHeroTitle:'Busca tratamientos en investigaci\u00f3n',
 trialsHeroDesc:'Los ensayos cl\u00ednicos son una forma de acceder a tratamientos nuevos. Aqu\u00ed puedes buscar estudios activos cerca de ti.',
 searchTrial:'Buscar ensayo por condici\u00f3n, tratamiento, o palabra clave...',
@@ -288,7 +290,7 @@ heroDesc:'The Latino community faces higher rates of certain health conditions. 
 searchCond:'Search health condition...',
 conditionsLabel:'10 priority conditions for the Latino community',
 knowMore:'Learn more \u2192',
-tabConditions:'Conditions',tabDisparities:'Disparities',tabResources:'Resources',tabTrials:'Clinical Trials',
+tabConditions:'Conditions',tabDisparities:'Disparities',tabResources:'Resources',tabTrials:'Trials',
 trialsHeroTitle:'Search treatments in research',
 trialsHeroDesc:'Clinical trials are a way to access new treatments. Here you can search active studies near you.',
 searchTrial:'Search by condition, treatment, or keyword...',
@@ -332,14 +334,14 @@ cEs:'Factores como el acceso limitado a alimentos saludables, menor cobertura de
 cEn:'Factors like limited access to healthy food, lower insurance coverage, and genetic predisposition contribute to higher rates in the Latino community. Early detection and lifestyle changes can make a big difference.',
 aEs:['Hazte la prueba de A1C al menos una vez al a\u00f1o.','Camina 30 minutos al d\u00eda.','Busca programas gratuitos de prevenci\u00f3n de diabetes en tu comunidad.','Si no tienes seguro, los centros de salud comunitarios ofrecen pruebas a bajo costo.'],
 aEn:['Get an A1C test at least once a year.','Walk 30 minutes a day.','Look for free diabetes prevention programs in your community.','If you are uninsured, community health centers offer low-cost testing.']},
-{id:'kidney',nEs:'Enfermedad Renal Cr\u00f3nica',nEn:'Chronic Kidney Disease',q:'chronic kidney disease',sEs:'1.3x mayor riesgo en latinos',sEn:'1.3x higher risk in Latinos',icon:'\uD83E\uDEC5',
+{id:'kidney',nEs:'Enfermedad Renal Cr\u00f3nica',nEn:'Chronic Kidney Disease',q:'chronic kidney disease',sEs:'1.3x mayor riesgo en latinos',sEn:'1.3x higher risk in Latinos',icon:'\uD83D\uDCA7',
 mlEs:'https://medlineplus.gov/spanish/chronickidneydisease.html',mlEn:'https://medlineplus.gov/chronickidneydisease.html',icd:'N18',
 d:{lp:100,wp:77,ll:'1.3x',wl:'1x',dEs:'Los latinos tienen 1.3 veces mayor riesgo de enfermedad renal terminal.',dEn:'Latinos have 1.3x higher risk of end-stage renal disease.',src:'USRDS, 2023'},
 cEs:'La diabetes e hipertensi\u00f3n no controladas son las principales causas. Muchos latinos no reciben diagn\u00f3stico temprano por falta de acceso a chequeos regulares.',
 cEn:'Uncontrolled diabetes and hypertension are the main causes. Many Latinos do not receive early diagnosis due to lack of access to regular checkups.',
 aEs:['Pide a tu doctor una prueba de funci\u00f3n renal si tienes diabetes o presi\u00f3n alta.','Controla tu presi\u00f3n arterial.','Reduce el consumo de sal.','No ignores la hinchaz\u00f3n en pies o tobillos.'],
 aEn:['Ask your doctor for a kidney function test if you have diabetes or high blood pressure.','Control your blood pressure.','Reduce salt intake.','Do not ignore swelling in feet or ankles.']},
-{id:'liver-cancer',nEs:'C\u00e1ncer de H\u00edgado',nEn:'Liver Cancer',q:'liver cancer',sEs:'2x mayor incidencia en latinos',sEn:'2x higher incidence in Latinos',icon:'\uD83C\uDFAF',
+{id:'liver-cancer',nEs:'C\u00e1ncer de H\u00edgado',nEn:'Liver Cancer',q:'liver cancer',sEs:'2x mayor incidencia en latinos',sEn:'2x higher incidence in Latinos',icon:'\uD83D\uDD2C',
 mlEs:'https://medlineplus.gov/spanish/livercancer.html',mlEn:'https://medlineplus.gov/livercancer.html',icd:'C22',
 d:{lp:100,wp:50,ll:'2x',wl:'1x',dEs:'La incidencia de c\u00e1ncer de h\u00edgado es 2 veces mayor en latinos.',dEn:'Liver cancer incidence is 2x higher in Latinos.',src:'ACS Hispanic Cancer Facts, 2024'},
 cEs:'Tasas m\u00e1s altas de hepatitis B y C, junto con mayor prevalencia de enfermedad hep\u00e1tica grasa, contribuyen al riesgo elevado. La vacunaci\u00f3n y el monitoreo regular son clave.',
@@ -360,7 +362,7 @@ cEs:'Factores diet\u00e9ticos, mayor prevalencia de H. pylori, y diagn\u00f3stic
 cEn:'Dietary factors, higher H. pylori prevalence, and late diagnosis contribute to elevated risk in the Latino community.',
 aEs:['Si tienes s\u00edntomas digestivos persistentes, no los ignores.','Pregunta sobre la prueba de H. pylori.','La detecci\u00f3n temprana mejora significativamente las opciones de tratamiento.','Reduce el consumo de alimentos procesados y muy salados.'],
 aEn:['If you have persistent digestive symptoms, do not ignore them.','Ask about H. pylori testing.','Early detection significantly improves treatment options.','Reduce consumption of processed and very salty foods.']},
-{id:'lupus',nEs:'Lupus',nEn:'Lupus',q:'lupus',sEs:'2-3x m\u00e1s com\u00fan en latinas',sEn:'2-3x more common in Latinas',icon:'\uD83E\uDDE0',
+{id:'lupus',nEs:'Lupus',nEn:'Lupus',q:'lupus',sEs:'2-3x m\u00e1s com\u00fan en latinas',sEn:'2-3x more common in Latinas',icon:'\uD83E\uDD8B',
 mlEs:'https://medlineplus.gov/spanish/lupus.html',mlEn:'https://medlineplus.gov/lupus.html',icd:'M32',
 d:{lp:100,wp:40,ll:'2.5x',wl:'1x',dEs:'El lupus es 2 a 3 veces m\u00e1s com\u00fan y m\u00e1s severo en mujeres latinas.',dEn:'Lupus is 2-3x more common and more severe in Latina women.',src:'Lupus Foundation, 2023'},
 cEs:'Las mujeres latinas desarrollan lupus con m\u00e1s frecuencia y con mayor severidad. El diagn\u00f3stico es frecuentemente tard\u00edo debido a s\u00edntomas que se confunden con otras condiciones.',
@@ -374,7 +376,7 @@ cEs:'El acceso a alimentos saludables, entornos con pocas opciones para activida
 cEn:'Access to healthy food, environments with few options for physical activity, and socioeconomic factors contribute to elevated rates. It is not just a matter of willpower.',
 aEs:['Busca programas comunitarios de actividad f\u00edsica.','Los centros de salud comunitarios ofrecen consejer\u00eda nutricional.','Peque\u00f1os cambios sostenibles son m\u00e1s efectivos que dietas extremas.','Cocina en casa cuando sea posible. No necesitas ingredientes caros.'],
 aEn:['Look for community physical activity programs.','Community health centers offer nutritional counseling.','Small sustainable changes are more effective than extreme diets.','Cook at home when possible. You do not need expensive ingredients.']},
-{id:'asthma',nEs:'Asma',nEn:'Asthma',q:'asthma',sEs:'1.5x en puertorrique\u00f1os',sEn:'1.5x in Puerto Ricans',icon:'\uD83C\uDF2C\uFE0F',
+{id:'asthma',nEs:'Asma',nEn:'Asthma',q:'asthma',sEs:'1.5x en puertorrique\u00f1os',sEn:'1.5x in Puerto Ricans',icon:'\uD83D\uDCA8',
 mlEs:'https://medlineplus.gov/spanish/asthma.html',mlEn:'https://medlineplus.gov/asthma.html',icd:'J45',
 d:{lp:100,wp:67,ll:'1.5x',wl:'1x',dEs:'Los puertorrique\u00f1os tienen 1.5 veces mayor prevalencia de asma.',dEn:'Puerto Ricans have 1.5x asthma prevalence.',src:'CDC, 2023'},
 cEs:'La comunidad puertorrique\u00f1a tiene tasas particularmente altas. Factores ambientales, vivienda, y acceso a medicamentos preventivos juegan un papel importante.',
@@ -388,7 +390,7 @@ cEs:'La hipertensi\u00f3n no controlada es m\u00e1s com\u00fan en latinos, en pa
 cEn:'Uncontrolled hypertension is more common in Latinos, partly due to less access to ongoing medical care. Knowing your numbers (blood pressure, cholesterol) is critical.',
 aEs:['Conoce tus n\u00fameros: presi\u00f3n arterial, colesterol, az\u00facar en sangre.','Camina m\u00e1s. Cocina en casa cuando puedas.','Si tienes s\u00edntomas como dolor en el pecho o falta de aire, llama al 911.','Muchas farmacias ofrecen chequeos de presi\u00f3n gratis.'],
 aEn:['Know your numbers: blood pressure, cholesterol, blood sugar.','Walk more. Cook at home when you can.','If you have symptoms like chest pain or shortness of breath, call 911.','Many pharmacies offer free blood pressure checks.']},
-{id:'depression',nEs:'Salud Mental / Depresi\u00f3n',nEn:'Mental Health / Depression',q:'depression',sEs:'2x menos acceso a tratamiento',sEn:'2x less likely to receive treatment',icon:'\uD83E\uDDE0',
+{id:'depression',nEs:'Salud Mental / Depresi\u00f3n',nEn:'Mental Health / Depression',q:'depression',sEs:'2x menos acceso a tratamiento',sEn:'2x less likely to receive treatment',icon:'\uD83D\uDC9A',
 mlEs:'https://medlineplus.gov/spanish/depression.html',mlEn:'https://medlineplus.gov/depression.html',icd:'F32',
 d:{lp:50,wp:100,ll:'~36%',wl:'~72%',dEs:'Los latinos tienen 2 veces menos probabilidad de recibir tratamiento para depresi\u00f3n.',dEn:'Latinos are 2x less likely to receive depression treatment.',src:'SAMHSA, 2023'},
 cEs:'Los latinos tienen la mitad de probabilidad de recibir tratamiento para depresi\u00f3n. El estigma, las barreras de idioma, y la falta de proveedores biling\u00fces contribuyen a esta brecha.',
@@ -501,15 +503,20 @@ loadDetailTrials(c.q)}
 let detailNPT=null;
 async function loadDetailTrials(q){
 const el=$('#detail-trials'),btn=$('#detail-load-more');
-el.innerHTML='<div class="trial-skeleton"><div class="skel-line w30"></div><div class="skel-line h20 w80"></div><div class="skel-line w60"></div></div>'.repeat(3);
+el.innerHTML='<div class="trial-skeleton"><div class="skel-line w30"></div><div class="skel-line h20 w80"></div><div class="skel-line w60"></div></div>'.repeat(2);
 try{const data=await searchTrials(q,null);detailNPT=data.nextPageToken||null;const s=data.studies||[];studies=s;
-el.innerHTML=s.length?s.map(renderTrialCard).join(''):'<div class="no-results"><div class="nr-icon">\uD83D\uDD0D</div><p>'+t('noResults')+'</p></div>';
-btn.style.display=detailNPT?'block':'none';
+const show=s.slice(0,3),rest=s.slice(3);
+el.innerHTML=show.length?show.map(renderTrialCard).join(''):'<div class="no-results"><div class="nr-icon">\uD83D\uDD0D</div><p>'+t('noResults')+'</p></div>';
+if(rest.length){el.insertAdjacentHTML('beforeend','<div id="detail-hidden" style="display:none">'+rest.map(renderTrialCard).join('')+'</div>')}
+btn.style.display=(detailNPT||rest.length)?'block':'none';
 s.forEach(st=>{const nct=st.protocolSection?.identificationModule?.nctId;const drug=st.protocolSection?.armsInterventionsModule?.interventions?.find(iv=>iv.type==='DRUG'||iv.type==='BIOLOGICAL');if(drug&&nct)loadFDA(nct,drug.name)})}
 catch(e){el.innerHTML='<div class="error-msg">'+t('errorMsg')+'</div>'}}
 
 async function loadDetailMore(){
-if(!detailNPT||!viewCond)return;const btn=$('#detail-load-more');btn.disabled=true;btn.textContent='...';
+if(!viewCond)return;const btn=$('#detail-load-more');
+const hidden=$('#detail-hidden');
+if(hidden&&hidden.style.display==='none'){hidden.style.display='block';if(!detailNPT)btn.style.display='none';return}
+if(!detailNPT)return;btn.disabled=true;btn.textContent='...';
 try{const data=await searchTrials(C[viewCond].q,detailNPT);detailNPT=data.nextPageToken||null;const s=data.studies||[];studies=studies.concat(s);
 $('#detail-trials').innerHTML+=s.map(renderTrialCard).join('');btn.style.display=detailNPT?'block':'none';btn.disabled=false;btn.textContent=t('loadMore');
 s.forEach(st=>{const nct=st.protocolSection?.identificationModule?.nctId;const drug=st.protocolSection?.armsInterventionsModule?.interventions?.find(iv=>iv.type==='DRUG'||iv.type==='BIOLOGICAL');if(drug&&nct)loadFDA(nct,drug.name)})}
