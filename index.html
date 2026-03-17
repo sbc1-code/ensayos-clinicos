@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ensayos Clínicos | Rastreador para la Comunidad Latina</title>
+    <meta name="description" content="Encuentra ensayos clínicos activos para condiciones que afectan a la comunidad latina. Datos en vivo de ClinicalTrials.gov.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>">
+    <style>
+        :root {
+            --bg: #FAFAFA;
+            --bg-secondary: #F2F2F7;
+            --card-bg: #FFFFFF;
+            --text: #1D1D1F;
+            --text-secondary: #86868B;
+            --accent: #0071E3;
+            --green: #34C759;
+            --orange: #FF9500;
+            --purple: #AF52DE;
+            --border: #E5E5EA;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.1), 0 1px 8px rgba(0,0,0,0.06);
+            --radius: 14px;
+            --skeleton-base: #E5E5EA;
+            --skeleton-shine: #F2F2F7;
+        }
+
+        .dark {
+            --bg: #0A0A0A;
+            --bg-secondary: #1C1C1E;
+            --card-bg: #1C1C1E;
+            --text: #F5F5F7;
+            --text-secondary: #A1A1A6;
+            --border: #38383A;
+            --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.4), 0 1px 8px rgba(0,0,0,0.3);
+            --skeleton-base: #2C2C2E;
+            --skeleton-shine: #3A3A3C;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        .site-header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: color-mix(in srgb, var(--bg) 85%, transparent);
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .header-brand h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .header-brand p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 1px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toggle-pill {
+            display: flex;
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 3px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .toggle-pill button {
+            padding: 5px 14px;
+            border: none;
+            background: none;
+            border-radius: 17px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .toggle-pill button.active {
+            background: var(--card-bg);
+            color: var(--text);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .theme-toggle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--border);
+        }
+
+        .data-source {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+
+        @media (min-width: 640px) {
+            .data-source { display: block; }
+        }
+
+        .data-source a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 48px 0 40px;
+            text-align: center;
+        }
+
+        .hero-text {
+            max-width: 640px;
+            margin: 0 auto 32px;
+        }
+
+        .hero-text h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+
+        .hero-text p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .search-wrapper {
+            max-width: 560px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 20px 14px 46px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: var(--card-bg);
+            color: var(--text);
+            outline: none;
+            transition: all 0.2s;
+            box-shadow: var(--shadow);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0,113,227,0.15);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        /* Conditions Grid */
+        .section-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .conditions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 48px;
+        }
+
+        @media (min-width: 640px) {
+            .conditions-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (min-width: 900px) {
+            .conditions-grid { grid-template-columns: repeat(4, 1fr); gap: 14px; }
+        }
+
+        .condition-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .condition-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+            border-color: var(--accent);
+        }
+
+        .condition-card.selected {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px var(--accent), var(--shadow-lg);
+        }
+
+        .condition-icon {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .condition-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            line-height: 1.3;
+        }
+
+        .condition-name-en {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .condition-stat {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .condition-count {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: color-mix(in srgb, var(--green) 12%, transparent);
+            color: var(--green);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .condition-count.loading {
+            background: var(--skeleton-base);
+            color: transparent;
+            min-width: 80px;
+            height: 24px;
+            animation: shimmer 1.8s infinite;
+            background-image: linear-gradient(90deg, var(--skeleton-base) 0%, var(--skeleton-shine) 50%, var(--skeleton-base) 100%);
+            background-size: 200% 100%;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Results Section */
+        .results-section {
+            padding-bottom: 64px;
+        }
+
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .results-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .results-count {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+
+        .filter-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            padding: 6px 0;
+            margin-right: 4px;
+            align-self: center;
+        }
+
+        .filter-pill {
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            white-space: nowrap;
+        }
+
+        .filter-pill:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .filter-pill.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        /* Trial Cards */
+        .trial-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+
+        .trial-card:hover {
+            box-shadow: var(--shadow);
+        }
+
+        .trial-badges {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .badge-recruiting {
+            background: color-mix(in srgb, var(--green) 12%, transparent);
+            color: var(--green);
+        }
+
+        .badge-not-yet {
+            background: color-mix(in srgb, var(--orange) 12%, transparent);
+            color: var(--orange);
+        }
+
+        .badge-invitation {
+            background: color-mix(in srgb, var(--purple) 12%, transparent);
+            color: var(--purple);
+        }
+
+        .badge-phase {
+            background: color-mix(in srgb, var(--accent) 10%, transparent);
+            color: var(--accent);
+        }
+
+        .trial-title {
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        .trial-conditions {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .trial-locations {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .trial-locations span {
+            margin-right: 8px;
+        }
+
+        .trial-summary {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+
+        .trial-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        .trial-link:hover {
+            opacity: 0.7;
+        }
+
+        /* Skeleton trial card */
+        .trial-skeleton {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 12px;
+        }
+
+        .skel-line {
+            height: 14px;
+            border-radius: 7px;
+            margin-bottom: 10px;
+            animation: shimmer 1.8s infinite;
+            background-image: linear-gradient(90deg, var(--skeleton-base) 0%, var(--skeleton-shine) 50%, var(--skeleton-base) 100%);
+            background-size: 200% 100%;
+        }
+
+        .skel-line.w100 { width: 100%; }
+        .skel-line.w80 { width: 80%; }
+        .skel-line.w60 { width: 60%; }
+        .skel-line.w40 { width: 40%; }
+        .skel-line.w30 { width: 30%; height: 10px; }
+        .skel-line.h20 { height: 22px; margin-bottom: 14px; }
+
+        /* Load More */
+        .load-more {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 24px auto 0;
+            padding: 14px 28px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .load-more:hover {
+            opacity: 0.85;
+            transform: translateY(-1px);
+        }
+
+        .load-more:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 48px 20px;
+            color: var(--text-secondary);
+        }
+
+        .no-results .icon {
+            font-size: 2.4rem;
+            margin-bottom: 12px;
+        }
+
+        .no-results p {
+            font-size: 1rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Error */
+        .error-msg {
+            text-align: center;
+            padding: 32px 20px;
+            background: color-mix(in srgb, #FF3B30 8%, transparent);
+            border-radius: var(--radius);
+            color: #FF3B30;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        /* Footer */
+        .site-footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 0;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .site-footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .site-footer a:hover { text-decoration: underline; }
+
+        .footer-disclaimer {
+            max-width: 500px;
+            margin: 12px auto 0;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .hero-text h2 { font-size: 1.5rem; }
+            .hero { padding: 32px 0 28px; }
+            .header-brand p { display: none; }
+            .condition-card { padding: 16px; }
+            .trial-card { padding: 18px; }
+        }
+
+        /* Scroll to top on results */
+        html { scroll-behavior: smooth; }
+
+        /* Accessible focus */
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="header-brand">
+                <h1 id="site-title">Ensayos Cl&#237;nicos</h1>
+                <p id="site-subtitle">Encuentra ensayos cl&#237;nicos activos para tu comunidad</p>
+            </div>
+            <div class="header-controls">
+                <span class="data-source" id="data-source">Datos en vivo de <a href="https://clinicaltrials.gov" target="_blank" rel="noopener">ClinicalTrials.gov</a></span>
+                <div class="toggle-pill" id="lang-toggle">
+                    <button class="active" data-lang="es">ES</button>
+                    <button data-lang="en">EN</button>
+                </div>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">&#9789;</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-text">
+                    <h2 id="hero-title">Encuentra ensayos cl&#237;nicos para tu comunidad</h2>
+                    <p id="hero-desc">Los ensayos cl&#237;nicos son investigaciones que prueban nuevos tratamientos. Muchos est&#225;n buscando participantes ahora mismo. Esta herramienta te ayuda a encontrarlos, con enfoque en las condiciones que m&#225;s afectan a la comunidad latina.</p>
+                </div>
+                <div class="search-wrapper">
+                    <span class="search-icon">&#128269;</span>
+                    <input type="text" class="search-input" id="search-input" autocomplete="off">
+                </div>
+            </div>
+        </section>
+
+        <section class="container">
+            <p class="section-title" id="conditions-label">Condiciones prioritarias</p>
+            <div class="conditions-grid" id="conditions-grid"></div>
+        </section>
+
+        <section class="container results-section" id="results-section" style="display:none">
+            <div class="results-header">
+                <h3 class="results-title" id="results-title">Resultados</h3>
+                <span class="results-count" id="results-count"></span>
+            </div>
+            <div class="filter-row" id="filter-row"></div>
+            <div id="results-list"></div>
+            <div id="error-container"></div>
+            <button class="load-more" id="load-more" style="display:none">Cargar m&#225;s</button>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p id="footer-created">Creado por <a href="https://www.linkedin.com/in/sebastianbecerra1/" target="_blank" rel="noopener">Sebastian Becerra</a> | <a href="https://github.com/sbc1-code/ensayos-clinicos" target="_blank" rel="noopener">GitHub</a></p>
+            <p id="footer-source">Los datos provienen de ClinicalTrials.gov y se actualizan en tiempo real.</p>
+            <p class="footer-disclaimer" id="footer-disclaimer">Esta herramienta es informativa. Consulta a tu m&#233;dico antes de participar en un ensayo cl&#237;nico.</p>
+        </div>
+    </footer>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // ── Translations ──
+        const T = {
+            es: {
+                siteTitle: 'Ensayos Cl\u00ednicos',
+                siteSubtitle: 'Encuentra ensayos cl\u00ednicos activos para tu comunidad',
+                heroTitle: 'Encuentra ensayos cl\u00ednicos para tu comunidad',
+                heroDesc: 'Los ensayos cl\u00ednicos son investigaciones que prueban nuevos tratamientos. Muchos est\u00e1n buscando participantes ahora mismo. Esta herramienta te ayuda a encontrarlos, con enfoque en las condiciones que m\u00e1s afectan a la comunidad latina.',
+                searchPlaceholder: 'Buscar por condici\u00f3n, tratamiento, o palabra clave...',
+                conditionsLabel: 'Condiciones prioritarias',
+                activeTrials: 'ensayos activos',
+                results: 'Resultados',
+                totalFound: 'ensayos encontrados',
+                loadMore: 'Cargar m\u00e1s',
+                noResults: 'No se encontraron ensayos para esta b\u00fasqueda.',
+                noResultsTip: 'Intenta con otros t\u00e9rminos o quita los filtros.',
+                errorMsg: 'No pudimos cargar los datos. Intenta de nuevo.',
+                viewOnCT: 'Ver en ClinicalTrials.gov',
+                filterPhase: 'Fase',
+                filterStatus: 'Estado',
+                filterCountry: 'Pa\u00eds',
+                all: 'Todos',
+                recruiting: 'Reclutando',
+                notYet: 'Por iniciar',
+                byInvitation: 'Por invitaci\u00f3n',
+                us: 'EE.UU.',
+                mexico: 'M\u00e9xico',
+                locations: 'Ubicaciones',
+                noLocation: 'Ubicaci\u00f3n no especificada',
+                dataSource: 'Datos en vivo de',
+                footerCreated: 'Creado por',
+                footerSource: 'Los datos provienen de ClinicalTrials.gov y se actualizan en tiempo real.',
+                footerDisclaimer: 'Esta herramienta es informativa. Consulta a tu m\u00e9dico antes de participar en un ensayo cl\u00ednico.'
+            },
+            en: {
+                siteTitle: 'Clinical Trials',
+                siteSubtitle: 'Find active clinical trials for your community',
+                heroTitle: 'Find clinical trials for your community',
+                heroDesc: 'Clinical trials are research studies that test new treatments. Many are looking for participants right now. This tool helps you find them, focused on conditions that disproportionately affect the Latino community.',
+                searchPlaceholder: 'Search by condition, treatment, or keyword...',
+                conditionsLabel: 'Priority conditions',
+                activeTrials: 'active trials',
+                results: 'Results',
+                totalFound: 'trials found',
+                loadMore: 'Load more',
+                noResults: 'No trials found for this search.',
+                noResultsTip: 'Try different terms or remove filters.',
+                errorMsg: 'Could not load data. Please try again.',
+                viewOnCT: 'View on ClinicalTrials.gov',
+                filterPhase: 'Phase',
+                filterStatus: 'Status',
+                filterCountry: 'Country',
+                all: 'All',
+                recruiting: 'Recruiting',
+                notYet: 'Not yet recruiting',
+                byInvitation: 'By invitation',
+                us: 'USA',
+                mexico: 'Mexico',
+                locations: 'Locations',
+                noLocation: 'Location not specified',
+                dataSource: 'Live data from',
+                footerCreated: 'Created by',
+                footerSource: 'Data comes from ClinicalTrials.gov and updates in real time.',
+                footerDisclaimer: 'This tool is informational. Consult your doctor before joining a clinical trial.'
+            }
+        };
+
+        // ── Conditions ──
+        const CONDITIONS = [
+            {
+                id: 'diabetes',
+                nameEs: 'Diabetes Tipo 2',
+                nameEn: 'Type 2 Diabetes',
+                searchTerm: 'type 2 diabetes',
+                statEs: '1.7x m\u00e1s probable en latinos que en blancos no hispanos',
+                statEn: '1.7x more likely in Latinos than non-Hispanic whites',
+                icon: '\uD83E\uDE78'
+            },
+            {
+                id: 'kidney',
+                nameEs: 'Enfermedad Renal Cr\u00f3nica',
+                nameEn: 'Chronic Kidney Disease',
+                searchTerm: 'chronic kidney disease',
+                statEs: 'Mayor riesgo por diabetes e hipertensi\u00f3n en latinos',
+                statEn: 'Higher risk driven by diabetes and hypertension in Latinos',
+                icon: '\uD83E\UDEC5'
+            },
+            {
+                id: 'liver-cancer',
+                nameEs: 'C\u00e1ncer de H\u00edgado',
+                nameEn: 'Liver Cancer',
+                searchTerm: 'liver cancer',
+                statEs: '2x mayor incidencia en la poblaci\u00f3n latina',
+                statEn: '2x higher incidence in the Latino population',
+                icon: '\uD83C\uDFAF'
+            },
+            {
+                id: 'cervical-cancer',
+                nameEs: 'C\u00e1ncer Cervical',
+                nameEn: 'Cervical Cancer',
+                searchTerm: 'cervical cancer',
+                statEs: 'Tasas m\u00e1s altas en mujeres latinas',
+                statEn: 'Higher rates in Latina women',
+                icon: '\uD83C\uDF80'
+            },
+            {
+                id: 'stomach-cancer',
+                nameEs: 'C\u00e1ncer de Est\u00f3mago',
+                nameEn: 'Stomach Cancer',
+                searchTerm: 'gastric cancer',
+                statEs: 'Riesgo elevado en la comunidad latina',
+                statEn: 'Elevated risk in the Latino community',
+                icon: '\u26A0\uFE0F'
+            },
+            {
+                id: 'lupus',
+                nameEs: 'Lupus',
+                nameEn: 'Lupus',
+                searchTerm: 'lupus',
+                statEs: 'M\u00e1s severo en mujeres latinas',
+                statEn: 'More severe in Latina women',
+                icon: '\uD83E\uDDE0'
+            },
+            {
+                id: 'obesity',
+                nameEs: 'Obesidad',
+                nameEn: 'Obesity',
+                searchTerm: 'obesity',
+                statEs: 'Mayor prevalencia, ligada a acceso alimentario',
+                statEn: 'Higher prevalence, tied to food access',
+                icon: '\uD83C\uDF4E'
+            },
+            {
+                id: 'asthma',
+                nameEs: 'Asma',
+                nameEn: 'Asthma',
+                searchTerm: 'asthma',
+                statEs: 'Especialmente en la comunidad puertorrique\u00f1a',
+                statEn: 'Especially in the Puerto Rican community',
+                icon: '\uD83C\uDF2C\uFE0F'
+            },
+            {
+                id: 'cardiovascular',
+                nameEs: 'Enfermedad Cardiovascular',
+                nameEn: 'Cardiovascular Disease',
+                searchTerm: 'cardiovascular disease',
+                statEs: 'Causa #1 de muerte en la comunidad',
+                statEn: '#1 cause of death in the community',
+                icon: '\u2764\uFE0F'
+            },
+            {
+                id: 'depression',
+                nameEs: 'Salud Mental / Depresi\u00f3n',
+                nameEn: 'Mental Health / Depression',
+                searchTerm: 'depression',
+                statEs: 'Subdiagnosticada y subtratada en latinos',
+                statEn: 'Underdiagnosed and undertreated in Latinos',
+                icon: '\uD83E\uDDE0'
+            }
+        ];
+
+        // ── State ──
+        const API_BASE = 'https://clinicaltrials.gov/api/v2/studies';
+        let lang = 'es';
+        let darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let selectedCondition = null;
+        let searchQuery = '';
+        let nextPageToken = null;
+        let totalCount = 0;
+        let filters = { phase: null, status: null, country: null };
+        let searchTimeout = null;
+        let conditionCounts = {};
+        let isLoading = false;
+
+        // ── DOM refs ──
+        const $ = (sel) => document.querySelector(sel);
+        const $$ = (sel) => document.querySelectorAll(sel);
+
+        // ── API ──
+        async function fetchAPI(params) {
+            const url = new URL(API_BASE);
+            Object.entries(params).forEach(([k, v]) => {
+                if (v !== null && v !== undefined && v !== '') {
+                    url.searchParams.set(k, v);
+                }
+            });
+
+            const res = await fetch(url.toString());
+            if (!res.ok) throw new Error('API returned ' + res.status);
+            return res.json();
+        }
+
+        async function fetchConditionCount(condition) {
+            try {
+                const data = await fetchAPI({
+                    'query.cond': condition.searchTerm,
+                    'filter.overallStatus': 'RECRUITING,NOT_YET_RECRUITING,ENROLLING_BY_INVITATION',
+                    'countTotal': 'true',
+                    'pageSize': '0'
+                });
+                return data.totalCount || 0;
+            } catch (e) {
+                console.error('Count fetch failed for', condition.id, e);
+                return -1;
+            }
+        }
+
+        async function fetchTrials(query, pageToken) {
+            const params = {
+                'countTotal': 'true',
+                'pageSize': '10'
+            };
+
+            if (query) params['query.cond'] = query;
+            if (pageToken) params['pageToken'] = pageToken;
+
+            // Status filter
+            if (filters.status) {
+                params['filter.overallStatus'] = filters.status;
+            } else {
+                params['filter.overallStatus'] = 'RECRUITING,NOT_YET_RECRUITING,ENROLLING_BY_INVITATION';
+            }
+
+            // Phase filter
+            if (filters.phase) {
+                params['filter.phase'] = filters.phase;
+            }
+
+            // Country filter
+            if (filters.country) {
+                params['query.locn'] = filters.country;
+            }
+
+            return fetchAPI(params);
+        }
+
+        // ── Rendering ──
+        function t(key) { return T[lang][key]; }
+
+        function updateUIText() {
+            $('#site-title').textContent = t('siteTitle');
+            $('#site-subtitle').textContent = t('siteSubtitle');
+            $('#hero-title').textContent = t('heroTitle');
+            $('#hero-desc').textContent = t('heroDesc');
+            $('#search-input').placeholder = t('searchPlaceholder');
+            $('#conditions-label').textContent = t('conditionsLabel');
+            $('#load-more').textContent = t('loadMore');
+            $('#data-source').innerHTML = t('dataSource') + ' <a href="https://clinicaltrials.gov" target="_blank" rel="noopener">ClinicalTrials.gov</a>';
+            $('#footer-created').innerHTML = t('footerCreated') + ' <a href="https://www.linkedin.com/in/sebastianbecerra1/" target="_blank" rel="noopener">Sebastian Becerra</a> | <a href="https://github.com/sbc1-code/ensayos-clinicos" target="_blank" rel="noopener">GitHub</a>';
+            $('#footer-source').textContent = t('footerSource');
+            $('#footer-disclaimer').textContent = t('footerDisclaimer');
+
+            renderConditionCards();
+            renderFilters();
+
+            if ($('#results-section').style.display !== 'none') {
+                $('#results-title').textContent = t('results');
+                const countEl = $('#results-count');
+                if (totalCount > 0) {
+                    countEl.textContent = totalCount.toLocaleString() + ' ' + t('totalFound');
+                }
+            }
+        }
+
+        function renderConditionCards() {
+            const grid = $('#conditions-grid');
+            grid.innerHTML = CONDITIONS.map((c, i) => {
+                const name = lang === 'es' ? c.nameEs : c.nameEn;
+                const stat = lang === 'es' ? c.statEs : c.statEn;
+                const count = conditionCounts[c.id];
+                const isSelected = selectedCondition === i;
+                const countHTML = count === undefined
+                    ? '<span class="condition-count loading">&nbsp;</span>'
+                    : count === -1
+                        ? '<span class="condition-count">?</span>'
+                        : '<span class="condition-count">' + count.toLocaleString() + ' ' + t('activeTrials') + '</span>';
+
+                return '<div class="condition-card' + (isSelected ? ' selected' : '') + '" data-index="' + i + '">' +
+                    '<span class="condition-icon">' + c.icon + '</span>' +
+                    '<div class="condition-name">' + name + '</div>' +
+                    (lang === 'es' ? '<div class="condition-name-en">' + c.nameEn + '</div>' : '<div class="condition-name-en">' + c.nameEs + '</div>') +
+                    '<div class="condition-stat">' + stat + '</div>' +
+                    countHTML +
+                    '</div>';
+            }).join('');
+
+            grid.querySelectorAll('.condition-card').forEach(card => {
+                card.addEventListener('click', () => onConditionClick(parseInt(card.dataset.index)));
+            });
+        }
+
+        function renderFilters() {
+            const row = $('#filter-row');
+            const phaseLabel = t('filterPhase');
+            const statusLabel = t('filterStatus');
+            const countryLabel = t('filterCountry');
+            const all = t('all');
+
+            const phases = [
+                { value: null, label: all },
+                { value: 'EARLY_PHASE1', label: lang === 'es' ? 'Temprana' : 'Early' },
+                { value: 'PHASE1', label: lang === 'es' ? 'Fase 1' : 'Phase 1' },
+                { value: 'PHASE2', label: lang === 'es' ? 'Fase 2' : 'Phase 2' },
+                { value: 'PHASE3', label: lang === 'es' ? 'Fase 3' : 'Phase 3' },
+                { value: 'PHASE4', label: lang === 'es' ? 'Fase 4' : 'Phase 4' }
+            ];
+
+            const statuses = [
+                { value: null, label: all },
+                { value: 'RECRUITING', label: t('recruiting') },
+                { value: 'NOT_YET_RECRUITING', label: t('notYet') },
+                { value: 'ENROLLING_BY_INVITATION', label: t('byInvitation') }
+            ];
+
+            const countries = [
+                { value: null, label: all },
+                { value: 'United States', label: t('us') },
+                { value: 'Mexico', label: t('mexico') }
+            ];
+
+            function pillsHTML(items, filterKey) {
+                return items.map(item => {
+                    const active = filters[filterKey] === item.value ? ' active' : '';
+                    const val = item.value === null ? '' : item.value;
+                    return '<button class="filter-pill' + active + '" data-filter="' + filterKey + '" data-value="' + val + '">' + item.label + '</button>';
+                }).join('');
+            }
+
+            row.innerHTML =
+                '<div class="filter-group"><span class="filter-label">' + phaseLabel + '</span>' + pillsHTML(phases, 'phase') + '</div>' +
+                '<div class="filter-group"><span class="filter-label">' + statusLabel + '</span>' + pillsHTML(statuses, 'status') + '</div>' +
+                '<div class="filter-group"><span class="filter-label">' + countryLabel + '</span>' + pillsHTML(countries, 'country') + '</div>';
+
+            row.querySelectorAll('.filter-pill').forEach(pill => {
+                pill.addEventListener('click', () => {
+                    const key = pill.dataset.filter;
+                    const val = pill.dataset.value || null;
+                    onFilterChange(key, val);
+                });
+            });
+        }
+
+        function renderSkeletons(count) {
+            let html = '';
+            for (let i = 0; i < count; i++) {
+                html += '<div class="trial-skeleton">' +
+                    '<div class="skel-line w30"></div>' +
+                    '<div class="skel-line h20 w80"></div>' +
+                    '<div class="skel-line w60"></div>' +
+                    '<div class="skel-line w100"></div>' +
+                    '<div class="skel-line w40"></div>' +
+                    '</div>';
+            }
+            return html;
+        }
+
+        function statusBadge(status) {
+            const map = {
+                'RECRUITING': { cls: 'badge-recruiting', es: 'Reclutando', en: 'Recruiting' },
+                'NOT_YET_RECRUITING': { cls: 'badge-not-yet', es: 'Por iniciar', en: 'Not yet recruiting' },
+                'ENROLLING_BY_INVITATION': { cls: 'badge-invitation', es: 'Por invitaci\u00f3n', en: 'By invitation' }
+            };
+            const info = map[status] || { cls: '', es: status, en: status };
+            return '<span class="badge ' + info.cls + '">' + (lang === 'es' ? info.es : info.en) + '</span>';
+        }
+
+        function phaseBadge(phases) {
+            if (!phases || phases.length === 0) return '';
+            const map = {
+                'EARLY_PHASE1': 'Temprana',
+                'PHASE1': 'Fase 1',
+                'PHASE2': 'Fase 2',
+                'PHASE3': 'Fase 3',
+                'PHASE4': 'Fase 4',
+                'NA': 'N/A'
+            };
+            return phases.map(p => {
+                const label = lang === 'es' ? (map[p] || p) : p.replace('PHASE', 'Phase ').replace('EARLY_', 'Early ').replace('NA', 'N/A');
+                return '<span class="badge badge-phase">' + label + '</span>';
+            }).join(' ');
+        }
+
+        function renderTrialCard(study) {
+            const proto = study.protocolSection || {};
+            const idMod = proto.identificationModule || {};
+            const statusMod = proto.statusModule || {};
+            const designMod = proto.designModule || {};
+            const descMod = proto.descriptionModule || {};
+            const locMod = proto.contactsLocationsModule || {};
+
+            const nctId = idMod.nctId || '';
+            const title = idMod.briefTitle || idMod.officialTitle || 'Untitled Study';
+            const status = statusMod.overallStatus || '';
+            const phases = designMod.phases || [];
+            const summary = (descMod.briefSummary || '').substring(0, 250);
+            const locations = (locMod.locations || []).slice(0, 3);
+
+            let locHTML = '';
+            if (locations.length > 0) {
+                locHTML = locations.map(loc => {
+                    const parts = [loc.city, loc.state, loc.country].filter(Boolean);
+                    return '<span>\uD83D\uDCCD ' + parts.join(', ') + '</span>';
+                }).join('');
+            } else {
+                locHTML = '<span>' + t('noLocation') + '</span>';
+            }
+
+            const ctURL = 'https://clinicaltrials.gov/study/' + nctId;
+
+            return '<div class="trial-card">' +
+                '<div class="trial-badges">' + statusBadge(status) + ' ' + phaseBadge(phases) + '</div>' +
+                '<div class="trial-title">' + escapeHTML(title) + '</div>' +
+                '<div class="trial-locations">' + locHTML + '</div>' +
+                (summary ? '<div class="trial-summary">' + escapeHTML(summary) + (summary.length >= 250 ? '...' : '') + '</div>' : '') +
+                '<a class="trial-link" href="' + ctURL + '" target="_blank" rel="noopener">' + t('viewOnCT') + ' \u2192</a>' +
+                '</div>';
+        }
+
+        function escapeHTML(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // ── Handlers ──
+        function onConditionClick(index) {
+            selectedCondition = index;
+            searchQuery = '';
+            $('#search-input').value = '';
+            nextPageToken = null;
+            filters = { phase: null, status: null, country: null };
+
+            renderConditionCards();
+            loadResults(CONDITIONS[index].searchTerm);
+        }
+
+        function onSearch(query) {
+            if (!query || query.trim().length < 2) return;
+            selectedCondition = null;
+            searchQuery = query.trim();
+            nextPageToken = null;
+            filters = { phase: null, status: null, country: null };
+
+            renderConditionCards();
+            loadResults(searchQuery);
+        }
+
+        function onFilterChange(key, value) {
+            filters[key] = value;
+            nextPageToken = null;
+
+            const query = selectedCondition !== null ? CONDITIONS[selectedCondition].searchTerm : searchQuery;
+            if (query) loadResults(query);
+        }
+
+        async function loadResults(query, append) {
+            if (isLoading) return;
+            isLoading = true;
+
+            const section = $('#results-section');
+            const list = $('#results-list');
+            const errorEl = $('#error-container');
+            const loadBtn = $('#load-more');
+
+            section.style.display = 'block';
+            errorEl.innerHTML = '';
+
+            if (!append) {
+                list.innerHTML = renderSkeletons(4);
+                loadBtn.style.display = 'none';
+                window.scrollTo({ top: section.offsetTop - 80, behavior: 'smooth' });
+            } else {
+                loadBtn.disabled = true;
+                loadBtn.textContent = '...';
+            }
+
+            renderFilters();
+
+            try {
+                const data = await fetchTrials(query, append ? nextPageToken : null);
+                totalCount = data.totalCount || 0;
+                nextPageToken = data.nextPageToken || null;
+
+                const studies = data.studies || [];
+
+                $('#results-title').textContent = t('results');
+                $('#results-count').textContent = totalCount.toLocaleString() + ' ' + t('totalFound');
+
+                if (!append) list.innerHTML = '';
+
+                if (studies.length === 0 && !append) {
+                    list.innerHTML = '<div class="no-results">' +
+                        '<div class="icon">\uD83D\uDD0D</div>' +
+                        '<p>' + t('noResults') + '</p>' +
+                        '<p style="margin-top:8px;font-size:0.85rem">' + t('noResultsTip') + '</p>' +
+                        '</div>';
+                } else {
+                    list.innerHTML += studies.map(renderTrialCard).join('');
+                }
+
+                loadBtn.style.display = nextPageToken ? 'block' : 'none';
+                loadBtn.disabled = false;
+                loadBtn.textContent = t('loadMore');
+
+            } catch (e) {
+                console.error('Load error:', e);
+                if (!append) list.innerHTML = '';
+                errorEl.innerHTML = '<div class="error-msg">' + t('errorMsg') + '</div>';
+                loadBtn.style.display = 'none';
+            }
+
+            isLoading = false;
+        }
+
+        function toggleLang(newLang) {
+            lang = newLang;
+            $$('#lang-toggle button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+            updateUIText();
+        }
+
+        function toggleDark() {
+            darkMode = !darkMode;
+            document.documentElement.classList.toggle('dark', darkMode);
+            $('#theme-toggle').textContent = darkMode ? '\u2600\uFE0F' : '\u263D';
+        }
+
+        // ── Init ──
+        function init() {
+            // Dark mode
+            if (darkMode) {
+                document.documentElement.classList.add('dark');
+                $('#theme-toggle').textContent = '\u2600\uFE0F';
+            }
+
+            // Render initial UI
+            renderConditionCards();
+
+            // Fetch all condition counts in parallel
+            CONDITIONS.forEach(async (c) => {
+                const count = await fetchConditionCount(c);
+                conditionCounts[c.id] = count;
+                renderConditionCards();
+            });
+
+            // Language toggle
+            $$('#lang-toggle button').forEach(btn => {
+                btn.addEventListener('click', () => toggleLang(btn.dataset.lang));
+            });
+
+            // Theme toggle
+            $('#theme-toggle').addEventListener('click', toggleDark);
+
+            // Search input with debounce
+            $('#search-input').addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => onSearch(e.target.value), 300);
+            });
+
+            $('#search-input').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    clearTimeout(searchTimeout);
+                    onSearch(e.target.value);
+                }
+            });
+
+            // Load more
+            $('#load-more').addEventListener('click', () => {
+                const query = selectedCondition !== null ? CONDITIONS[selectedCondition].searchTerm : searchQuery;
+                if (query && nextPageToken) loadResults(query, true);
+            });
+
+            // Set placeholder
+            $('#search-input').placeholder = t('searchPlaceholder');
+        }
+
+        init();
+    })();
+    </script>
+</body>
+</html>
