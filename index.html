@@ -628,34 +628,34 @@
     // ===================== CONDITIONS =====================
     const CONDITIONS = [
         { id:'diabetes', nameEs:'Diabetes Tipo 2', nameEn:'Type 2 Diabetes', searchTerm:'type 2 diabetes', statEs:'1.7x m\u00e1s probable en latinos', statEn:'1.7x more likely in Latinos', icon:'\uD83E\uDE78',
-          medlineEs:'https://medlineplus.gov/spanish/diabetestype2.html', medlineEn:'https://medlineplus.gov/diabetestype2.html', medlineTerm:'diabetes type 2',
+          medlineEs:'https://medlineplus.gov/spanish/diabetestype2.html', medlineEn:'https://medlineplus.gov/diabetestype2.html', icd10:'E11',
           disp:{ latinoPct:100, nhWhitePct:59, latinoLabel:'17%', nhWhiteLabel:'10%', descEs:'Los latinos tienen 1.7 veces m\u00e1s probabilidad de tener diabetes tipo 2 que los blancos no hispanos.', descEn:'Latinos are 1.7 times more likely to have type 2 diabetes than non-Hispanic whites.', src:'CDC NHIS, 2022' }},
         { id:'kidney', nameEs:'Enfermedad Renal Cr\u00f3nica', nameEn:'Chronic Kidney Disease', searchTerm:'chronic kidney disease', statEs:'1.3x mayor riesgo en latinos', statEn:'1.3x higher risk in Latinos', icon:'\uD83E\uDEC5',
-          medlineEs:'https://medlineplus.gov/spanish/chronickidneydisease.html', medlineEn:'https://medlineplus.gov/chronickidneydisease.html', medlineTerm:'chronic kidney disease',
+          medlineEs:'https://medlineplus.gov/spanish/chronickidneydisease.html', medlineEn:'https://medlineplus.gov/chronickidneydisease.html', icd10:'N18',
           disp:{ latinoPct:100, nhWhitePct:77, latinoLabel:'1.3x', nhWhiteLabel:'1x', descEs:'Los latinos tienen 1.3 veces mayor riesgo de enfermedad renal terminal, impulsado por diabetes e hipertensi\u00f3n.', descEn:'Latinos have 1.3x higher risk of end-stage renal disease, driven by diabetes and hypertension.', src:'USRDS, 2023' }},
         { id:'liver-cancer', nameEs:'C\u00e1ncer de H\u00edgado', nameEn:'Liver Cancer', searchTerm:'liver cancer', statEs:'2x mayor incidencia en latinos', statEn:'2x higher incidence in Latinos', icon:'\uD83C\uDFAF',
-          medlineEs:'https://medlineplus.gov/spanish/livercancer.html', medlineEn:'https://medlineplus.gov/livercancer.html', medlineTerm:'liver cancer',
+          medlineEs:'https://medlineplus.gov/spanish/livercancer.html', medlineEn:'https://medlineplus.gov/livercancer.html', icd10:'C22',
           disp:{ latinoPct:100, nhWhitePct:50, latinoLabel:'2x', nhWhiteLabel:'1x', descEs:'La incidencia de c\u00e1ncer de h\u00edgado es 2 veces mayor en latinos que en blancos no hispanos.', descEn:'Liver cancer incidence is 2x higher in Latinos than in non-Hispanic whites.', src:'ACS Hispanic Cancer Facts, 2024' }},
         { id:'cervical-cancer', nameEs:'C\u00e1ncer Cervical', nameEn:'Cervical Cancer', searchTerm:'cervical cancer', statEs:'30% mayor incidencia en latinas', statEn:'30% higher incidence in Latinas', icon:'\uD83C\uDF80',
-          medlineEs:'https://medlineplus.gov/spanish/cervicalcancer.html', medlineEn:'https://medlineplus.gov/cervicalcancer.html', medlineTerm:'cervical cancer',
+          medlineEs:'https://medlineplus.gov/spanish/cervicalcancer.html', medlineEn:'https://medlineplus.gov/cervicalcancer.html', icd10:'C53',
           disp:{ latinoPct:100, nhWhitePct:77, latinoLabel:'9.9/100K', nhWhiteLabel:'7.6/100K', descEs:'Las mujeres latinas tienen 30% mayor incidencia de c\u00e1ncer cervical que las mujeres blancas no hispanas.', descEn:'Latina women have 30% higher cervical cancer incidence than non-Hispanic white women.', src:'ACS, 2024' }},
         { id:'stomach-cancer', nameEs:'C\u00e1ncer de Est\u00f3mago', nameEn:'Stomach Cancer', searchTerm:'gastric cancer', statEs:'2x mayor incidencia en latinos', statEn:'2x higher incidence in Latinos', icon:'\u26A0\uFE0F',
-          medlineEs:'https://medlineplus.gov/spanish/stomachcancer.html', medlineEn:'https://medlineplus.gov/stomachcancer.html', medlineTerm:'stomach cancer',
+          medlineEs:'https://medlineplus.gov/spanish/stomachcancer.html', medlineEn:'https://medlineplus.gov/stomachcancer.html', icd10:'C16',
           disp:{ latinoPct:100, nhWhitePct:50, latinoLabel:'2x', nhWhiteLabel:'1x', descEs:'Los latinos tienen el doble de incidencia de c\u00e1ncer de est\u00f3mago comparado con blancos no hispanos.', descEn:'Latinos have 2x the incidence of stomach cancer compared to non-Hispanic whites.', src:'ACS, 2024' }},
         { id:'lupus', nameEs:'Lupus', nameEn:'Lupus', searchTerm:'lupus', statEs:'2-3x m\u00e1s com\u00fan en latinas', statEn:'2-3x more common in Latinas', icon:'\uD83E\uDDE0',
-          medlineEs:'https://medlineplus.gov/spanish/lupus.html', medlineEn:'https://medlineplus.gov/lupus.html', medlineTerm:'lupus',
+          medlineEs:'https://medlineplus.gov/spanish/lupus.html', medlineEn:'https://medlineplus.gov/lupus.html', icd10:'M32',
           disp:{ latinoPct:100, nhWhitePct:40, latinoLabel:'2.5x', nhWhiteLabel:'1x', descEs:'El lupus es 2 a 3 veces m\u00e1s com\u00fan y m\u00e1s severo en mujeres latinas.', descEn:'Lupus is 2-3x more common and more severe in Latina women.', src:'Lupus Foundation, 2023' }},
         { id:'obesity', nameEs:'Obesidad', nameEn:'Obesity', searchTerm:'obesity', statEs:'45.6% prevalencia en latinos', statEn:'45.6% prevalence in Latinos', icon:'\uD83C\uDF4E',
-          medlineEs:'https://medlineplus.gov/spanish/obesity.html', medlineEn:'https://medlineplus.gov/obesity.html', medlineTerm:'obesity',
+          medlineEs:'https://medlineplus.gov/spanish/obesity.html', medlineEn:'https://medlineplus.gov/obesity.html', icd10:'E66',
           disp:{ latinoPct:100, nhWhitePct:91, latinoLabel:'45.6%', nhWhiteLabel:'41.4%', descEs:'La prevalencia de obesidad es de 45.6% en adultos latinos, comparado con 41.4% en blancos no hispanos.', descEn:'Obesity prevalence is 45.6% in Latino adults vs. 41.4% in non-Hispanic whites.', src:'CDC NHANES, 2022' }},
         { id:'asthma', nameEs:'Asma', nameEn:'Asthma', searchTerm:'asthma', statEs:'1.5x en puertorrique\u00f1os', statEn:'1.5x in Puerto Ricans', icon:'\uD83C\uDF2C\uFE0F',
-          medlineEs:'https://medlineplus.gov/spanish/asthma.html', medlineEn:'https://medlineplus.gov/asthma.html', medlineTerm:'asthma',
+          medlineEs:'https://medlineplus.gov/spanish/asthma.html', medlineEn:'https://medlineplus.gov/asthma.html', icd10:'J45',
           disp:{ latinoPct:100, nhWhitePct:67, latinoLabel:'1.5x', nhWhiteLabel:'1x', descEs:'Los puertorrique\u00f1os tienen 1.5 veces mayor prevalencia de asma, la m\u00e1s alta de cualquier grupo \u00e9tnico.', descEn:'Puerto Ricans have 1.5x asthma prevalence, the highest of any ethnic group.', src:'CDC, 2023' }},
         { id:'cardiovascular', nameEs:'Enfermedad Cardiovascular', nameEn:'Cardiovascular Disease', searchTerm:'cardiovascular disease', statEs:'#1 causa de muerte', statEn:'#1 cause of death', icon:'\u2764\uFE0F',
-          medlineEs:'https://medlineplus.gov/spanish/heartdiseases.html', medlineEn:'https://medlineplus.gov/heartdiseases.html', medlineTerm:'cardiovascular disease',
+          medlineEs:'https://medlineplus.gov/spanish/heartdiseases.html', medlineEn:'https://medlineplus.gov/heartdiseases.html', icd10:'I25',
           disp:{ latinoPct:100, nhWhitePct:85, latinoLabel:'Hipertensi\u00f3n no controlada alta', nhWhiteLabel:'Menor tasa', descEs:'La enfermedad cardiovascular es la causa #1 de muerte. Los latinos tienen mayor hipertensi\u00f3n no controlada.', descEn:'Cardiovascular disease is the #1 killer. Latinos have higher uncontrolled hypertension rates.', src:'AHA, 2024' }},
         { id:'depression', nameEs:'Salud Mental / Depresi\u00f3n', nameEn:'Mental Health / Depression', searchTerm:'depression', statEs:'2x menos acceso a tratamiento', statEn:'2x less likely to receive treatment', icon:'\uD83E\uDDE0',
-          medlineEs:'https://medlineplus.gov/spanish/depression.html', medlineEn:'https://medlineplus.gov/depression.html', medlineTerm:'depression',
+          medlineEs:'https://medlineplus.gov/spanish/depression.html', medlineEn:'https://medlineplus.gov/depression.html', icd10:'F32',
           disp:{ latinoPct:50, nhWhitePct:100, latinoLabel:'~36%', nhWhiteLabel:'~72%', descEs:'Los latinos tienen 2 veces menos probabilidad de recibir tratamiento para depresi\u00f3n que los blancos no hispanos.', descEn:'Latinos are 2x less likely to receive depression treatment than non-Hispanic whites.', src:'SAMHSA, 2023' }}
     ];
 
@@ -813,24 +813,26 @@
         } catch (e) { fdaCache.set(key, null); return null; }
     }
 
-    async function fetchMedlinePlus(term) {
-        if (medlineCache.has(term)) return medlineCache.get(term);
+    async function fetchMedlinePlus(icd10Code) {
+        const cacheKey = icd10Code + '_' + lang;
+        if (medlineCache.has(cacheKey)) return medlineCache.get(cacheKey);
         try {
             const lc = lang === 'es' ? 'es' : 'en';
-            const url = 'https://connect.medlineplus.gov/service?mainSearchCriteria.v.dn=' + encodeURIComponent(term) + '&knowledgeResponseType=application/json&informationRecipient.languageCode.c=' + lc;
+            // Use ICD-10 code system for reliable results (display name search returns empty)
+            const url = 'https://connect.medlineplus.gov/service?mainSearchCriteria.v.cs=2.16.840.1.113883.6.90&mainSearchCriteria.v.c=' + encodeURIComponent(icd10Code) + '&knowledgeResponseType=application/json&informationRecipient.languageCode.c=' + lc;
             const res = await fetch(url);
-            if (!res.ok) { medlineCache.set(term, null); return null; }
+            if (!res.ok) { medlineCache.set(cacheKey, null); return null; }
             const data = await res.json();
             const entry = data.feed && data.feed.entry && data.feed.entry[0];
-            if (!entry) { medlineCache.set(term, null); return null; }
+            if (!entry) { medlineCache.set(cacheKey, null); return null; }
             const result = {
                 title: entry.title && entry.title._value || '',
                 summary: entry.summary && entry.summary._value || '',
                 url: entry.link && entry.link[0] && entry.link[0].href || ''
             };
-            medlineCache.set(term, result);
+            medlineCache.set(cacheKey, result);
             return result;
-        } catch (e) { medlineCache.set(term, null); return null; }
+        } catch (e) { medlineCache.set(cacheKey, null); return null; }
     }
 
     // ===================== GEOLOCATION =====================
@@ -1299,7 +1301,7 @@
 
         // Try MedlinePlus API
         inner.innerHTML = '<div class="skel-line w80"></div><div class="skel-line w60"></div>';
-        const data = await fetchMedlinePlus(c.medlineTerm);
+        const data = await fetchMedlinePlus(c.icd10);
         if (data && data.summary) {
             const cleanSummary = data.summary.replace(/<[^>]*>/g, '').substring(0, 300);
             inner.innerHTML = '<p style="margin-bottom:8px">' + cleanSummary + (cleanSummary.length >= 300 ? '...' : '') + '</p>' +
