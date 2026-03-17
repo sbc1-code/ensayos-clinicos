@@ -3,372 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ensayos Cl&#237;nicos | Rastreador para la Comunidad Latina</title>
-    <meta name="description" content="Encuentra ensayos cl&#237;nicos activos para condiciones que afectan a la comunidad latina. Datos en vivo de ClinicalTrials.gov, MedlinePlus y OpenFDA.">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F52C;</text></svg>">
+    <title>Nuestra Salud | Gu&#237;a de salud para la comunidad latina</title>
+    <meta name="description" content="Gu&#237;a de salud para la comunidad latina. Conoce las condiciones que nos afectan, recursos, y tratamientos en investigaci&#243;n.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F49A;</text></svg>">
     <style>
-        :root {
-            --bg: #FAFAFA;
-            --bg-secondary: #F2F2F7;
-            --card-bg: #FFFFFF;
-            --text: #1D1D1F;
-            --text-secondary: #86868B;
-            --accent: #0071E3;
-            --green: #34C759;
-            --orange: #FF9500;
-            --purple: #AF52DE;
-            --red: #FF3B30;
-            --border: #E5E5EA;
-            --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
-            --shadow-lg: 0 10px 30px rgba(0,0,0,0.1), 0 1px 8px rgba(0,0,0,0.06);
-            --radius: 14px;
-            --skeleton-base: #E5E5EA;
-            --skeleton-shine: #F2F2F7;
+        :root{--bg:#FAFAFA;--bg2:#F2F2F7;--card:#FFF;--text:#1D1D1F;--text2:#86868B;--accent:#0071E3;--green:#34C759;--orange:#FF9500;--purple:#AF52DE;--red:#FF3B30;--border:#E5E5EA;--sh:0 1px 3px rgba(0,0,0,.08);--sh-lg:0 10px 30px rgba(0,0,0,.1);--r:14px;--sk:#E5E5EA;--sk2:#F2F2F7}
+        .dark{--bg:#0A0A0A;--bg2:#1C1C1E;--card:#1C1C1E;--text:#F5F5F7;--text2:#A1A1A6;--border:#38383A;--sh:0 1px 3px rgba(0,0,0,.3);--sh-lg:0 10px 30px rgba(0,0,0,.4);--sk:#2C2C2E;--sk2:#3A3A3C}
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Inter','Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+        .container{max-width:1120px;margin:0 auto;padding:0 24px}
+        a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+        .site-header{padding:14px 0;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:color-mix(in srgb,var(--bg) 85%,transparent)}
+        .header-inner{display:flex;align-items:center;justify-content:space-between;gap:12px}
+        .header-brand h1{font-size:1.2rem;font-weight:700;letter-spacing:-.02em}
+        .header-brand p{font-size:.72rem;color:var(--text2);margin-top:1px}
+        .header-brand .trust{font-size:.65rem;color:var(--text2);opacity:.7;margin-top:2px}
+        .header-controls{display:flex;align-items:center;gap:8px}
+        .toggle-pill{display:flex;background:var(--bg2);border-radius:20px;padding:3px;border:1px solid var(--border)}
+        .toggle-pill button{padding:4px 12px;border:none;background:none;border-radius:17px;font-size:.78rem;font-weight:600;color:var(--text2);cursor:pointer;transition:all .2s;font-family:inherit}
+        .toggle-pill button.active{background:var(--card);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+        .theme-toggle{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--bg2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s}
+        .theme-toggle:hover{background:var(--border)}
+        .data-source{font-size:.65rem;color:var(--text2);display:none}
+        @media(min-width:768px){.data-source{display:block}}
+        .tab-bar{position:sticky;top:51px;z-index:99;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:10px 0}
+        .tab-pills{display:flex;gap:4px;overflow-x:auto;-webkit-overflow-scrolling:touch}.tab-pills::-webkit-scrollbar{display:none}
+        .tab-pill{padding:7px 16px;border-radius:20px;border:1px solid var(--border);background:var(--bg);color:var(--text2);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap}
+        .tab-pill:hover{border-color:var(--accent);color:var(--accent)}
+        .tab-pill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+        .tab-content{display:none}.tab-content.active{display:block}
+        .hero{padding:36px 0 28px;text-align:center}
+        .hero-text{max-width:620px;margin:0 auto 24px}
+        .hero-text h2{font-size:1.8rem;font-weight:700;letter-spacing:-.03em;line-height:1.2;margin-bottom:10px}
+        .hero-text p{font-size:.95rem;color:var(--text2);line-height:1.6}
+        .search-wrapper{max-width:540px;margin:0 auto;position:relative}
+        .search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:1rem;color:var(--text2);pointer-events:none}
+        .search-input{width:100%;padding:12px 20px 12px 44px;border:1px solid var(--border);border-radius:12px;font-size:1rem;font-family:inherit;background:var(--card);color:var(--text);outline:none;transition:all .2s;box-shadow:var(--sh)}
+        .search-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,113,227,.15)}
+        .search-input::placeholder{color:var(--text2)}
+        .section-title{font-size:.76rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:14px}
+        .conditions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:40px}
+        @media(min-width:640px){.conditions-grid{grid-template-columns:repeat(3,1fr)}}
+        @media(min-width:900px){.conditions-grid{grid-template-columns:repeat(5,1fr)}}
+        .condition-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px;cursor:pointer;transition:all .2s;overflow:hidden}
+        .condition-card:hover{box-shadow:var(--sh-lg);transform:translateY(-2px);border-color:var(--accent)}
+        .cond-icon{font-size:1.5rem;margin-bottom:8px;display:block}
+        .cond-name{font-size:.88rem;font-weight:700;margin-bottom:2px;line-height:1.3}
+        .cond-sub{font-size:.68rem;color:var(--text2);margin-bottom:6px}
+        .cond-stat{font-size:.68rem;color:var(--text2);line-height:1.4;margin-bottom:10px}
+        .cond-cta{display:inline-flex;align-items:center;gap:3px;padding:5px 12px;background:color-mix(in srgb,var(--accent) 10%,transparent);color:var(--accent);border-radius:8px;font-size:.72rem;font-weight:600}
+        @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+        .skel{height:14px;border-radius:7px;margin-bottom:10px;animation:shimmer 1.8s infinite;background-image:linear-gradient(90deg,var(--sk) 0%,var(--sk2) 50%,var(--sk) 100%);background-size:200% 100%}
+        .skel.w100{width:100%}.skel.w80{width:80%}.skel.w60{width:60%}.skel.w40{width:40%}
+        .back-btn{display:inline-flex;align-items:center;gap:4px;padding:8px 16px;margin-bottom:24px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+        .back-btn:hover{border-color:var(--accent);color:var(--accent)}
+        .detail-header{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+        .detail-header .icon{font-size:2.4rem}
+        .detail-header h2{font-size:1.6rem;font-weight:700;letter-spacing:-.02em}
+        .detail-header .sub{font-size:.85rem;color:var(--text2)}
+        .detail-section{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:16px;transition:all .2s}
+        .detail-section:hover{box-shadow:var(--sh)}
+        .detail-section h3{font-size:.95rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+        .detail-body{font-size:.88rem;color:var(--text2);line-height:1.7}
+        .detail-body p{margin-bottom:10px}
+        .detail-body ul{padding-left:20px;margin-bottom:10px}
+        .detail-body li{margin-bottom:8px;line-height:1.5}
+        .detail-body a{font-weight:600}
+        .bar-chart{margin:12px 0}
+        .bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+        .bar-label{font-size:.72rem;font-weight:600;min-width:90px;text-align:right;color:var(--text2)}
+        .bar-track{flex:1;height:24px;background:var(--bg2);border-radius:6px;overflow:hidden}
+        .bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding:0 8px;font-size:.7rem;font-weight:700;color:#fff;transition:width .6s}
+        .bar-fill.accent{background:var(--accent)}.bar-fill.gray{background:var(--text2);opacity:.5}
+        .disp-source{font-size:.68rem;color:var(--text2)}
+        .trial-intro{font-size:.85rem;color:var(--text2);margin-bottom:16px;padding:14px;background:var(--bg2);border-radius:10px;line-height:1.6}
+        .geo-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+        .geo-btn{padding:8px 16px;border-radius:20px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-size:.82rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+        .geo-btn:hover,.geo-btn.active{background:var(--accent);color:#fff}
+        .geo-msg{font-size:.78rem;color:var(--text2)}
+        .results-section{padding-bottom:48px}
+        .results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+        .results-title{font-size:1.1rem;font-weight:700}
+        .results-count{font-size:.82rem;color:var(--text2)}
+        .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+        .filter-group{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+        .filter-label{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);margin-right:4px}
+        .filter-pill{padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--bg);color:var(--text2);font-size:.75rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap}
+        .filter-pill:hover{border-color:var(--accent);color:var(--accent)}
+        .filter-pill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+        .country-select{padding:5px 10px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.78rem;font-family:inherit;cursor:pointer;outline:none}
+        .trial-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin-bottom:12px;transition:all .2s}
+        .trial-card:hover{box-shadow:var(--sh)}
+        .trial-badges{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+        .badge{padding:3px 9px;border-radius:20px;font-size:.68rem;font-weight:600}
+        .badge-recruiting{background:color-mix(in srgb,var(--green) 12%,transparent);color:var(--green)}
+        .badge-not-yet{background:color-mix(in srgb,var(--orange) 12%,transparent);color:var(--orange)}
+        .badge-invitation{background:color-mix(in srgb,var(--purple) 12%,transparent);color:var(--purple)}
+        .badge-phase{background:color-mix(in srgb,var(--accent) 10%,transparent);color:var(--accent)}
+        .badge-distance{background:color-mix(in srgb,var(--green) 10%,transparent);color:var(--green)}
+        .trial-title{font-size:.95rem;font-weight:600;line-height:1.4;margin-bottom:6px}
+        .trial-meta{font-size:.78rem;color:var(--text2);margin-bottom:4px;display:flex;flex-wrap:wrap;gap:12px}
+        .trial-meta span{display:inline-flex;align-items:center;gap:3px}
+        .trial-locations{font-size:.78rem;color:var(--text2);margin-bottom:8px}
+        .trial-locations span{margin-right:8px}
+        .trial-summary{font-size:.82rem;color:var(--text2);line-height:1.6;margin-bottom:12px}
+        .trial-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+        .trial-link{display:inline-flex;align-items:center;gap:3px;color:var(--accent);font-size:.82rem;font-weight:600}
+        .trial-link:hover{opacity:.7;text-decoration:none}
+        .action-btn{padding:5px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-size:.75rem;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s}
+        .action-btn:hover{border-color:var(--accent);color:var(--accent)}
+        .action-btn.copied{background:var(--green);color:#fff;border-color:var(--green)}
+        .expand-section{max-height:0;overflow:hidden;transition:max-height .35s ease}
+        .expand-section.open{max-height:800px}
+        .expand-inner{margin-top:12px;padding:14px;background:var(--bg2);border-radius:10px;font-size:.8rem;line-height:1.6}
+        .expand-toggle{font-size:.78rem;font-weight:600;color:var(--accent);cursor:pointer;border:none;background:none;padding:0;font-family:inherit}
+        .expand-toggle:hover{text-decoration:underline}
+        .eligibility-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+        .elig-item{font-size:.78rem}
+        .elig-label{font-weight:600;color:var(--text);display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:2px}
+        .elig-value{color:var(--text2)}
+        .criteria-list{padding-left:16px;margin-top:6px}
+        .criteria-list li{font-size:.78rem;color:var(--text2);margin-bottom:4px}
+        .fda-reactions{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+        .fda-pill{padding:3px 10px;border-radius:12px;background:color-mix(in srgb,var(--orange) 10%,transparent);color:var(--orange);font-size:.72rem;font-weight:500}
+        .fda-disclaimer{font-size:.68rem;color:var(--text2);font-style:italic;margin-top:6px}
+        .trial-skeleton{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin-bottom:12px}
+        .skel-line{height:14px;border-radius:7px;margin-bottom:10px;animation:shimmer 1.8s infinite;background-image:linear-gradient(90deg,var(--sk) 0%,var(--sk2) 50%,var(--sk) 100%);background-size:200% 100%}
+        .skel-line.w100{width:100%}.skel-line.w80{width:80%}.skel-line.w60{width:60%}.skel-line.w40{width:40%}.skel-line.w30{width:30%;height:10px}.skel-line.h20{height:22px;margin-bottom:14px}
+        .load-more{display:block;width:100%;max-width:280px;margin:20px auto 0;padding:12px 24px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:.92rem;font-weight:600;font-family:inherit;cursor:pointer;transition:all .2s}
+        .load-more:hover{opacity:.85}.load-more:disabled{opacity:.5;cursor:not-allowed}
+        .no-results{text-align:center;padding:40px 20px;color:var(--text2)}
+        .no-results .nr-icon{font-size:2.2rem;margin-bottom:10px}
+        .error-msg{text-align:center;padding:28px 20px;background:color-mix(in srgb,var(--red) 8%,transparent);border-radius:var(--r);color:var(--red);font-weight:500;margin-bottom:16px}
+        .disp-header{text-align:center;padding:36px 0 28px}
+        .disp-header h2{font-size:1.5rem;font-weight:700;margin-bottom:8px}
+        .disp-header p{font-size:.92rem;color:var(--text2);max-width:560px;margin:0 auto}
+        .disp-grid{display:grid;grid-template-columns:1fr;gap:14px;padding-bottom:48px}
+        @media(min-width:768px){.disp-grid{grid-template-columns:repeat(2,1fr)}}
+        .disp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:22px;transition:all .2s;cursor:pointer}
+        .disp-card:hover{box-shadow:var(--sh);border-color:var(--accent)}
+        .disp-card-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+        .disp-card-header .icon{font-size:1.3rem}
+        .disp-card-header h3{font-size:.95rem;font-weight:700}
+        .disp-desc{font-size:.82rem;color:var(--text2);margin-bottom:14px;line-height:1.5}
+        .disp-action{display:inline-block;margin-top:10px;padding:5px 14px;border-radius:8px;background:color-mix(in srgb,var(--accent) 10%,transparent);color:var(--accent);font-size:.78rem;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .2s}
+        .disp-action:hover{background:var(--accent);color:#fff;text-decoration:none}
+        .res-header{text-align:center;padding:36px 0 28px}
+        .res-header h2{font-size:1.5rem;font-weight:700;margin-bottom:8px}
+        .res-header p{font-size:.92rem;color:var(--text2);max-width:560px;margin:0 auto}
+        .res-category{margin-bottom:28px}
+        .res-category h3{font-size:.9rem;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+        .res-grid{display:grid;grid-template-columns:1fr;gap:10px}
+        @media(min-width:640px){.res-grid{grid-template-columns:repeat(2,1fr)}}
+        .res-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;transition:all .2s}
+        .res-card:hover{box-shadow:var(--sh);border-color:var(--accent)}
+        .res-card h4{font-size:.85rem;font-weight:600;margin-bottom:4px}
+        .res-card p{font-size:.78rem;color:var(--text2);margin-bottom:6px}
+        .res-badge-es{display:inline-block;padding:2px 8px;border-radius:10px;background:color-mix(in srgb,var(--green) 12%,transparent);color:var(--green);font-size:.68rem;font-weight:600;margin-left:6px}
+        .site-footer{border-top:1px solid var(--border);padding:28px 0;text-align:center;font-size:.78rem;color:var(--text2);line-height:1.8}
+        .footer-disclaimer{max-width:500px;margin:10px auto 0;font-size:.7rem;opacity:.8}
+        @media(max-width:480px){
+            .hero-text h2{font-size:1.35rem}.hero{padding:24px 0 20px}
+            .header-brand p,.header-brand .trust{display:none}
+            .condition-card{padding:14px}.trial-card{padding:16px}
+            .detail-section{padding:18px}.eligibility-grid{grid-template-columns:1fr}
+            .detail-header .icon{font-size:1.8rem}.detail-header h2{font-size:1.2rem}
         }
-        .dark {
-            --bg: #0A0A0A;
-            --bg-secondary: #1C1C1E;
-            --card-bg: #1C1C1E;
-            --text: #F5F5F7;
-            --text-secondary: #A1A1A6;
-            --border: #38383A;
-            --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
-            --shadow-lg: 0 10px 30px rgba(0,0,0,0.4), 0 1px 8px rgba(0,0,0,0.3);
-            --skeleton-base: #2C2C2E;
-            --skeleton-shine: #3A3A3C;
-        }
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
-            transition: background 0.3s, color 0.3s;
-        }
-        .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
-        a { color: var(--accent); text-decoration: none; }
-        a:hover { text-decoration: underline; }
-
-        /* Header */
-        .site-header {
-            padding: 14px 0;
-            border-bottom: 1px solid var(--border);
-            position: sticky; top: 0; z-index: 100;
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            background: color-mix(in srgb, var(--bg) 85%, transparent);
-            transition: background 0.3s;
-        }
-        .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-        .header-brand h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; }
-        .header-brand p { font-size: 0.75rem; color: var(--text-secondary); margin-top: 1px; }
-        .header-controls { display: flex; align-items: center; gap: 8px; }
-        .toggle-pill {
-            display: flex; background: var(--bg-secondary); border-radius: 20px;
-            padding: 3px; border: 1px solid var(--border);
-        }
-        .toggle-pill button {
-            padding: 4px 12px; border: none; background: none; border-radius: 17px;
-            font-size: 0.78rem; font-weight: 600; color: var(--text-secondary);
-            cursor: pointer; transition: all 0.2s; font-family: inherit;
-        }
-        .toggle-pill button.active {
-            background: var(--card-bg); color: var(--text);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .theme-toggle {
-            width: 34px; height: 34px; border-radius: 50%;
-            border: 1px solid var(--border); background: var(--bg-secondary);
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-size: 0.95rem; transition: all 0.2s;
-        }
-        .theme-toggle:hover { background: var(--border); }
-        .data-source { font-size: 0.68rem; color: var(--text-secondary); display: none; }
-        @media (min-width: 768px) { .data-source { display: block; } }
-
-        /* Tab Bar */
-        .tab-bar {
-            position: sticky; top: 51px; z-index: 99;
-            background: color-mix(in srgb, var(--bg) 90%, transparent);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            padding: 10px 0;
-        }
-        .tab-pills { display: flex; gap: 4px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        .tab-pills::-webkit-scrollbar { display: none; }
-        .tab-pill {
-            padding: 7px 18px; border-radius: 20px; border: 1px solid var(--border);
-            background: var(--bg); color: var(--text-secondary);
-            font-size: 0.82rem; font-weight: 600; cursor: pointer;
-            transition: all 0.2s; font-family: inherit; white-space: nowrap;
-        }
-        .tab-pill:hover { border-color: var(--accent); color: var(--accent); }
-        .tab-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-
-        /* Hero */
-        .hero { padding: 40px 0 32px; text-align: center; }
-        .hero-text { max-width: 640px; margin: 0 auto 28px; }
-        .hero-text h2 { font-size: 1.9rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 10px; }
-        .hero-text p { font-size: 1rem; color: var(--text-secondary); line-height: 1.6; }
-        .search-wrapper { max-width: 560px; margin: 0 auto; position: relative; }
-        .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 1rem; color: var(--text-secondary); pointer-events: none; }
-        .search-input {
-            width: 100%; padding: 13px 20px 13px 44px;
-            border: 1px solid var(--border); border-radius: 12px;
-            font-size: 1rem; font-family: inherit;
-            background: var(--card-bg); color: var(--text);
-            outline: none; transition: all 0.2s; box-shadow: var(--shadow);
-        }
-        .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,113,227,0.15); }
-        .search-input::placeholder { color: var(--text-secondary); }
-
-        /* Section Title */
-        .section-title { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); margin-bottom: 14px; }
-
-        /* Conditions Grid */
-        .conditions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 40px; }
-        @media (min-width: 640px) { .conditions-grid { grid-template-columns: repeat(3, 1fr); } }
-        @media (min-width: 900px) { .conditions-grid { grid-template-columns: repeat(5, 1fr); gap: 12px; } }
-        .condition-card {
-            background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: var(--radius); padding: 18px; cursor: pointer;
-            transition: all 0.2s; position: relative; overflow: hidden;
-        }
-        .condition-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); border-color: var(--accent); }
-        .condition-card.selected { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent), var(--shadow-lg); }
-        .condition-icon { font-size: 1.5rem; margin-bottom: 8px; display: block; }
-        .condition-name { font-size: 0.88rem; font-weight: 700; margin-bottom: 2px; line-height: 1.3; }
-        .condition-name-sub { font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 6px; }
-        .condition-stat { font-size: 0.68rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 10px; }
-        .condition-count {
-            display: inline-flex; align-items: center; gap: 4px;
-            padding: 3px 9px; background: color-mix(in srgb, var(--green) 12%, transparent);
-            color: var(--green); border-radius: 20px; font-size: 0.72rem; font-weight: 600;
-        }
-        .condition-count.loading {
-            background: var(--skeleton-base); color: transparent; min-width: 70px; height: 22px;
-            animation: shimmer 1.8s infinite;
-            background-image: linear-gradient(90deg, var(--skeleton-base) 0%, var(--skeleton-shine) 50%, var(--skeleton-base) 100%);
-            background-size: 200% 100%;
-        }
-        .condition-learn {
-            display: block; margin-top: 8px; font-size: 0.72rem; font-weight: 600;
-            color: var(--accent); cursor: pointer; border: none; background: none;
-            padding: 0; font-family: inherit;
-        }
-        .condition-learn:hover { text-decoration: underline; }
-        .condition-info {
-            max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
-            margin-top: 0;
-        }
-        .condition-info.open { max-height: 300px; margin-top: 10px; }
-        .condition-info-inner {
-            padding: 10px; background: var(--bg-secondary); border-radius: 8px;
-            font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;
-        }
-        .condition-info-inner a { font-size: 0.75rem; }
-
-        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
-        /* Geo Button */
-        .geo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
-        .geo-btn {
-            padding: 8px 16px; border-radius: 20px; border: 1px solid var(--accent);
-            background: transparent; color: var(--accent); font-size: 0.82rem;
-            font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s;
-        }
-        .geo-btn:hover { background: var(--accent); color: #fff; }
-        .geo-btn.active { background: var(--accent); color: #fff; }
-        .geo-msg { font-size: 0.78rem; color: var(--text-secondary); }
-
-        /* Results */
-        .results-section { padding-bottom: 48px; }
-        .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
-        .results-title { font-size: 1.15rem; font-weight: 700; }
-        .results-count { font-size: 0.82rem; color: var(--text-secondary); }
-
-        /* Filters */
-        .filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
-        .filter-group { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
-        .filter-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-right: 4px; }
-        .filter-pill {
-            padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border);
-            background: var(--bg); color: var(--text-secondary); font-size: 0.75rem;
-            font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: inherit; white-space: nowrap;
-        }
-        .filter-pill:hover { border-color: var(--accent); color: var(--accent); }
-        .filter-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-        .country-select {
-            padding: 5px 10px; border-radius: 10px; border: 1px solid var(--border);
-            background: var(--card-bg); color: var(--text); font-size: 0.78rem;
-            font-family: inherit; cursor: pointer; outline: none;
-        }
-        .country-select:focus { border-color: var(--accent); }
-
-        /* Trial Cards */
-        .trial-card {
-            background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: var(--radius); padding: 22px; margin-bottom: 12px; transition: all 0.2s;
-        }
-        .trial-card:hover { box-shadow: var(--shadow); }
-        .trial-badges { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
-        .badge { padding: 3px 9px; border-radius: 20px; font-size: 0.68rem; font-weight: 600; }
-        .badge-recruiting { background: color-mix(in srgb, var(--green) 12%, transparent); color: var(--green); }
-        .badge-not-yet { background: color-mix(in srgb, var(--orange) 12%, transparent); color: var(--orange); }
-        .badge-invitation { background: color-mix(in srgb, var(--purple) 12%, transparent); color: var(--purple); }
-        .badge-phase { background: color-mix(in srgb, var(--accent) 10%, transparent); color: var(--accent); }
-        .badge-distance { background: color-mix(in srgb, var(--green) 10%, transparent); color: var(--green); }
-        .trial-title { font-size: 0.95rem; font-weight: 600; line-height: 1.4; margin-bottom: 6px; }
-        .trial-meta { font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 4px; display: flex; flex-wrap: wrap; gap: 12px; }
-        .trial-meta span { display: inline-flex; align-items: center; gap: 3px; }
-        .trial-locations { font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 8px; }
-        .trial-locations span { margin-right: 8px; }
-        .trial-summary { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px; }
-        .trial-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-        .trial-link { display: inline-flex; align-items: center; gap: 3px; color: var(--accent); font-size: 0.82rem; font-weight: 600; }
-        .trial-link:hover { opacity: 0.7; text-decoration: none; }
-        .action-btn {
-            padding: 5px 12px; border-radius: 8px; border: 1px solid var(--border);
-            background: var(--bg-secondary); color: var(--text-secondary);
-            font-size: 0.75rem; font-weight: 500; cursor: pointer;
-            font-family: inherit; transition: all 0.2s;
-        }
-        .action-btn:hover { border-color: var(--accent); color: var(--accent); }
-        .action-btn.copied { background: var(--green); color: #fff; border-color: var(--green); }
-
-        /* Expandable sections */
-        .expand-section {
-            max-height: 0; overflow: hidden; transition: max-height 0.35s ease;
-        }
-        .expand-section.open { max-height: 800px; }
-        .expand-inner {
-            margin-top: 12px; padding: 14px; background: var(--bg-secondary);
-            border-radius: 10px; font-size: 0.8rem; line-height: 1.6;
-        }
-        .expand-toggle {
-            font-size: 0.78rem; font-weight: 600; color: var(--accent);
-            cursor: pointer; border: none; background: none; padding: 0;
-            font-family: inherit; margin-top: 2px;
-        }
-        .expand-toggle:hover { text-decoration: underline; }
-        .eligibility-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-        .elig-item { font-size: 0.78rem; }
-        .elig-label { font-weight: 600; color: var(--text); display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 2px; }
-        .elig-value { color: var(--text-secondary); }
-        .criteria-list { padding-left: 16px; margin-top: 6px; }
-        .criteria-list li { font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 4px; }
-        .fda-reactions { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
-        .fda-pill {
-            padding: 3px 10px; border-radius: 12px;
-            background: color-mix(in srgb, var(--orange) 10%, transparent);
-            color: var(--orange); font-size: 0.72rem; font-weight: 500;
-        }
-        .fda-disclaimer { font-size: 0.68rem; color: var(--text-secondary); font-style: italic; margin-top: 6px; }
-
-        /* Skeletons */
-        .trial-skeleton { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; margin-bottom: 12px; }
-        .skel-line { height: 14px; border-radius: 7px; margin-bottom: 10px; animation: shimmer 1.8s infinite; background-image: linear-gradient(90deg, var(--skeleton-base) 0%, var(--skeleton-shine) 50%, var(--skeleton-base) 100%); background-size: 200% 100%; }
-        .skel-line.w100 { width: 100%; } .skel-line.w80 { width: 80%; } .skel-line.w60 { width: 60%; }
-        .skel-line.w40 { width: 40%; } .skel-line.w30 { width: 30%; height: 10px; } .skel-line.h20 { height: 22px; margin-bottom: 14px; }
-        .load-more {
-            display: block; width: 100%; max-width: 280px; margin: 20px auto 0;
-            padding: 12px 24px; background: var(--accent); color: #fff; border: none;
-            border-radius: 12px; font-size: 0.92rem; font-weight: 600;
-            font-family: inherit; cursor: pointer; transition: all 0.2s;
-        }
-        .load-more:hover { opacity: 0.85; } .load-more:disabled { opacity: 0.5; cursor: not-allowed; }
-        .no-results { text-align: center; padding: 40px 20px; color: var(--text-secondary); }
-        .no-results .nr-icon { font-size: 2.2rem; margin-bottom: 10px; }
-        .error-msg { text-align: center; padding: 28px 20px; background: color-mix(in srgb, var(--red) 8%, transparent); border-radius: var(--radius); color: var(--red); font-weight: 500; margin-bottom: 16px; }
-
-        /* Disparity Dashboard */
-        .disp-header { text-align: center; padding: 40px 0 32px; }
-        .disp-header h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 8px; }
-        .disp-header p { font-size: 0.95rem; color: var(--text-secondary); max-width: 560px; margin: 0 auto; }
-        .disp-grid { display: grid; grid-template-columns: 1fr; gap: 14px; padding-bottom: 48px; }
-        @media (min-width: 768px) { .disp-grid { grid-template-columns: repeat(2, 1fr); } }
-        .disp-card {
-            background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: var(--radius); padding: 22px; transition: all 0.2s;
-        }
-        .disp-card:hover { box-shadow: var(--shadow); }
-        .disp-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-        .disp-card-header .icon { font-size: 1.3rem; }
-        .disp-card-header h3 { font-size: 0.95rem; font-weight: 700; }
-        .disp-desc { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5; }
-        .bar-chart { margin-bottom: 10px; }
-        .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-        .bar-label { font-size: 0.72rem; font-weight: 600; min-width: 90px; text-align: right; color: var(--text-secondary); }
-        .bar-track { flex: 1; height: 24px; background: var(--bg-secondary); border-radius: 6px; overflow: hidden; position: relative; }
-        .bar-fill {
-            height: 100%; border-radius: 6px; display: flex; align-items: center;
-            padding: 0 8px; font-size: 0.7rem; font-weight: 700; color: #fff;
-            transition: width 0.6s ease;
-        }
-        .bar-fill.accent { background: var(--accent); }
-        .bar-fill.gray { background: var(--text-secondary); opacity: 0.5; }
-        .disp-source { font-size: 0.68rem; color: var(--text-secondary); }
-        .disp-action {
-            display: inline-block; margin-top: 10px; padding: 5px 14px; border-radius: 8px;
-            background: color-mix(in srgb, var(--accent) 10%, transparent);
-            color: var(--accent); font-size: 0.78rem; font-weight: 600;
-            cursor: pointer; border: none; font-family: inherit; transition: all 0.2s;
-        }
-        .disp-action:hover { background: var(--accent); color: #fff; text-decoration: none; }
-
-        /* Resources */
-        .res-header { text-align: center; padding: 40px 0 32px; }
-        .res-header h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 8px; }
-        .res-header p { font-size: 0.95rem; color: var(--text-secondary); max-width: 560px; margin: 0 auto; }
-        .res-category { margin-bottom: 32px; }
-        .res-category h3 { font-size: 0.92rem; font-weight: 700; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-        .res-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
-        @media (min-width: 640px) { .res-grid { grid-template-columns: repeat(2, 1fr); } }
-        .res-card {
-            background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: 12px; padding: 16px; transition: all 0.2s;
-        }
-        .res-card:hover { box-shadow: var(--shadow); border-color: var(--accent); }
-        .res-card h4 { font-size: 0.88rem; font-weight: 600; margin-bottom: 4px; }
-        .res-card p { font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 6px; }
-        .res-card .res-link { font-size: 0.78rem; font-weight: 600; }
-        .res-badge-es {
-            display: inline-block; padding: 2px 8px; border-radius: 10px;
-            background: color-mix(in srgb, var(--green) 12%, transparent);
-            color: var(--green); font-size: 0.68rem; font-weight: 600; margin-left: 6px;
-        }
-
-        /* Footer */
-        .site-footer { border-top: 1px solid var(--border); padding: 28px 0; text-align: center; font-size: 0.78rem; color: var(--text-secondary); line-height: 1.8; }
-        .footer-disclaimer { max-width: 500px; margin: 10px auto 0; font-size: 0.7rem; opacity: 0.8; }
-
-        /* Responsive */
-        @media (max-width: 480px) {
-            .hero-text h2 { font-size: 1.4rem; }
-            .hero { padding: 28px 0 24px; }
-            .header-brand p { display: none; }
-            .condition-card { padding: 14px; }
-            .trial-card { padding: 16px; }
-            .eligibility-grid { grid-template-columns: 1fr; }
-        }
-        html { scroll-behavior: smooth; }
-        :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-        /* Print styles for share */
-        @media print {
-            .site-header, .tab-bar, .site-footer { display: none; }
-            .trial-card { break-inside: avoid; }
-        }
+        html{scroll-behavior:smooth}
+        :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+        @media print{.site-header,.tab-bar,.site-footer{display:none}.trial-card{break-inside:avoid}}
     </style>
 </head>
 <body>
     <header class="site-header">
         <div class="container header-inner">
             <div class="header-brand">
-                <h1 id="site-title">Ensayos Cl&#237;nicos</h1>
+                <h1 id="site-title">Nuestra Salud</h1>
                 <p id="site-subtitle"></p>
+                <div class="trust" id="trust-tag"></div>
             </div>
             <div class="header-controls">
                 <span class="data-source" id="data-source"></span>
@@ -380,36 +192,36 @@
             </div>
         </div>
     </header>
-
-    <nav class="tab-bar">
-        <div class="container">
-            <div class="tab-pills" id="tab-pills"></div>
-        </div>
-    </nav>
-
+    <nav class="tab-bar"><div class="container"><div class="tab-pills" id="tab-pills"></div></div></nav>
     <main>
-        <div id="tab-search" class="tab-content active">
-            <section class="hero">
-                <div class="container">
-                    <div class="hero-text">
-                        <h2 id="hero-title"></h2>
-                        <p id="hero-desc"></p>
-                    </div>
-                    <div class="search-wrapper">
-                        <span class="search-icon">&#128269;</span>
-                        <input type="text" class="search-input" id="search-input" autocomplete="off">
-                    </div>
-                </div>
-            </section>
-            <section class="container">
-                <p class="section-title" id="conditions-label"></p>
-                <div class="conditions-grid" id="conditions-grid"></div>
-            </section>
+        <div id="tab-conditions" class="tab-content active">
+            <div id="cond-grid-view">
+                <section class="hero"><div class="container">
+                    <div class="hero-text"><h2 id="hero-title"></h2><p id="hero-desc"></p></div>
+                    <div class="search-wrapper"><span class="search-icon">&#128269;</span><input type="text" class="search-input" id="cond-search" autocomplete="off"></div>
+                </div></section>
+                <section class="container">
+                    <p class="section-title" id="conditions-label"></p>
+                    <div class="conditions-grid" id="conditions-grid"></div>
+                </section>
+            </div>
+            <div id="cond-detail-view" style="display:none"><div class="container" style="padding-top:24px;padding-bottom:48px" id="cond-detail"></div></div>
+        </div>
+        <div id="tab-disparities" class="tab-content"><div class="container">
+            <div class="disp-header"><h2 id="disp-title"></h2><p id="disp-desc"></p></div>
+            <div class="disp-grid" id="disp-grid"></div>
+        </div></div>
+        <div id="tab-resources" class="tab-content"><div class="container">
+            <div class="res-header"><h2 id="res-title"></h2><p id="res-desc"></p></div>
+            <div id="res-content"></div>
+        </div></div>
+        <div id="tab-trials" class="tab-content">
+            <section class="hero"><div class="container">
+                <div class="hero-text"><h2 id="trials-hero-title"></h2><p id="trials-hero-desc"></p></div>
+                <div class="search-wrapper"><span class="search-icon">&#128269;</span><input type="text" class="search-input" id="trial-search" autocomplete="off"></div>
+            </div></section>
             <section class="container results-section" id="results-section" style="display:none">
-                <div class="results-header">
-                    <h3 class="results-title" id="results-title"></h3>
-                    <span class="results-count" id="results-count"></span>
-                </div>
+                <div class="results-header"><h3 class="results-title" id="results-title"></h3><span class="results-count" id="results-count"></span></div>
                 <div class="geo-row" id="geo-row" style="display:none"></div>
                 <div class="filter-row" id="filter-row"></div>
                 <div id="results-list"></div>
@@ -417,1023 +229,382 @@
                 <button class="load-more" id="load-more" style="display:none"></button>
             </section>
         </div>
-
-        <div id="tab-disparities" class="tab-content">
-            <div class="container">
-                <div class="disp-header">
-                    <h2 id="disp-title"></h2>
-                    <p id="disp-desc"></p>
-                </div>
-                <div class="disp-grid" id="disp-grid"></div>
-            </div>
-        </div>
-
-        <div id="tab-resources" class="tab-content">
-            <div class="container">
-                <div class="res-header">
-                    <h2 id="res-title"></h2>
-                    <p id="res-desc"></p>
-                </div>
-                <div id="res-content"></div>
-            </div>
-        </div>
     </main>
-
-    <footer class="site-footer">
-        <div class="container">
-            <p id="footer-created"></p>
-            <p id="footer-source"></p>
-            <p class="footer-disclaimer" id="footer-disclaimer"></p>
-        </div>
-    </footer>
-
-    <script>
-    (function() {
-    'use strict';
-
-    // ===================== TRANSLATIONS =====================
-    const T = {
-    es: {
-        siteTitle: 'Ensayos Cl\u00ednicos',
-        siteSubtitle: 'Ensayos cl\u00ednicos activos para la comunidad latina',
-        heroTitle: 'Encuentra ensayos cl\u00ednicos para tu comunidad',
-        heroDesc: 'Los ensayos cl\u00ednicos son investigaciones que prueban nuevos tratamientos. Muchos est\u00e1n buscando participantes ahora mismo. Esta herramienta te ayuda a encontrarlos en Estados Unidos y Am\u00e9rica Latina.',
-        searchPlaceholder: 'Buscar por condici\u00f3n, tratamiento, o palabra clave...',
-        conditionsLabel: 'Condiciones prioritarias',
-        activeTrials: 'ensayos activos',
-        results: 'Resultados',
-        totalFound: 'ensayos encontrados',
-        loadMore: 'Cargar m\u00e1s',
-        noResults: 'No se encontraron ensayos para esta b\u00fasqueda.',
-        noResultsTip: 'Intenta con otros t\u00e9rminos o quita los filtros.',
-        errorMsg: 'No pudimos cargar los datos. Intenta de nuevo.',
-        viewOnCT: 'Ver en ClinicalTrials.gov',
-        filterPhase: 'Fase',
-        filterStatus: 'Estado',
-        filterCountry: 'Pa\u00eds',
-        all: 'Todos',
-        recruiting: 'Reclutando',
-        notYet: 'Por iniciar',
-        byInvitation: 'Por invitaci\u00f3n',
-        locations: 'Ubicaciones',
-        noLocation: 'Ubicaci\u00f3n no especificada',
-        dataSource: 'Datos en vivo de',
-        footerCreated: 'Creado por',
-        footerSource: 'Datos de ClinicalTrials.gov, MedlinePlus y OpenFDA. Se actualizan en tiempo real.',
-        footerDisclaimer: 'Esta herramienta es informativa. Consulta a tu m\u00e9dico antes de participar en un ensayo cl\u00ednico.',
-        // Tabs
-        tabSearch: 'Buscar Ensayos',
-        tabDisparities: 'Datos de Disparidad',
-        tabResources: 'Recursos',
-        // MedlinePlus
-        learnMore: 'Aprende m\u00e1s',
-        readMore: 'Leer m\u00e1s en MedlinePlus',
-        // Eligibility
-        canIJoin: '\u00bfPuedo participar?',
-        age: 'Edad',
-        sex: 'Sexo',
-        allSexes: 'Todos los sexos',
-        female: 'Solo mujeres',
-        male: 'Solo hombres',
-        healthyVol: 'Voluntarios sanos',
-        yes: 'S\u00ed',
-        no: 'No',
-        keyCriteria: 'Criterios clave',
-        between: 'Entre',
-        and: 'y',
-        // Geo
-        findNearMe: 'Buscar cerca de m\u00ed',
-        geoGranted: 'Ordenado por distancia',
-        geoDenied: 'Para encontrar ensayos cerca de ti, permite el acceso a tu ubicaci\u00f3n.',
-        miles: 'mi',
-        // Share
-        share: 'Compartir',
-        copyLink: 'Copiar enlace',
-        copied: 'Copiado',
-        // Drug safety
-        drugSafety: 'Seguridad del medicamento',
-        topReactions: 'Reacciones reportadas (datos FDA)',
-        drugDisclaimer: 'Datos de reportes voluntarios. No prueban causalidad.',
-        noDrugData: 'No hay datos disponibles en OpenFDA.',
-        // Sponsor/enrollment
-        sponsor: 'Patrocinador',
-        seeking: 'buscando',
-        participants: 'participantes',
-        studyType: 'Tipo',
-        interventional: 'Intervencional',
-        observational: 'Observacional',
-        activeSince: 'Activo desde',
-        estCompletion: 'Est. hasta',
-        // Disparities
-        dispTitle: 'Disparidades de Salud en la Comunidad Latina',
-        dispDesc: 'Estas condiciones afectan desproporcionadamente a la comunidad latina. Los datos muestran por qu\u00e9 es clave que nuestra comunidad tenga acceso a ensayos cl\u00ednicos.',
-        latino: 'Latino/Hispano',
-        nhWhite: 'Blanco no hispano',
-        source: 'Fuente',
-        viewTrials: 'Ver ensayos',
-        // Resources
-        resTitle: 'Recursos para Participantes',
-        resDesc: 'Organizaciones y recursos para ayudarte en tu camino hacia un ensayo cl\u00ednico.',
-        financialHelp: 'Ayuda financiera para participantes',
-        latinoOrgs: 'Organizaciones de salud latina',
-        trialInfo: 'Informaci\u00f3n sobre ensayos cl\u00ednicos',
-        helplines: 'L\u00edneas de ayuda',
-        spanishAvail: 'Espa\u00f1ol disponible',
-        // Countries
-        us: 'EE.UU.', mexico: 'M\u00e9xico', colombia: 'Colombia',
-        argentina: 'Argentina', brazil: 'Brasil', chile: 'Chile', peru: 'Per\u00fa'
-    },
-    en: {
-        siteTitle: 'Clinical Trials',
-        siteSubtitle: 'Active clinical trials for the Latino community',
-        heroTitle: 'Find clinical trials for your community',
-        heroDesc: 'Clinical trials are research studies that test new treatments. Many are looking for participants right now. This tool helps you find them across the US and Latin America.',
-        searchPlaceholder: 'Search by condition, treatment, or keyword...',
-        conditionsLabel: 'Priority conditions',
-        activeTrials: 'active trials',
-        results: 'Results',
-        totalFound: 'trials found',
-        loadMore: 'Load more',
-        noResults: 'No trials found for this search.',
-        noResultsTip: 'Try different terms or remove filters.',
-        errorMsg: 'Could not load data. Please try again.',
-        viewOnCT: 'View on ClinicalTrials.gov',
-        filterPhase: 'Phase',
-        filterStatus: 'Status',
-        filterCountry: 'Country',
-        all: 'All',
-        recruiting: 'Recruiting',
-        notYet: 'Not yet recruiting',
-        byInvitation: 'By invitation',
-        locations: 'Locations',
-        noLocation: 'Location not specified',
-        dataSource: 'Live data from',
-        footerCreated: 'Created by',
-        footerSource: 'Data from ClinicalTrials.gov, MedlinePlus, and OpenFDA. Updates in real time.',
-        footerDisclaimer: 'This tool is informational. Consult your doctor before joining a clinical trial.',
-        tabSearch: 'Find Trials',
-        tabDisparities: 'Disparity Data',
-        tabResources: 'Resources',
-        learnMore: 'Learn more',
-        readMore: 'Read more on MedlinePlus',
-        canIJoin: 'Can I participate?',
-        age: 'Age',
-        sex: 'Sex',
-        allSexes: 'All sexes',
-        female: 'Female only',
-        male: 'Male only',
-        healthyVol: 'Healthy volunteers',
-        yes: 'Yes',
-        no: 'No',
-        keyCriteria: 'Key criteria',
-        between: 'Between',
-        and: 'and',
-        findNearMe: 'Find near me',
-        geoGranted: 'Sorted by distance',
-        geoDenied: 'To find nearby trials, allow location access.',
-        miles: 'mi',
-        share: 'Share',
-        copyLink: 'Copy link',
-        copied: 'Copied',
-        drugSafety: 'Drug safety',
-        topReactions: 'Most reported reactions (FDA data)',
-        drugDisclaimer: 'From voluntary reports. Does not prove causation.',
-        noDrugData: 'No data available on OpenFDA.',
-        sponsor: 'Sponsor',
-        seeking: 'seeking',
-        participants: 'participants',
-        studyType: 'Type',
-        interventional: 'Interventional',
-        observational: 'Observational',
-        activeSince: 'Active since',
-        estCompletion: 'Est. completion',
-        dispTitle: 'Health Disparities in the Latino Community',
-        dispDesc: 'These conditions disproportionately affect the Latino community. The data shows why access to clinical trials matters.',
-        latino: 'Latino/Hispanic',
-        nhWhite: 'Non-Hispanic White',
-        source: 'Source',
-        viewTrials: 'View trials',
-        resTitle: 'Resources for Participants',
-        resDesc: 'Organizations and resources to help you on your clinical trial journey.',
-        financialHelp: 'Financial help for participants',
-        latinoOrgs: 'Latino health organizations',
-        trialInfo: 'Clinical trial information',
-        helplines: 'Helplines',
-        spanishAvail: 'Spanish available',
-        us: 'USA', mexico: 'Mexico', colombia: 'Colombia',
-        argentina: 'Argentina', brazil: 'Brazil', chile: 'Chile', peru: 'Peru'
-    }
-    };
-
-    // ===================== CONDITIONS =====================
-    const CONDITIONS = [
-        { id:'diabetes', nameEs:'Diabetes Tipo 2', nameEn:'Type 2 Diabetes', searchTerm:'type 2 diabetes', statEs:'1.7x m\u00e1s probable en latinos', statEn:'1.7x more likely in Latinos', icon:'\uD83E\uDE78',
-          medlineEs:'https://medlineplus.gov/spanish/diabetestype2.html', medlineEn:'https://medlineplus.gov/diabetestype2.html', icd10:'E11',
-          disp:{ latinoPct:100, nhWhitePct:59, latinoLabel:'17%', nhWhiteLabel:'10%', descEs:'Los latinos tienen 1.7 veces m\u00e1s probabilidad de tener diabetes tipo 2 que los blancos no hispanos.', descEn:'Latinos are 1.7 times more likely to have type 2 diabetes than non-Hispanic whites.', src:'CDC NHIS, 2022' }},
-        { id:'kidney', nameEs:'Enfermedad Renal Cr\u00f3nica', nameEn:'Chronic Kidney Disease', searchTerm:'chronic kidney disease', statEs:'1.3x mayor riesgo en latinos', statEn:'1.3x higher risk in Latinos', icon:'\uD83E\uDEC5',
-          medlineEs:'https://medlineplus.gov/spanish/chronickidneydisease.html', medlineEn:'https://medlineplus.gov/chronickidneydisease.html', icd10:'N18',
-          disp:{ latinoPct:100, nhWhitePct:77, latinoLabel:'1.3x', nhWhiteLabel:'1x', descEs:'Los latinos tienen 1.3 veces mayor riesgo de enfermedad renal terminal, impulsado por diabetes e hipertensi\u00f3n.', descEn:'Latinos have 1.3x higher risk of end-stage renal disease, driven by diabetes and hypertension.', src:'USRDS, 2023' }},
-        { id:'liver-cancer', nameEs:'C\u00e1ncer de H\u00edgado', nameEn:'Liver Cancer', searchTerm:'liver cancer', statEs:'2x mayor incidencia en latinos', statEn:'2x higher incidence in Latinos', icon:'\uD83C\uDFAF',
-          medlineEs:'https://medlineplus.gov/spanish/livercancer.html', medlineEn:'https://medlineplus.gov/livercancer.html', icd10:'C22',
-          disp:{ latinoPct:100, nhWhitePct:50, latinoLabel:'2x', nhWhiteLabel:'1x', descEs:'La incidencia de c\u00e1ncer de h\u00edgado es 2 veces mayor en latinos que en blancos no hispanos.', descEn:'Liver cancer incidence is 2x higher in Latinos than in non-Hispanic whites.', src:'ACS Hispanic Cancer Facts, 2024' }},
-        { id:'cervical-cancer', nameEs:'C\u00e1ncer Cervical', nameEn:'Cervical Cancer', searchTerm:'cervical cancer', statEs:'30% mayor incidencia en latinas', statEn:'30% higher incidence in Latinas', icon:'\uD83C\uDF80',
-          medlineEs:'https://medlineplus.gov/spanish/cervicalcancer.html', medlineEn:'https://medlineplus.gov/cervicalcancer.html', icd10:'C53',
-          disp:{ latinoPct:100, nhWhitePct:77, latinoLabel:'9.9/100K', nhWhiteLabel:'7.6/100K', descEs:'Las mujeres latinas tienen 30% mayor incidencia de c\u00e1ncer cervical que las mujeres blancas no hispanas.', descEn:'Latina women have 30% higher cervical cancer incidence than non-Hispanic white women.', src:'ACS, 2024' }},
-        { id:'stomach-cancer', nameEs:'C\u00e1ncer de Est\u00f3mago', nameEn:'Stomach Cancer', searchTerm:'gastric cancer', statEs:'2x mayor incidencia en latinos', statEn:'2x higher incidence in Latinos', icon:'\u26A0\uFE0F',
-          medlineEs:'https://medlineplus.gov/spanish/stomachcancer.html', medlineEn:'https://medlineplus.gov/stomachcancer.html', icd10:'C16',
-          disp:{ latinoPct:100, nhWhitePct:50, latinoLabel:'2x', nhWhiteLabel:'1x', descEs:'Los latinos tienen el doble de incidencia de c\u00e1ncer de est\u00f3mago comparado con blancos no hispanos.', descEn:'Latinos have 2x the incidence of stomach cancer compared to non-Hispanic whites.', src:'ACS, 2024' }},
-        { id:'lupus', nameEs:'Lupus', nameEn:'Lupus', searchTerm:'lupus', statEs:'2-3x m\u00e1s com\u00fan en latinas', statEn:'2-3x more common in Latinas', icon:'\uD83E\uDDE0',
-          medlineEs:'https://medlineplus.gov/spanish/lupus.html', medlineEn:'https://medlineplus.gov/lupus.html', icd10:'M32',
-          disp:{ latinoPct:100, nhWhitePct:40, latinoLabel:'2.5x', nhWhiteLabel:'1x', descEs:'El lupus es 2 a 3 veces m\u00e1s com\u00fan y m\u00e1s severo en mujeres latinas.', descEn:'Lupus is 2-3x more common and more severe in Latina women.', src:'Lupus Foundation, 2023' }},
-        { id:'obesity', nameEs:'Obesidad', nameEn:'Obesity', searchTerm:'obesity', statEs:'45.6% prevalencia en latinos', statEn:'45.6% prevalence in Latinos', icon:'\uD83C\uDF4E',
-          medlineEs:'https://medlineplus.gov/spanish/obesity.html', medlineEn:'https://medlineplus.gov/obesity.html', icd10:'E66',
-          disp:{ latinoPct:100, nhWhitePct:91, latinoLabel:'45.6%', nhWhiteLabel:'41.4%', descEs:'La prevalencia de obesidad es de 45.6% en adultos latinos, comparado con 41.4% en blancos no hispanos.', descEn:'Obesity prevalence is 45.6% in Latino adults vs. 41.4% in non-Hispanic whites.', src:'CDC NHANES, 2022' }},
-        { id:'asthma', nameEs:'Asma', nameEn:'Asthma', searchTerm:'asthma', statEs:'1.5x en puertorrique\u00f1os', statEn:'1.5x in Puerto Ricans', icon:'\uD83C\uDF2C\uFE0F',
-          medlineEs:'https://medlineplus.gov/spanish/asthma.html', medlineEn:'https://medlineplus.gov/asthma.html', icd10:'J45',
-          disp:{ latinoPct:100, nhWhitePct:67, latinoLabel:'1.5x', nhWhiteLabel:'1x', descEs:'Los puertorrique\u00f1os tienen 1.5 veces mayor prevalencia de asma, la m\u00e1s alta de cualquier grupo \u00e9tnico.', descEn:'Puerto Ricans have 1.5x asthma prevalence, the highest of any ethnic group.', src:'CDC, 2023' }},
-        { id:'cardiovascular', nameEs:'Enfermedad Cardiovascular', nameEn:'Cardiovascular Disease', searchTerm:'cardiovascular disease', statEs:'#1 causa de muerte', statEn:'#1 cause of death', icon:'\u2764\uFE0F',
-          medlineEs:'https://medlineplus.gov/spanish/heartdiseases.html', medlineEn:'https://medlineplus.gov/heartdiseases.html', icd10:'I25',
-          disp:{ latinoPct:100, nhWhitePct:85, latinoLabel:'Hipertensi\u00f3n no controlada alta', nhWhiteLabel:'Menor tasa', descEs:'La enfermedad cardiovascular es la causa #1 de muerte. Los latinos tienen mayor hipertensi\u00f3n no controlada.', descEn:'Cardiovascular disease is the #1 killer. Latinos have higher uncontrolled hypertension rates.', src:'AHA, 2024' }},
-        { id:'depression', nameEs:'Salud Mental / Depresi\u00f3n', nameEn:'Mental Health / Depression', searchTerm:'depression', statEs:'2x menos acceso a tratamiento', statEn:'2x less likely to receive treatment', icon:'\uD83E\uDDE0',
-          medlineEs:'https://medlineplus.gov/spanish/depression.html', medlineEn:'https://medlineplus.gov/depression.html', icd10:'F32',
-          disp:{ latinoPct:50, nhWhitePct:100, latinoLabel:'~36%', nhWhiteLabel:'~72%', descEs:'Los latinos tienen 2 veces menos probabilidad de recibir tratamiento para depresi\u00f3n que los blancos no hispanos.', descEn:'Latinos are 2x less likely to receive depression treatment than non-Hispanic whites.', src:'SAMHSA, 2023' }}
-    ];
-
-    // ===================== RESOURCES =====================
-    const RESOURCES = [
-        { cat: 'financialHelp', items: [
-            { name: 'Patient Advocate Foundation', desc: { es:'Ayuda con barreras financieras para pacientes', en:'Assists patients with financial barriers' }, url:'https://www.patientadvocate.org', es:true },
-            { name: 'NeedyMeds', desc: { es:'Asistencia con medicamentos y costos m\u00e9dicos', en:'Medication and medical cost assistance' }, url:'https://www.needymeds.org', es:true }
-        ]},
-        { cat: 'latinoOrgs', items: [
-            { name: 'National Alliance for Hispanic Health', desc: { es:'La organizaci\u00f3n de salud hispana m\u00e1s grande del pa\u00eds', en:'The largest Hispanic health organization in the US' }, url:'https://www.healthyamericas.org', es:true },
-            { name: 'Salud America!', desc: { es:'Investigaci\u00f3n y recursos para la salud latina', en:'Research and resources for Latino health' }, url:'https://salud-america.org', es:true },
-            { name: 'UnidosUS Health', desc: { es:'Programas de salud de la organizaci\u00f3n de defensa latina m\u00e1s grande', en:'Health programs from the largest Latino advocacy org' }, url:'https://www.unidosus.org/issues/health', es:true }
-        ]},
-        { cat: 'trialInfo', items: [
-            { name: 'NIH Investigaci\u00f3n Cl\u00ednica', desc: { es:'Informaci\u00f3n del NIH sobre ensayos cl\u00ednicos en espa\u00f1ol', en:'NIH clinical trial information in Spanish' }, url:'https://salud.nih.gov/investigacion-clinica', es:true },
-            { name: 'American Cancer Society', desc: { es:'Informaci\u00f3n sobre c\u00e1ncer y ensayos cl\u00ednicos', en:'Cancer information and clinical trials' }, url:'https://www.cancer.org/es', es:true }
-        ]},
-        { cat: 'helplines', items: [
-            { name: 'SAMHSA National Helpline', desc: { es:'L\u00ednea de ayuda para salud mental y abuso de sustancias', en:'Mental health and substance abuse helpline' }, url:'tel:1-800-662-4357', phone:'1-800-662-4357', es:true },
-            { name: 'Cancer Information Service', desc: { es:'Informaci\u00f3n sobre c\u00e1ncer del Instituto Nacional del C\u00e1ncer', en:'Cancer information from the National Cancer Institute' }, url:'tel:1-800-422-6237', phone:'1-800-422-6237', es:true }
-        ]}
-    ];
-
-    // ===================== CITY COORDINATES =====================
-    const CITY_COORDS = {
-        'New York':[40.71,-74.01],'Los Angeles':[34.05,-118.24],'Chicago':[41.88,-87.63],
-        'Houston':[29.76,-95.37],'Phoenix':[33.45,-112.07],'Philadelphia':[39.95,-75.17],
-        'San Antonio':[29.42,-98.49],'San Diego':[32.72,-117.16],'Dallas':[32.78,-96.80],
-        'San Jose':[37.34,-121.89],'Austin':[30.27,-97.74],'Jacksonville':[30.33,-81.66],
-        'Fort Worth':[32.76,-97.33],'Columbus':[39.96,-82.99],'Indianapolis':[39.77,-86.16],
-        'Charlotte':[35.23,-80.84],'San Francisco':[37.77,-122.42],'Seattle':[47.61,-122.33],
-        'Denver':[39.74,-104.98],'Washington':[38.91,-77.04],'Nashville':[36.16,-86.78],
-        'El Paso':[31.76,-106.45],'Boston':[42.36,-71.06],'Portland':[45.52,-122.68],
-        'Las Vegas':[36.17,-115.14],'Memphis':[35.15,-90.05],'Baltimore':[39.29,-76.61],
-        'Milwaukee':[43.04,-87.91],'Albuquerque':[35.08,-106.65],'Tucson':[32.22,-110.97],
-        'Fresno':[36.74,-119.79],'Sacramento':[38.58,-121.49],'Kansas City':[39.10,-94.58],
-        'Atlanta':[33.75,-84.39],'Omaha':[41.26,-95.94],'Raleigh':[35.78,-78.64],
-        'Miami':[25.76,-80.19],'Minneapolis':[44.98,-93.27],'Tampa':[27.95,-82.46],
-        'New Orleans':[29.95,-90.07],'Cleveland':[41.50,-81.69],'Santa Barbara':[34.42,-119.70],
-        'Pittsburgh':[40.44,-79.99],'Cincinnati':[39.10,-84.51],'St. Louis':[38.63,-90.20],
-        'Orlando':[28.54,-81.38],'Detroit':[42.33,-83.05],'Salt Lake City':[40.76,-111.89],
-        'Ann Arbor':[42.28,-83.74],'Durham':[35.99,-78.90],'Bethesda':[38.98,-77.09],
-        'Rochester':[43.16,-77.61],'Birmingham':[33.52,-86.81],'Richmond':[37.54,-77.44],
-        'Charlottesville':[38.03,-78.48],'Iowa City':[41.66,-91.53],'Gainesville':[29.65,-82.32],
-        'Chapel Hill':[35.91,-79.05],'Stanford':[37.43,-122.17],'New Haven':[41.31,-72.92],
-        'Mexico City':[19.43,-99.13],'Guadalajara':[20.67,-103.35],'Monterrey':[25.67,-100.31],
-        'Bogota':[4.71,-74.07],'Buenos Aires':[-34.60,-58.38],'Sao Paulo':[-23.55,-46.63],
-        'Santiago':[-33.45,-70.67],'Lima':[-12.05,-77.04],'Medellin':[6.25,-75.56]
-    };
-
-    // ===================== COUNTRIES =====================
-    const COUNTRIES = [
-        { value: null, labelKey: 'all' },
-        { value: 'United States', labelKey: 'us' },
-        { value: 'Mexico', labelKey: 'mexico' },
-        { value: 'Colombia', labelKey: 'colombia' },
-        { value: 'Argentina', labelKey: 'argentina' },
-        { value: 'Brazil', labelKey: 'brazil' },
-        { value: 'Chile', labelKey: 'chile' },
-        { value: 'Peru', labelKey: 'peru' }
-    ];
-
-    // ===================== STATE =====================
-    const API_BASE = 'https://clinicaltrials.gov/api/v2/studies';
-    const FDA_BASE = 'https://api.fda.gov/drug/event.json';
-    let lang = 'es';
-    let darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    let activeTab = 'search';
-    let selectedCondition = null;
-    let searchQuery = '';
-    let nextPageToken = null;
-    let totalCount = 0;
-    let filters = { phase: null, status: null, country: null };
-    let searchTimeout = null;
-    let conditionCounts = {};
-    let isLoading = false;
-    let userLat = null, userLng = null;
-    let geoRequested = false;
-    let fdaCache = new Map();
-    let medlineCache = new Map();
-    let currentStudies = [];
-
-    const $ = s => document.querySelector(s);
-    const $$ = s => document.querySelectorAll(s);
-    function t(k) { return T[lang][k] || k; }
-    function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-
-    // ===================== URL PARAMS =====================
-    function readURLParams() {
-        const p = new URLSearchParams(window.location.search);
-        if (p.get('tab')) activeTab = p.get('tab');
-        if (p.get('cond')) {
-            const idx = CONDITIONS.findIndex(c => c.id === p.get('cond'));
-            if (idx >= 0) selectedCondition = idx;
-        }
-        if (p.get('q')) searchQuery = p.get('q');
-        if (p.get('phase')) filters.phase = p.get('phase');
-        if (p.get('status')) filters.status = p.get('status');
-        if (p.get('country')) filters.country = p.get('country');
-        if (p.get('lang') === 'en') lang = 'en';
-    }
-
-    function updateURLParams() {
-        const p = new URLSearchParams();
-        if (activeTab !== 'search') p.set('tab', activeTab);
-        if (selectedCondition !== null) p.set('cond', CONDITIONS[selectedCondition].id);
-        if (searchQuery) p.set('q', searchQuery);
-        if (filters.phase) p.set('phase', filters.phase);
-        if (filters.status) p.set('status', filters.status);
-        if (filters.country) p.set('country', filters.country);
-        if (lang !== 'es') p.set('lang', lang);
-        const qs = p.toString();
-        history.replaceState(null, '', qs ? '?' + qs : window.location.pathname);
-    }
-
-    // ===================== API =====================
-    async function fetchAPI(params) {
-        const url = new URL(API_BASE);
-        Object.entries(params).forEach(([k, v]) => { if (v != null && v !== '') url.searchParams.set(k, v); });
-        const res = await fetch(url);
-        if (!res.ok) throw new Error('API ' + res.status);
-        return res.json();
-    }
-
-    async function fetchConditionCount(cond) {
-        try {
-            const d = await fetchAPI({ 'query.cond': cond.searchTerm, 'filter.overallStatus': 'RECRUITING,NOT_YET_RECRUITING,ENROLLING_BY_INVITATION', 'countTotal': 'true', 'pageSize': '0' });
-            return d.totalCount || 0;
-        } catch (e) { return -1; }
-    }
-
-    async function fetchTrials(query, pageToken) {
-        const p = { 'countTotal': 'true', 'pageSize': '10' };
-        if (query) p['query.cond'] = query;
-        if (pageToken) p['pageToken'] = pageToken;
-        p['filter.overallStatus'] = filters.status || 'RECRUITING,NOT_YET_RECRUITING,ENROLLING_BY_INVITATION';
-        if (filters.phase) p['filter.phase'] = filters.phase;
-        if (filters.country) p['query.locn'] = filters.country;
-        return fetchAPI(p);
-    }
-
-    async function fetchFDA(drugName) {
-        if (!drugName) return null;
-        const key = drugName.toLowerCase();
-        if (fdaCache.has(key)) return fdaCache.get(key);
-        try {
-            const url = FDA_BASE + '?search=patient.drug.openfda.generic_name:"' + encodeURIComponent(drugName) + '"&count=patient.reaction.reactionmeddrapt.exact&limit=5';
-            const res = await fetch(url);
-            if (!res.ok) { fdaCache.set(key, null); return null; }
-            const data = await res.json();
-            const results = data.results || [];
-            fdaCache.set(key, results);
-            return results;
-        } catch (e) { fdaCache.set(key, null); return null; }
-    }
-
-    async function fetchMedlinePlus(icd10Code) {
-        const cacheKey = icd10Code + '_' + lang;
-        if (medlineCache.has(cacheKey)) return medlineCache.get(cacheKey);
-        try {
-            const lc = lang === 'es' ? 'es' : 'en';
-            // Use ICD-10 code system for reliable results (display name search returns empty)
-            const url = 'https://connect.medlineplus.gov/service?mainSearchCriteria.v.cs=2.16.840.1.113883.6.90&mainSearchCriteria.v.c=' + encodeURIComponent(icd10Code) + '&knowledgeResponseType=application/json&informationRecipient.languageCode.c=' + lc;
-            const res = await fetch(url);
-            if (!res.ok) { medlineCache.set(cacheKey, null); return null; }
-            const data = await res.json();
-            const entry = data.feed && data.feed.entry && data.feed.entry[0];
-            if (!entry) { medlineCache.set(cacheKey, null); return null; }
-            const result = {
-                title: entry.title && entry.title._value || '',
-                summary: entry.summary && entry.summary._value || '',
-                url: entry.link && entry.link[0] && entry.link[0].href || ''
-            };
-            medlineCache.set(cacheKey, result);
-            return result;
-        } catch (e) { medlineCache.set(cacheKey, null); return null; }
-    }
-
-    // ===================== GEOLOCATION =====================
-    function haversine(lat1, lon1, lat2, lon2) {
-        const R = 3959;
-        const dLat = (lat2 - lat1) * Math.PI / 180;
-        const dLon = (lon2 - lon1) * Math.PI / 180;
-        const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
-        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    }
-
-    function cityToCoords(city) {
-        if (!city) return null;
-        const clean = city.trim();
-        if (CITY_COORDS[clean]) return CITY_COORDS[clean];
-        for (const [k, v] of Object.entries(CITY_COORDS)) {
-            if (clean.toLowerCase().includes(k.toLowerCase()) || k.toLowerCase().includes(clean.toLowerCase())) return v;
-        }
-        return null;
-    }
-
-    function getTrialDistance(study) {
-        if (!userLat || !userLng) return null;
-        const locs = (study.protocolSection?.contactsLocationsModule?.locations || []);
-        let minDist = Infinity;
-        for (const loc of locs) {
-            const coords = cityToCoords(loc.city);
-            if (coords) {
-                const d = haversine(userLat, userLng, coords[0], coords[1]);
-                if (d < minDist) minDist = d;
-            }
-        }
-        return minDist === Infinity ? null : Math.round(minDist);
-    }
-
-    function requestGeo() {
-        if (!navigator.geolocation) { showGeoMsg(t('geoDenied')); return; }
-        navigator.geolocation.getCurrentPosition(
-            pos => { userLat = pos.coords.latitude; userLng = pos.coords.longitude; geoRequested = true; showGeoMsg(t('geoGranted')); reloadCurrentResults(); },
-            () => { showGeoMsg(t('geoDenied')); }
-        );
-    }
-
-    function showGeoMsg(msg) {
-        const row = $('#geo-row');
-        row.style.display = 'flex';
-        row.innerHTML = '<button class="geo-btn' + (userLat ? ' active' : '') + '" onclick="window._ec.requestGeo()">' + t('findNearMe') + '</button><span class="geo-msg">' + msg + '</span>';
-    }
-
-    // ===================== RENDERING =====================
-    function updateUIText() {
-        $('#site-title').textContent = t('siteTitle');
-        $('#site-subtitle').textContent = t('siteSubtitle');
-        $('#hero-title').textContent = t('heroTitle');
-        $('#hero-desc').textContent = t('heroDesc');
-        $('#search-input').placeholder = t('searchPlaceholder');
-        $('#conditions-label').textContent = t('conditionsLabel');
-        $('#load-more').textContent = t('loadMore');
-        $('#data-source').innerHTML = t('dataSource') + ' <a href="https://clinicaltrials.gov" target="_blank" rel="noopener">ClinicalTrials.gov</a>';
-        $('#footer-created').innerHTML = t('footerCreated') + ' <a href="https://www.linkedin.com/in/sebastianbecerra1/" target="_blank" rel="noopener">Sebastian Becerra</a> | <a href="https://github.com/sbc1-code/ensayos-clinicos" target="_blank" rel="noopener">GitHub</a>';
-        $('#footer-source').textContent = t('footerSource');
-        $('#footer-disclaimer').textContent = t('footerDisclaimer');
-        $('#disp-title').textContent = t('dispTitle');
-        $('#disp-desc').textContent = t('dispDesc');
-        $('#res-title').textContent = t('resTitle');
-        $('#res-desc').textContent = t('resDesc');
-        renderTabs();
-        renderConditionCards();
-        renderFilters();
-        renderDisparities();
-        renderResources();
-        if ($('#results-section').style.display !== 'none' && totalCount > 0) {
-            $('#results-title').textContent = t('results');
-            $('#results-count').textContent = totalCount.toLocaleString() + ' ' + t('totalFound');
-        }
-    }
-
-    function renderTabs() {
-        const tabs = [
-            { id: 'search', label: t('tabSearch') },
-            { id: 'disparities', label: t('tabDisparities') },
-            { id: 'resources', label: t('tabResources') }
-        ];
-        $('#tab-pills').innerHTML = tabs.map(tb =>
-            '<button class="tab-pill' + (activeTab === tb.id ? ' active' : '') + '" data-tab="' + tb.id + '">' + tb.label + '</button>'
-        ).join('');
-        $$('.tab-pill').forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
-    }
-
-    function switchTab(tab) {
-        activeTab = tab;
-        $$('.tab-content').forEach(el => el.classList.remove('active'));
-        const target = $('#tab-' + tab);
-        if (target) target.classList.add('active');
-        renderTabs();
-        updateURLParams();
-    }
-
-    function renderConditionCards() {
-        const grid = $('#conditions-grid');
-        grid.innerHTML = CONDITIONS.map((c, i) => {
-            const name = lang === 'es' ? c.nameEs : c.nameEn;
-            const sub = lang === 'es' ? c.nameEn : c.nameEs;
-            const stat = lang === 'es' ? c.statEs : c.statEn;
-            const cnt = conditionCounts[c.id];
-            const sel = selectedCondition === i;
-            const cntHTML = cnt === undefined
-                ? '<span class="condition-count loading">&nbsp;</span>'
-                : cnt === -1 ? '<span class="condition-count">?</span>'
-                : '<span class="condition-count">' + cnt.toLocaleString() + ' ' + t('activeTrials') + '</span>';
-            return '<div class="condition-card' + (sel ? ' selected' : '') + '" data-index="' + i + '">' +
-                '<span class="condition-icon">' + c.icon + '</span>' +
-                '<div class="condition-name">' + name + '</div>' +
-                '<div class="condition-name-sub">' + sub + '</div>' +
-                '<div class="condition-stat">' + stat + '</div>' +
-                cntHTML +
-                '<button class="condition-learn" data-cond="' + i + '" onclick="event.stopPropagation(); window._ec.toggleMedline(' + i + ')">' + t('learnMore') + '</button>' +
-                '<div class="condition-info" id="medline-' + i + '"><div class="condition-info-inner" id="medline-inner-' + i + '">...</div></div>' +
-                '</div>';
-        }).join('');
-        grid.querySelectorAll('.condition-card').forEach(card => {
-            card.addEventListener('click', () => onConditionClick(parseInt(card.dataset.index)));
-        });
-    }
-
-    function renderFilters() {
-        const row = $('#filter-row');
-        if (!row) return;
-        const phases = [
-            { v: null, l: t('all') },
-            { v: 'EARLY_PHASE1', l: lang === 'es' ? 'Temprana' : 'Early' },
-            { v: 'PHASE1', l: lang === 'es' ? 'Fase 1' : 'Phase 1' },
-            { v: 'PHASE2', l: lang === 'es' ? 'Fase 2' : 'Phase 2' },
-            { v: 'PHASE3', l: lang === 'es' ? 'Fase 3' : 'Phase 3' },
-            { v: 'PHASE4', l: lang === 'es' ? 'Fase 4' : 'Phase 4' }
-        ];
-        const statuses = [
-            { v: null, l: t('all') },
-            { v: 'RECRUITING', l: t('recruiting') },
-            { v: 'NOT_YET_RECRUITING', l: t('notYet') },
-            { v: 'ENROLLING_BY_INVITATION', l: t('byInvitation') }
-        ];
-        const pills = (items, key) => items.map(item => {
-            const act = filters[key] === item.v ? ' active' : '';
-            return '<button class="filter-pill' + act + '" data-fk="' + key + '" data-fv="' + (item.v||'') + '">' + item.l + '</button>';
-        }).join('');
-        const countryOpts = COUNTRIES.map(c => {
-            const sel = filters.country === c.value ? ' selected' : '';
-            return '<option value="' + (c.value||'') + '"' + sel + '>' + t(c.labelKey) + '</option>';
-        }).join('');
-
-        row.innerHTML =
-            '<div class="filter-group"><span class="filter-label">' + t('filterPhase') + '</span>' + pills(phases, 'phase') + '</div>' +
-            '<div class="filter-group"><span class="filter-label">' + t('filterStatus') + '</span>' + pills(statuses, 'status') + '</div>' +
-            '<div class="filter-group"><span class="filter-label">' + t('filterCountry') + '</span><select class="country-select" id="country-sel">' + countryOpts + '</select></div>';
-
-        row.querySelectorAll('.filter-pill').forEach(p => p.addEventListener('click', () => onFilterChange(p.dataset.fk, p.dataset.fv || null)));
-        const sel = $('#country-sel');
-        if (sel) sel.addEventListener('change', () => onFilterChange('country', sel.value || null));
-    }
-
-    function renderSkeletons(n) {
-        let h = '';
-        for (let i = 0; i < n; i++) h += '<div class="trial-skeleton"><div class="skel-line w30"></div><div class="skel-line h20 w80"></div><div class="skel-line w60"></div><div class="skel-line w100"></div><div class="skel-line w40"></div></div>';
-        return h;
-    }
-
-    function statusBadge(status) {
-        const m = { 'RECRUITING':{ c:'badge-recruiting', es:'Reclutando', en:'Recruiting' }, 'NOT_YET_RECRUITING':{ c:'badge-not-yet', es:'Por iniciar', en:'Not yet recruiting' }, 'ENROLLING_BY_INVITATION':{ c:'badge-invitation', es:'Por invitaci\u00f3n', en:'By invitation' } };
-        const i = m[status] || { c:'', es:status, en:status };
-        return '<span class="badge ' + i.c + '">' + (lang==='es'?i.es:i.en) + '</span>';
-    }
-
-    function phaseBadge(phases) {
-        if (!phases || !phases.length) return '';
-        const m = { 'EARLY_PHASE1':'Temprana','PHASE1':'Fase 1','PHASE2':'Fase 2','PHASE3':'Fase 3','PHASE4':'Fase 4','NA':'N/A' };
-        return phases.map(p => '<span class="badge badge-phase">' + (lang==='es' ? (m[p]||p) : p.replace('PHASE','Phase ').replace('EARLY_','Early ').replace('NA','N/A')) + '</span>').join(' ');
-    }
-
-    function renderTrialCard(study) {
-        const ps = study.protocolSection || {};
-        const id = ps.identificationModule || {};
-        const st = ps.statusModule || {};
-        const ds = ps.designModule || {};
-        const desc = ps.descriptionModule || {};
-        const loc = ps.contactsLocationsModule || {};
-        const elig = ps.eligibilityModule || {};
-        const arms = ps.armsInterventionsModule || {};
-        const spons = ps.sponsorCollaboratorsModule || {};
-
-        const nctId = id.nctId || '';
-        const title = id.briefTitle || id.officialTitle || 'Untitled';
-        const status = st.overallStatus || '';
-        const phases = ds.phases || [];
-        const summary = (desc.briefSummary || '').substring(0, 220);
-        const locations = (loc.locations || []).slice(0, 3);
-        const ctURL = 'https://clinicaltrials.gov/study/' + nctId;
-        const dist = getTrialDistance(study);
-
-        // Sponsor + enrollment
-        const sponsorName = spons.leadSponsor?.name || '';
-        const enrollment = ds.enrollmentInfo?.count;
-        const studyType = ds.studyType || '';
-        const startDate = st.startDateStruct?.date || '';
-        const completionDate = st.completionDateStruct?.date || '';
-
-        // Interventions (for OpenFDA)
-        const interventions = (arms.interventions || []);
-        const drugInterv = interventions.find(iv => iv.type === 'DRUG' || iv.type === 'BIOLOGICAL');
-        const drugName = drugInterv ? drugInterv.name : null;
-
-        // Contact info
-        const contacts = loc.centralContacts || [];
-        const contact = contacts[0] || {};
-
-        // Locations HTML
-        let locHTML = locations.length > 0
-            ? locations.map(l => '<span>\uD83D\uDCCD ' + [l.city, l.state, l.country].filter(Boolean).join(', ') + '</span>').join('')
-            : '<span>' + t('noLocation') + '</span>';
-
-        // Distance badge
-        const distBadge = dist !== null ? ' <span class="badge badge-distance">~' + dist + ' ' + t('miles') + '</span>' : '';
-
-        // Meta row
-        let meta = '';
-        if (sponsorName) meta += '<span>' + t('sponsor') + ': ' + esc(sponsorName) + '</span>';
-        if (enrollment) meta += '<span>' + t('seeking') + ' ' + enrollment.toLocaleString() + ' ' + t('participants') + '</span>';
-        if (studyType) meta += '<span>' + t('studyType') + ': ' + (studyType === 'INTERVENTIONAL' ? t('interventional') : studyType === 'OBSERVATIONAL' ? t('observational') : studyType) + '</span>';
-        if (startDate) meta += '<span>' + t('activeSince') + ' ' + startDate + '</span>';
-        if (completionDate) meta += '<span>' + t('estCompletion') + ' ' + completionDate + '</span>';
-
-        // Eligibility section
-        let eligHTML = '';
-        const minAge = elig.minimumAge || '';
-        const maxAge = elig.maximumAge || '';
-        const sex = elig.sex || 'ALL';
-        const healthyVol = elig.healthyVolunteers;
-        const eligCriteria = elig.eligibilityCriteria || '';
-
-        const sexLabel = sex === 'ALL' ? t('allSexes') : sex === 'FEMALE' ? t('female') : sex === 'MALE' ? t('male') : sex;
-        const hvLabel = healthyVol === true ? t('yes') : healthyVol === false ? t('no') : '---';
-
-        let criteriaItems = '';
-        if (eligCriteria) {
-            const lines = eligCriteria.split('\n').filter(l => l.trim().startsWith('*') || l.trim().startsWith('-') || /^\d+\./.test(l.trim()));
-            const inclusionLines = [];
-            let inInclusion = false;
-            for (const line of eligCriteria.split('\n')) {
-                if (/inclusion/i.test(line)) { inInclusion = true; continue; }
-                if (/exclusion/i.test(line)) { inInclusion = false; continue; }
-                if (inInclusion && line.trim().length > 10 && inclusionLines.length < 4) {
-                    inclusionLines.push(line.trim().replace(/^[\*\-\d\.]+\s*/, ''));
-                }
-            }
-            if (inclusionLines.length) {
-                criteriaItems = '<div style="margin-top:8px"><span class="elig-label">' + t('keyCriteria') + '</span><ul class="criteria-list">' +
-                    inclusionLines.map(l => '<li>' + esc(l.substring(0,120)) + '</li>').join('') + '</ul></div>';
-            }
-        }
-
-        eligHTML = '<div class="expand-section" id="elig-' + nctId + '">' +
-            '<div class="expand-inner">' +
-            '<div class="eligibility-grid">' +
-            '<div class="elig-item"><span class="elig-label">' + t('age') + '</span><span class="elig-value">' + (minAge && maxAge ? t('between') + ' ' + minAge + ' ' + t('and') + ' ' + maxAge : minAge || maxAge || '---') + '</span></div>' +
-            '<div class="elig-item"><span class="elig-label">' + t('sex') + '</span><span class="elig-value">' + sexLabel + '</span></div>' +
-            '<div class="elig-item"><span class="elig-label">' + t('healthyVol') + '</span><span class="elig-value">' + hvLabel + '</span></div>' +
-            '</div>' + criteriaItems + '</div></div>';
-
-        // FDA section
-        let fdaHTML = '';
-        if (drugName) {
-            fdaHTML = '<div class="expand-section" id="fda-' + nctId + '">' +
-                '<div class="expand-inner" id="fda-inner-' + nctId + '">' +
-                '<div class="skel-line w60"></div><div class="skel-line w40"></div>' +
-                '</div></div>';
-        }
-
-        return '<div class="trial-card" data-nctid="' + nctId + '"' + (drugName ? ' data-drug="' + esc(drugName) + '"' : '') + '>' +
-            '<div class="trial-badges">' + statusBadge(status) + ' ' + phaseBadge(phases) + distBadge + '</div>' +
-            '<div class="trial-title">' + esc(title) + '</div>' +
-            (meta ? '<div class="trial-meta">' + meta + '</div>' : '') +
-            '<div class="trial-locations">' + locHTML + '</div>' +
-            (summary ? '<div class="trial-summary">' + esc(summary) + (summary.length >= 220 ? '...' : '') + '</div>' : '') +
-            '<div class="trial-actions">' +
-                '<a class="trial-link" href="' + ctURL + '" target="_blank" rel="noopener">' + t('viewOnCT') + ' \u2192</a>' +
-                '<button class="action-btn" onclick="window._ec.copyLink(\'' + ctURL + '\', this)">' + t('copyLink') + '</button>' +
-                '<button class="action-btn" onclick="window._ec.shareTrial(\'' + nctId + '\')">' + t('share') + '</button>' +
-                '<button class="expand-toggle" onclick="window._ec.toggleExpand(\'elig-' + nctId + '\')">\uD83D\uDC64 ' + t('canIJoin') + '</button>' +
-                (drugName ? '<button class="expand-toggle" onclick="window._ec.toggleFDA(\'' + nctId + '\', \'' + esc(drugName).replace(/'/g, "\\'") + '\')">\uD83D\uDC8A ' + t('drugSafety') + '</button>' : '') +
-            '</div>' +
-            eligHTML + fdaHTML +
-            '</div>';
-    }
-
-    // ===================== DISPARITIES =====================
-    function renderDisparities() {
-        const grid = $('#disp-grid');
-        grid.innerHTML = CONDITIONS.map((c, i) => {
-            const d = c.disp;
-            const name = lang === 'es' ? c.nameEs : c.nameEn;
-            const desc = lang === 'es' ? d.descEs : d.descEn;
-            // For depression, the bars are inverted (NH White higher = more treatment)
-            const isDepression = c.id === 'depression';
-            const label1 = t('latino');
-            const label2 = t('nhWhite');
-            return '<div class="disp-card">' +
-                '<div class="disp-card-header"><span class="icon">' + c.icon + '</span><h3>' + name + '</h3></div>' +
-                '<div class="disp-desc">' + desc + '</div>' +
-                '<div class="bar-chart">' +
-                '<div class="bar-row"><span class="bar-label">' + label1 + '</span><div class="bar-track"><div class="bar-fill accent" style="width:' + d.latinoPct + '%">' + d.latinoLabel + '</div></div></div>' +
-                '<div class="bar-row"><span class="bar-label">' + label2 + '</span><div class="bar-track"><div class="bar-fill gray" style="width:' + d.nhWhitePct + '%">' + d.nhWhiteLabel + '</div></div></div>' +
-                '</div>' +
-                '<div class="disp-source">' + t('source') + ': ' + d.src + '</div>' +
-                '<button class="disp-action" onclick="window._ec.dispToTrials(' + i + ')">' + t('viewTrials') + ' \u2192</button>' +
-                '</div>';
-        }).join('');
-    }
-
-    // ===================== RESOURCES =====================
-    function renderResources() {
-        const cont = $('#res-content');
-        cont.innerHTML = RESOURCES.map(cat => {
-            const catLabel = t(cat.cat);
-            const cards = cat.items.map(r => {
-                const desc = lang === 'es' ? r.desc.es : r.desc.en;
-                const esBadge = r.es ? '<span class="res-badge-es">' + t('spanishAvail') + '</span>' : '';
-                const linkText = r.phone || r.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
-                return '<div class="res-card">' +
-                    '<h4>' + r.name + esBadge + '</h4>' +
-                    '<p>' + desc + '</p>' +
-                    (r.phone ? '<div class="res-link"><a href="' + r.url + '">' + r.phone + '</a></div>' : '<div class="res-link"><a href="' + r.url + '" target="_blank" rel="noopener">' + linkText + '</a></div>') +
-                    '</div>';
-            }).join('');
-            return '<div class="res-category"><h3>' + catLabel + '</h3><div class="res-grid">' + cards + '</div></div>';
-        }).join('');
-    }
-
-    // ===================== HANDLERS =====================
-    function onConditionClick(index) {
-        selectedCondition = index;
-        searchQuery = '';
-        $('#search-input').value = '';
-        nextPageToken = null;
-        filters = { phase: null, status: null, country: null };
-        renderConditionCards();
-        loadResults(CONDITIONS[index].searchTerm);
-        updateURLParams();
-    }
-
-    function onSearch(query) {
-        if (!query || query.trim().length < 2) return;
-        selectedCondition = null;
-        searchQuery = query.trim();
-        nextPageToken = null;
-        filters = { phase: null, status: null, country: null };
-        renderConditionCards();
-        loadResults(searchQuery);
-        updateURLParams();
-    }
-
-    function onFilterChange(key, value) {
-        filters[key] = value;
-        nextPageToken = null;
-        renderFilters();
-        updateURLParams();
-        const q = selectedCondition !== null ? CONDITIONS[selectedCondition].searchTerm : searchQuery;
-        if (q) loadResults(q);
-    }
-
-    function reloadCurrentResults() {
-        const q = selectedCondition !== null ? CONDITIONS[selectedCondition].searchTerm : searchQuery;
-        if (q) loadResults(q);
-    }
-
-    async function loadResults(query, append) {
-        if (isLoading) return;
-        isLoading = true;
-        const section = $('#results-section');
-        const list = $('#results-list');
-        const errEl = $('#error-container');
-        const loadBtn = $('#load-more');
-
-        section.style.display = 'block';
-        errEl.innerHTML = '';
-
-        if (!append) {
-            list.innerHTML = renderSkeletons(4);
-            loadBtn.style.display = 'none';
-            if (geoRequested || userLat) showGeoMsg(userLat ? t('geoGranted') : '');
-            else { const gr = $('#geo-row'); gr.style.display = 'flex'; gr.innerHTML = '<button class="geo-btn" onclick="window._ec.requestGeo()">' + t('findNearMe') + '</button>'; }
-            window.scrollTo({ top: section.offsetTop - 120, behavior: 'smooth' });
-        } else {
-            loadBtn.disabled = true;
-            loadBtn.textContent = '...';
-        }
-        renderFilters();
-
-        try {
-            const data = await fetchTrials(query, append ? nextPageToken : null);
-            totalCount = data.totalCount || 0;
-            nextPageToken = data.nextPageToken || null;
-            const studies = data.studies || [];
-
-            if (!append) { currentStudies = studies; } else { currentStudies = currentStudies.concat(studies); }
-
-            // Sort by distance if geo available
-            if (userLat && !append) {
-                studies.sort((a, b) => {
-                    const da = getTrialDistance(a); const db = getTrialDistance(b);
-                    if (da === null && db === null) return 0;
-                    if (da === null) return 1; if (db === null) return -1;
-                    return da - db;
-                });
-            }
-
-            $('#results-title').textContent = t('results');
-            $('#results-count').textContent = totalCount.toLocaleString() + ' ' + t('totalFound');
-            if (!append) list.innerHTML = '';
-
-            if (studies.length === 0 && !append) {
-                list.innerHTML = '<div class="no-results"><div class="nr-icon">\uD83D\uDD0D</div><p>' + t('noResults') + '</p><p style="margin-top:6px;font-size:0.82rem">' + t('noResultsTip') + '</p></div>';
-            } else {
-                list.innerHTML += studies.map(renderTrialCard).join('');
-                // Lazy-load FDA data for drug trials
-                studies.forEach(s => {
-                    const nct = s.protocolSection?.identificationModule?.nctId;
-                    const drug = s.protocolSection?.armsInterventionsModule?.interventions?.find(iv => iv.type === 'DRUG' || iv.type === 'BIOLOGICAL');
-                    if (drug && nct) loadFDAData(nct, drug.name);
-                });
-            }
-
-            loadBtn.style.display = nextPageToken ? 'block' : 'none';
-            loadBtn.disabled = false;
-            loadBtn.textContent = t('loadMore');
-        } catch (e) {
-            console.error('Load error:', e);
-            if (!append) list.innerHTML = '';
-            errEl.innerHTML = '<div class="error-msg">' + t('errorMsg') + '</div>';
-            loadBtn.style.display = 'none';
-        }
-        isLoading = false;
-    }
-
-    async function loadFDAData(nctId, drugName) {
-        const results = await fetchFDA(drugName);
-        const container = document.getElementById('fda-inner-' + nctId);
-        if (!container) return;
-        if (!results || results.length === 0) {
-            container.innerHTML = '<span style="font-size:0.78rem;color:var(--text-secondary)">' + t('noDrugData') + '</span>';
-            return;
-        }
-        container.innerHTML =
-            '<span class="elig-label">' + t('topReactions') + '</span>' +
-            '<div class="fda-reactions">' + results.map(r => '<span class="fda-pill">' + r.term.toLowerCase() + ' (' + r.count.toLocaleString() + ')</span>').join('') + '</div>' +
-            '<div class="fda-disclaimer">' + t('drugDisclaimer') + '</div>';
-    }
-
-    // ===================== MEDLINEPLUS =====================
-    async function toggleMedline(index) {
-        const el = document.getElementById('medline-' + index);
-        const inner = document.getElementById('medline-inner-' + index);
-        if (el.classList.contains('open')) { el.classList.remove('open'); return; }
-        el.classList.add('open');
-        const c = CONDITIONS[index];
-        const mlUrl = lang === 'es' ? c.medlineEs : c.medlineEn;
-
-        // Try MedlinePlus API
-        inner.innerHTML = '<div class="skel-line w80"></div><div class="skel-line w60"></div>';
-        const data = await fetchMedlinePlus(c.icd10);
-        if (data && data.summary) {
-            const cleanSummary = data.summary.replace(/<[^>]*>/g, '').substring(0, 300);
-            inner.innerHTML = '<p style="margin-bottom:8px">' + cleanSummary + (cleanSummary.length >= 300 ? '...' : '') + '</p>' +
-                '<a href="' + (data.url || mlUrl) + '" target="_blank" rel="noopener">' + t('readMore') + ' \u2192</a>';
-        } else {
-            inner.innerHTML = '<p style="margin-bottom:8px">' + (lang === 'es' ? c.disp.descEs : c.disp.descEn) + '</p>' +
-                '<a href="' + mlUrl + '" target="_blank" rel="noopener">' + t('readMore') + ' \u2192</a>';
-        }
-    }
-
-    // ===================== SHARE / COPY =====================
-    function copyLink(url, btn) {
-        navigator.clipboard.writeText(url).then(() => {
-            btn.textContent = t('copied');
-            btn.classList.add('copied');
-            setTimeout(() => { btn.textContent = t('copyLink'); btn.classList.remove('copied'); }, 2000);
-        });
-    }
-
-    function shareTrial(nctId) {
-        const study = currentStudies.find(s => s.protocolSection?.identificationModule?.nctId === nctId);
-        if (!study) return;
-        const ps = study.protocolSection || {};
-        const title = ps.identificationModule?.briefTitle || 'Clinical Trial';
-        const status = ps.statusModule?.overallStatus || '';
-        const phases = (ps.designModule?.phases || []).join(', ').replace(/PHASE/g, 'Phase ');
-        const locs = (ps.contactsLocationsModule?.locations || []).slice(0, 5).map(l => [l.city, l.state, l.country].filter(Boolean).join(', ')).join('; ');
-        const elig = ps.eligibilityModule || {};
-        const ageStr = (elig.minimumAge || '?') + ' - ' + (elig.maximumAge || '?');
-        const sex = elig.sex === 'ALL' ? 'All' : elig.sex || '?';
-        const hv = elig.healthyVolunteers === true ? 'Yes' : elig.healthyVolunteers === false ? 'No' : '?';
-        const ctURL = 'https://clinicaltrials.gov/study/' + nctId;
-        const contact = (ps.contactsLocationsModule?.centralContacts || [])[0] || {};
-
-        const win = window.open('', '_blank', 'width=600,height=700');
-        if (!win) return;
-        win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + esc(title) + '</title>' +
-            '<style>body{font-family:-apple-system,sans-serif;padding:32px;max-width:560px;margin:0 auto;color:#1d1d1f;line-height:1.6}' +
-            'h1{font-size:1.1rem;margin-bottom:6px}.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.72rem;font-weight:600;background:#eee;margin-right:4px}' +
-            '.section{margin:14px 0;padding:12px;border:1px solid #ddd;border-radius:8px}.section h3{font-size:0.82rem;margin-bottom:6px;color:#666}' +
-            '.link{color:#0071E3;font-weight:600;word-break:break-all}' +
-            '.footer{margin-top:20px;font-size:0.72rem;color:#999;text-align:center;border-top:1px solid #eee;padding-top:12px}' +
-            'button{padding:8px 16px;border:1px solid #0071E3;background:#0071E3;color:#fff;border-radius:8px;font-size:0.85rem;cursor:pointer;font-family:inherit;margin:8px 4px 0 0}' +
-            '@media print{button{display:none}}</style></head><body>' +
-            '<h1>' + esc(title) + '</h1>' +
-            '<div><span class="badge">' + status + '</span>' + (phases ? '<span class="badge">' + phases + '</span>' : '') + '</div>' +
-            '<div class="section"><h3>Locations</h3><p>' + (locs || 'Not specified') + '</p></div>' +
-            '<div class="section"><h3>Eligibility</h3><p>Age: ' + ageStr + ' | Sex: ' + sex + ' | Healthy volunteers: ' + hv + '</p></div>' +
-            (contact.name ? '<div class="section"><h3>Contact</h3><p>' + esc(contact.name) + (contact.phone ? ' | ' + contact.phone : '') + (contact.email ? ' | ' + contact.email : '') + '</p></div>' : '') +
-            '<p style="margin-top:14px"><a class="link" href="' + ctURL + '" target="_blank">' + ctURL + '</a></p>' +
-            '<button onclick="navigator.clipboard.writeText(\'' + ctURL + '\');this.textContent=\'Copied!\'">Copy Link</button>' +
-            '<button onclick="window.print()">Print</button>' +
-            '<div class="footer">Generado por Ensayos Cl\u00ednicos | sbc1-code.github.io/ensayos-clinicos</div>' +
-            '</body></html>');
-        win.document.close();
-    }
-
-    // ===================== EXPAND TOGGLES =====================
-    function toggleExpand(id) {
-        const el = document.getElementById(id);
-        if (el) el.classList.toggle('open');
-    }
-
-    async function toggleFDA(nctId, drugName) {
-        const el = document.getElementById('fda-' + nctId);
-        if (!el) return;
-        if (el.classList.contains('open')) { el.classList.remove('open'); return; }
-        el.classList.add('open');
-        await loadFDAData(nctId, drugName);
-    }
-
-    function dispToTrials(index) {
-        switchTab('search');
-        setTimeout(() => onConditionClick(index), 100);
-    }
-
-    // ===================== TOGGLES =====================
-    function toggleLang(newLang) {
-        lang = newLang;
-        document.documentElement.lang = lang;
-        $$('#lang-toggle button').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
-        medlineCache.clear();
-        updateUIText();
-        updateURLParams();
-    }
-
-    function toggleDark() {
-        darkMode = !darkMode;
-        document.documentElement.classList.toggle('dark', darkMode);
-        $('#theme-toggle').textContent = darkMode ? '\u2600\uFE0F' : '\u263D';
-    }
-
-    // ===================== INIT =====================
-    function init() {
-        readURLParams();
-        if (darkMode) { document.documentElement.classList.add('dark'); $('#theme-toggle').textContent = '\u2600\uFE0F'; }
-        $$('#lang-toggle button').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
-
-        updateUIText();
-        renderConditionCards();
-
-        // Fetch condition counts
-        CONDITIONS.forEach(async c => { conditionCounts[c.id] = await fetchConditionCount(c); renderConditionCards(); });
-
-        // Language toggle
-        $$('#lang-toggle button').forEach(b => b.addEventListener('click', () => toggleLang(b.dataset.lang)));
-        $('#theme-toggle').addEventListener('click', toggleDark);
-
-        // Search
-        const si = $('#search-input');
-        si.addEventListener('input', e => { clearTimeout(searchTimeout); searchTimeout = setTimeout(() => onSearch(e.target.value), 300); });
-        si.addEventListener('keydown', e => { if (e.key === 'Enter') { clearTimeout(searchTimeout); onSearch(e.target.value); } });
-
-        // Load more
-        $('#load-more').addEventListener('click', () => {
-            const q = selectedCondition !== null ? CONDITIONS[selectedCondition].searchTerm : searchQuery;
-            if (q && nextPageToken) loadResults(q, true);
-        });
-
-        // Restore from URL params
-        if (searchQuery) { si.value = searchQuery; loadResults(searchQuery); }
-        else if (selectedCondition !== null) { loadResults(CONDITIONS[selectedCondition].searchTerm); renderConditionCards(); }
-
-        // Switch to correct tab
-        if (activeTab !== 'search') switchTab(activeTab);
-    }
-
-    // Expose functions to onclick handlers
-    window._ec = { requestGeo, copyLink, shareTrial, toggleExpand, toggleFDA, toggleMedline, dispToTrials };
-
-    init();
-    })();
-    </script>
+    <footer class="site-footer"><div class="container">
+        <p id="footer-created"></p>
+        <p id="footer-source"></p>
+        <p class="footer-disclaimer" id="footer-disclaimer"></p>
+    </div></footer>
+<script>
+(function(){
+'use strict';
+const T={es:{
+siteTitle:'Nuestra Salud',siteSubtitle:'Gu\u00eda de salud para la comunidad latina',
+trustTag:'Informaci\u00f3n confiable. Sin cuentas. Sin rastreo. Para ti.',
+heroTitle:'Conoce las condiciones que afectan a tu comunidad',
+heroDesc:'La comunidad latina enfrenta tasas m\u00e1s altas de ciertas condiciones de salud. Conocerlas es el primer paso para protegerte a ti y a tu familia.',
+searchCond:'Buscar condici\u00f3n de salud...',
+conditionsLabel:'10 condiciones prioritarias para la comunidad latina',
+knowMore:'Conoce m\u00e1s \u2192',
+tabConditions:'Condiciones',tabDisparities:'Disparidades',tabResources:'Recursos',tabTrials:'Ensayos Cl\u00ednicos',
+trialsHeroTitle:'Busca tratamientos en investigaci\u00f3n',
+trialsHeroDesc:'Los ensayos cl\u00ednicos son una forma de acceder a tratamientos nuevos. Aqu\u00ed puedes buscar estudios activos cerca de ti.',
+searchTrial:'Buscar ensayo por condici\u00f3n, tratamiento, o palabra clave...',
+whatIsIt:'\u00bfQu\u00e9 es?',whyAffectsUs:'\u00bfPor qu\u00e9 nos afecta m\u00e1s?',whatCanIDo:'\u00bfQu\u00e9 puedo hacer?',
+treatmentsInResearch:'Tratamientos en investigaci\u00f3n',
+trialsExplainer:'Los ensayos cl\u00ednicos son estudios que prueban nuevos tratamientos antes de que est\u00e9n disponibles para todos. Participar es voluntario y gratuito.',
+back:'\u2190 Volver',
+results:'Resultados',totalFound:'ensayos encontrados',loadMore:'Cargar m\u00e1s',
+noResults:'No se encontraron ensayos para esta b\u00fasqueda.',noResultsTip:'Intenta con otros t\u00e9rminos o quita los filtros.',
+errorMsg:'No pudimos cargar los datos. Intenta de nuevo.',viewOnCT:'Ver en ClinicalTrials.gov',
+filterPhase:'Fase',filterStatus:'Estado',filterCountry:'Pa\u00eds',
+all:'Todos',recruiting:'Reclutando',notYet:'Por iniciar',byInvitation:'Por invitaci\u00f3n',
+noLocation:'Ubicaci\u00f3n no especificada',dataSource:'Datos en vivo de',
+footerCreated:'Nuestra Salud: Creado por',
+footerSource:'Datos de ClinicalTrials.gov, MedlinePlus, OpenFDA, CDC y NIH.',
+footerDisclaimer:'Esta herramienta es informativa. Consulta a tu m\u00e9dico para decisiones sobre tu salud.',
+readMore:'Leer m\u00e1s en MedlinePlus',
+canIJoin:'\u00bfPuedo participar?',age:'Edad',sex:'Sexo',allSexes:'Todos los sexos',female:'Solo mujeres',male:'Solo hombres',
+healthyVol:'Voluntarios sanos',yes:'S\u00ed',no:'No',keyCriteria:'Criterios clave',between:'Entre',and:'y',
+findNearMe:'Buscar cerca de m\u00ed',geoGranted:'Ordenado por distancia',geoDenied:'Permite el acceso a tu ubicaci\u00f3n para encontrar ensayos cerca de ti.',miles:'mi',
+share:'Compartir',copyLink:'Copiar enlace',copied:'Copiado',
+drugSafety:'Seguridad del medicamento',topReactions:'Reacciones reportadas (datos FDA)',
+drugDisclaimer:'Datos de reportes voluntarios. No prueban causalidad.',noDrugData:'No hay datos disponibles en OpenFDA.',
+sponsor:'Patrocinador',seeking:'buscando',participants:'participantes',studyType:'Tipo',
+interventional:'Intervencional',observational:'Observacional',activeSince:'Activo desde',estCompletion:'Est. hasta',
+dispTitle:'Disparidades de Salud en la Comunidad Latina',
+dispDesc:'Los datos muestran que ciertas condiciones afectan a la comunidad latina de manera desproporcionada. Entender estas disparidades es el primer paso para cambiarlas.',
+latino:'Latino/Hispano',nhWhite:'Blanco no hispano',source:'Fuente',viewTrials:'Ver ensayos',
+resTitle:'Recursos para la Comunidad',
+resDesc:'Organizaciones, l\u00edneas de ayuda, y recursos. Todos ofrecen servicios en espa\u00f1ol.',
+financialHelp:'Ayuda financiera para participantes',latinoOrgs:'Organizaciones de salud latina',
+trialInfo:'Informaci\u00f3n sobre ensayos cl\u00ednicos',helplines:'L\u00edneas de ayuda',spanishAvail:'Espa\u00f1ol disponible',
+us:'EE.UU.',mexico:'M\u00e9xico',colombia:'Colombia',argentina:'Argentina',brazil:'Brasil',chile:'Chile',peru:'Per\u00fa',activeTrials:'ensayos activos'
+},en:{
+siteTitle:'Nuestra Salud',siteSubtitle:'Health guide for the Latino community',
+trustTag:'Trusted information. No accounts. No tracking. For you.',
+heroTitle:'Know the conditions that affect your community',
+heroDesc:'The Latino community faces higher rates of certain health conditions. Understanding them is the first step to protecting yourself and your family.',
+searchCond:'Search health condition...',
+conditionsLabel:'10 priority conditions for the Latino community',
+knowMore:'Learn more \u2192',
+tabConditions:'Conditions',tabDisparities:'Disparities',tabResources:'Resources',tabTrials:'Clinical Trials',
+trialsHeroTitle:'Search treatments in research',
+trialsHeroDesc:'Clinical trials are a way to access new treatments. Here you can search active studies near you.',
+searchTrial:'Search by condition, treatment, or keyword...',
+whatIsIt:'What is it?',whyAffectsUs:'Why does it affect us more?',whatCanIDo:'What can I do?',
+treatmentsInResearch:'Treatments in research',
+trialsExplainer:'Clinical trials are studies that test new treatments before they are available to everyone. Participation is voluntary and free.',
+back:'\u2190 Back',
+results:'Results',totalFound:'trials found',loadMore:'Load more',
+noResults:'No trials found for this search.',noResultsTip:'Try different terms or remove filters.',
+errorMsg:'Could not load data. Please try again.',viewOnCT:'View on ClinicalTrials.gov',
+filterPhase:'Phase',filterStatus:'Status',filterCountry:'Country',
+all:'All',recruiting:'Recruiting',notYet:'Not yet recruiting',byInvitation:'By invitation',
+noLocation:'Location not specified',dataSource:'Live data from',
+footerCreated:'Nuestra Salud: Created by',
+footerSource:'Data from ClinicalTrials.gov, MedlinePlus, OpenFDA, CDC, and NIH.',
+footerDisclaimer:'This tool is informational. Consult your doctor for decisions about your health.',
+readMore:'Read more on MedlinePlus',
+canIJoin:'Can I participate?',age:'Age',sex:'Sex',allSexes:'All sexes',female:'Female only',male:'Male only',
+healthyVol:'Healthy volunteers',yes:'Yes',no:'No',keyCriteria:'Key criteria',between:'Between',and:'and',
+findNearMe:'Find near me',geoGranted:'Sorted by distance',geoDenied:'Allow location access to find nearby trials.',miles:'mi',
+share:'Share',copyLink:'Copy link',copied:'Copied',
+drugSafety:'Drug safety',topReactions:'Most reported reactions (FDA data)',
+drugDisclaimer:'From voluntary reports. Does not prove causation.',noDrugData:'No data available on OpenFDA.',
+sponsor:'Sponsor',seeking:'seeking',participants:'participants',studyType:'Type',
+interventional:'Interventional',observational:'Observational',activeSince:'Active since',estCompletion:'Est. completion',
+dispTitle:'Health Disparities in the Latino Community',
+dispDesc:'Data shows certain conditions disproportionately affect the Latino community. Understanding these disparities is the first step to changing them.',
+latino:'Latino/Hispanic',nhWhite:'Non-Hispanic White',source:'Source',viewTrials:'View trials',
+resTitle:'Resources for the Community',
+resDesc:'Organizations, helplines, and resources. All offer services in Spanish.',
+financialHelp:'Financial help for participants',latinoOrgs:'Latino health organizations',
+trialInfo:'Clinical trial information',helplines:'Helplines',spanishAvail:'Spanish available',
+us:'USA',mexico:'Mexico',colombia:'Colombia',argentina:'Argentina',brazil:'Brazil',chile:'Chile',peru:'Peru',activeTrials:'active trials'
+}};
+
+const C=[
+{id:'diabetes',nEs:'Diabetes Tipo 2',nEn:'Type 2 Diabetes',q:'type 2 diabetes',sEs:'1.7x m\u00e1s probable en latinos',sEn:'1.7x more likely in Latinos',icon:'\uD83E\uDE78',
+mlEs:'https://medlineplus.gov/spanish/diabetestype2.html',mlEn:'https://medlineplus.gov/diabetestype2.html',icd:'E11',
+d:{lp:100,wp:59,ll:'17%',wl:'10%',dEs:'Los latinos tienen 1.7 veces m\u00e1s probabilidad de tener diabetes tipo 2 que los blancos no hispanos.',dEn:'Latinos are 1.7 times more likely to have type 2 diabetes than non-Hispanic whites.',src:'CDC NHIS, 2022'},
+cEs:'Factores como el acceso limitado a alimentos saludables, menor cobertura de seguro m\u00e9dico, y predisposici\u00f3n gen\u00e9tica contribuyen a tasas m\u00e1s altas en la comunidad latina. La detecci\u00f3n temprana y cambios en el estilo de vida pueden marcar una gran diferencia.',
+cEn:'Factors like limited access to healthy food, lower insurance coverage, and genetic predisposition contribute to higher rates in the Latino community. Early detection and lifestyle changes can make a big difference.',
+aEs:['Hazte la prueba de A1C al menos una vez al a\u00f1o.','Camina 30 minutos al d\u00eda.','Busca programas gratuitos de prevenci\u00f3n de diabetes en tu comunidad.','Si no tienes seguro, los centros de salud comunitarios ofrecen pruebas a bajo costo.'],
+aEn:['Get an A1C test at least once a year.','Walk 30 minutes a day.','Look for free diabetes prevention programs in your community.','If you are uninsured, community health centers offer low-cost testing.']},
+{id:'kidney',nEs:'Enfermedad Renal Cr\u00f3nica',nEn:'Chronic Kidney Disease',q:'chronic kidney disease',sEs:'1.3x mayor riesgo en latinos',sEn:'1.3x higher risk in Latinos',icon:'\uD83E\uDEC5',
+mlEs:'https://medlineplus.gov/spanish/chronickidneydisease.html',mlEn:'https://medlineplus.gov/chronickidneydisease.html',icd:'N18',
+d:{lp:100,wp:77,ll:'1.3x',wl:'1x',dEs:'Los latinos tienen 1.3 veces mayor riesgo de enfermedad renal terminal.',dEn:'Latinos have 1.3x higher risk of end-stage renal disease.',src:'USRDS, 2023'},
+cEs:'La diabetes e hipertensi\u00f3n no controladas son las principales causas. Muchos latinos no reciben diagn\u00f3stico temprano por falta de acceso a chequeos regulares.',
+cEn:'Uncontrolled diabetes and hypertension are the main causes. Many Latinos do not receive early diagnosis due to lack of access to regular checkups.',
+aEs:['Pide a tu doctor una prueba de funci\u00f3n renal si tienes diabetes o presi\u00f3n alta.','Controla tu presi\u00f3n arterial.','Reduce el consumo de sal.','No ignores la hinchaz\u00f3n en pies o tobillos.'],
+aEn:['Ask your doctor for a kidney function test if you have diabetes or high blood pressure.','Control your blood pressure.','Reduce salt intake.','Do not ignore swelling in feet or ankles.']},
+{id:'liver-cancer',nEs:'C\u00e1ncer de H\u00edgado',nEn:'Liver Cancer',q:'liver cancer',sEs:'2x mayor incidencia en latinos',sEn:'2x higher incidence in Latinos',icon:'\uD83C\uDFAF',
+mlEs:'https://medlineplus.gov/spanish/livercancer.html',mlEn:'https://medlineplus.gov/livercancer.html',icd:'C22',
+d:{lp:100,wp:50,ll:'2x',wl:'1x',dEs:'La incidencia de c\u00e1ncer de h\u00edgado es 2 veces mayor en latinos.',dEn:'Liver cancer incidence is 2x higher in Latinos.',src:'ACS Hispanic Cancer Facts, 2024'},
+cEs:'Tasas m\u00e1s altas de hepatitis B y C, junto con mayor prevalencia de enfermedad hep\u00e1tica grasa, contribuyen al riesgo elevado. La vacunaci\u00f3n y el monitoreo regular son clave.',
+cEn:'Higher rates of hepatitis B and C, along with higher prevalence of fatty liver disease, contribute to elevated risk. Vaccination and regular monitoring are key.',
+aEs:['Pregunta a tu doctor sobre la prueba de hepatitis B y C.','Si bebes alcohol, habla honestamente con tu doctor.','La vacuna de hepatitis B est\u00e1 disponible y es gratuita en muchos centros de salud.','Hazte chequeos regulares del h\u00edgado si tienes factores de riesgo.'],
+aEn:['Ask your doctor about hepatitis B and C testing.','If you drink alcohol, talk honestly with your doctor.','The hepatitis B vaccine is available and free at many health centers.','Get regular liver checkups if you have risk factors.']},
+{id:'cervical-cancer',nEs:'C\u00e1ncer Cervical',nEn:'Cervical Cancer',q:'cervical cancer',sEs:'30% mayor incidencia en latinas',sEn:'30% higher incidence in Latinas',icon:'\uD83C\uDF80',
+mlEs:'https://medlineplus.gov/spanish/cervicalcancer.html',mlEn:'https://medlineplus.gov/cervicalcancer.html',icd:'C53',
+d:{lp:100,wp:77,ll:'9.9/100K',wl:'7.6/100K',dEs:'Las mujeres latinas tienen 30% mayor incidencia de c\u00e1ncer cervical.',dEn:'Latina women have 30% higher cervical cancer incidence.',src:'ACS, 2024'},
+cEs:'El acceso limitado a pruebas de Papanicolaou y la vacuna del VPH contribuye a tasas m\u00e1s altas. La detecci\u00f3n temprana salva vidas.',
+cEn:'Limited access to Pap smears and HPV vaccine contributes to higher rates. Early detection saves lives.',
+aEs:['Hazte la prueba de Papanicolaou regularmente.','Pregunta sobre la vacuna del VPH para ti o tus hijos.','Muchas cl\u00ednicas comunitarias ofrecen estas pruebas gratis o a bajo costo.','Si recibes resultados anormales, haz seguimiento de inmediato.'],
+aEn:['Get regular Pap smears.','Ask about the HPV vaccine for yourself or your children.','Many community clinics offer these tests free or at low cost.','If you receive abnormal results, follow up immediately.']},
+{id:'stomach-cancer',nEs:'C\u00e1ncer de Est\u00f3mago',nEn:'Stomach Cancer',q:'gastric cancer',sEs:'2x mayor incidencia en latinos',sEn:'2x higher incidence in Latinos',icon:'\u26A0\uFE0F',
+mlEs:'https://medlineplus.gov/spanish/stomachcancer.html',mlEn:'https://medlineplus.gov/stomachcancer.html',icd:'C16',
+d:{lp:100,wp:50,ll:'2x',wl:'1x',dEs:'Los latinos tienen el doble de incidencia de c\u00e1ncer de est\u00f3mago.',dEn:'Latinos have 2x the incidence of stomach cancer.',src:'ACS, 2024'},
+cEs:'Factores diet\u00e9ticos, mayor prevalencia de H. pylori, y diagn\u00f3stico tard\u00edo contribuyen al riesgo elevado en la comunidad latina.',
+cEn:'Dietary factors, higher H. pylori prevalence, and late diagnosis contribute to elevated risk in the Latino community.',
+aEs:['Si tienes s\u00edntomas digestivos persistentes, no los ignores.','Pregunta sobre la prueba de H. pylori.','La detecci\u00f3n temprana mejora significativamente las opciones de tratamiento.','Reduce el consumo de alimentos procesados y muy salados.'],
+aEn:['If you have persistent digestive symptoms, do not ignore them.','Ask about H. pylori testing.','Early detection significantly improves treatment options.','Reduce consumption of processed and very salty foods.']},
+{id:'lupus',nEs:'Lupus',nEn:'Lupus',q:'lupus',sEs:'2-3x m\u00e1s com\u00fan en latinas',sEn:'2-3x more common in Latinas',icon:'\uD83E\uDDE0',
+mlEs:'https://medlineplus.gov/spanish/lupus.html',mlEn:'https://medlineplus.gov/lupus.html',icd:'M32',
+d:{lp:100,wp:40,ll:'2.5x',wl:'1x',dEs:'El lupus es 2 a 3 veces m\u00e1s com\u00fan y m\u00e1s severo en mujeres latinas.',dEn:'Lupus is 2-3x more common and more severe in Latina women.',src:'Lupus Foundation, 2023'},
+cEs:'Las mujeres latinas desarrollan lupus con m\u00e1s frecuencia y con mayor severidad. El diagn\u00f3stico es frecuentemente tard\u00edo debido a s\u00edntomas que se confunden con otras condiciones.',
+cEn:'Latina women develop lupus more frequently and with greater severity. Diagnosis is often delayed due to symptoms being confused with other conditions.',
+aEs:['Si tienes dolor en las articulaciones, fatiga extrema, o erupciones en la piel, consulta a un reumat\u00f3logo.','Lleva un registro de tus s\u00edntomas.','Busca grupos de apoyo en espa\u00f1ol.','Prot\u00e9gete del sol: el lupus puede empeorar con la exposici\u00f3n solar.'],
+aEn:['If you have joint pain, extreme fatigue, or skin rashes, see a rheumatologist.','Keep a log of your symptoms.','Look for Spanish-language support groups.','Protect yourself from the sun: lupus can worsen with sun exposure.']},
+{id:'obesity',nEs:'Obesidad',nEn:'Obesity',q:'obesity',sEs:'45.6% prevalencia en latinos',sEn:'45.6% prevalence in Latinos',icon:'\uD83C\uDF4E',
+mlEs:'https://medlineplus.gov/spanish/obesity.html',mlEn:'https://medlineplus.gov/obesity.html',icd:'E66',
+d:{lp:100,wp:91,ll:'45.6%',wl:'41.4%',dEs:'La prevalencia de obesidad es de 45.6% en adultos latinos vs. 41.4% en blancos no hispanos.',dEn:'Obesity prevalence is 45.6% in Latino adults vs. 41.4% in non-Hispanic whites.',src:'CDC NHANES, 2022'},
+cEs:'El acceso a alimentos saludables, entornos con pocas opciones para actividad f\u00edsica, y factores socioecon\u00f3micos contribuyen a tasas elevadas. No es solo una cuesti\u00f3n de voluntad.',
+cEn:'Access to healthy food, environments with few options for physical activity, and socioeconomic factors contribute to elevated rates. It is not just a matter of willpower.',
+aEs:['Busca programas comunitarios de actividad f\u00edsica.','Los centros de salud comunitarios ofrecen consejer\u00eda nutricional.','Peque\u00f1os cambios sostenibles son m\u00e1s efectivos que dietas extremas.','Cocina en casa cuando sea posible. No necesitas ingredientes caros.'],
+aEn:['Look for community physical activity programs.','Community health centers offer nutritional counseling.','Small sustainable changes are more effective than extreme diets.','Cook at home when possible. You do not need expensive ingredients.']},
+{id:'asthma',nEs:'Asma',nEn:'Asthma',q:'asthma',sEs:'1.5x en puertorrique\u00f1os',sEn:'1.5x in Puerto Ricans',icon:'\uD83C\uDF2C\uFE0F',
+mlEs:'https://medlineplus.gov/spanish/asthma.html',mlEn:'https://medlineplus.gov/asthma.html',icd:'J45',
+d:{lp:100,wp:67,ll:'1.5x',wl:'1x',dEs:'Los puertorrique\u00f1os tienen 1.5 veces mayor prevalencia de asma.',dEn:'Puerto Ricans have 1.5x asthma prevalence.',src:'CDC, 2023'},
+cEs:'La comunidad puertorrique\u00f1a tiene tasas particularmente altas. Factores ambientales, vivienda, y acceso a medicamentos preventivos juegan un papel importante.',
+cEn:'The Puerto Rican community has particularly high rates. Environmental factors, housing, and access to preventive medications play an important role.',
+aEs:['Identifica tus desencadenantes (polvo, humo, moho).','Aseg\u00farate de tener un plan de acci\u00f3n para el asma con tu doctor.','Si no puedes pagar tus medicamentos, pregunta sobre programas de asistencia del fabricante.','Mant\u00e9n tu hogar limpio y ventilado.'],
+aEn:['Identify your triggers (dust, smoke, mold).','Make sure you have an asthma action plan with your doctor.','If you cannot afford your medications, ask about manufacturer assistance programs.','Keep your home clean and ventilated.']},
+{id:'cardiovascular',nEs:'Enfermedad Cardiovascular',nEn:'Cardiovascular Disease',q:'cardiovascular disease',sEs:'#1 causa de muerte',sEn:'#1 cause of death',icon:'\u2764\uFE0F',
+mlEs:'https://medlineplus.gov/spanish/heartdiseases.html',mlEn:'https://medlineplus.gov/heartdiseases.html',icd:'I25',
+d:{lp:100,wp:85,ll:'Mayor hipertensi\u00f3n',wl:'Menor tasa',dEs:'La enfermedad cardiovascular es la causa #1 de muerte. Los latinos tienen mayor hipertensi\u00f3n no controlada.',dEn:'Cardiovascular disease is the #1 killer. Latinos have higher uncontrolled hypertension.',src:'AHA, 2024'},
+cEs:'La hipertensi\u00f3n no controlada es m\u00e1s com\u00fan en latinos, en parte por menor acceso a atenci\u00f3n m\u00e9dica continua. Conocer tus n\u00fameros (presi\u00f3n arterial, colesterol) es fundamental.',
+cEn:'Uncontrolled hypertension is more common in Latinos, partly due to less access to ongoing medical care. Knowing your numbers (blood pressure, cholesterol) is critical.',
+aEs:['Conoce tus n\u00fameros: presi\u00f3n arterial, colesterol, az\u00facar en sangre.','Camina m\u00e1s. Cocina en casa cuando puedas.','Si tienes s\u00edntomas como dolor en el pecho o falta de aire, llama al 911.','Muchas farmacias ofrecen chequeos de presi\u00f3n gratis.'],
+aEn:['Know your numbers: blood pressure, cholesterol, blood sugar.','Walk more. Cook at home when you can.','If you have symptoms like chest pain or shortness of breath, call 911.','Many pharmacies offer free blood pressure checks.']},
+{id:'depression',nEs:'Salud Mental / Depresi\u00f3n',nEn:'Mental Health / Depression',q:'depression',sEs:'2x menos acceso a tratamiento',sEn:'2x less likely to receive treatment',icon:'\uD83E\uDDE0',
+mlEs:'https://medlineplus.gov/spanish/depression.html',mlEn:'https://medlineplus.gov/depression.html',icd:'F32',
+d:{lp:50,wp:100,ll:'~36%',wl:'~72%',dEs:'Los latinos tienen 2 veces menos probabilidad de recibir tratamiento para depresi\u00f3n.',dEn:'Latinos are 2x less likely to receive depression treatment.',src:'SAMHSA, 2023'},
+cEs:'Los latinos tienen la mitad de probabilidad de recibir tratamiento para depresi\u00f3n. El estigma, las barreras de idioma, y la falta de proveedores biling\u00fces contribuyen a esta brecha.',
+cEn:'Latinos are half as likely to receive depression treatment. Stigma, language barriers, and a lack of bilingual providers contribute to this gap.',
+aEs:['Hablar de salud mental no es debilidad.','La l\u00ednea de crisis 988 tiene servicio en espa\u00f1ol.','Busca terapeutas biling\u00fces en tu \u00e1rea.','El ejercicio regular tambi\u00e9n ayuda significativamente.'],
+aEn:['Talking about mental health is not weakness.','The 988 crisis line has Spanish-language service.','Look for bilingual therapists in your area.','Regular exercise also helps significantly.']}
+];
+
+const RESOURCES=[
+{cat:'financialHelp',items:[
+{name:'Patient Advocate Foundation',desc:{es:'Ayuda con barreras financieras para pacientes',en:'Assists patients with financial barriers'},url:'https://www.patientadvocate.org',es:true},
+{name:'NeedyMeds',desc:{es:'Asistencia con medicamentos y costos m\u00e9dicos',en:'Medication and medical cost assistance'},url:'https://www.needymeds.org',es:true}]},
+{cat:'latinoOrgs',items:[
+{name:'National Alliance for Hispanic Health',desc:{es:'La organizaci\u00f3n de salud hispana m\u00e1s grande del pa\u00eds',en:'The largest Hispanic health organization in the US'},url:'https://www.healthyamericas.org',es:true},
+{name:'Salud America!',desc:{es:'Investigaci\u00f3n y recursos para la salud latina',en:'Research and resources for Latino health'},url:'https://salud-america.org',es:true},
+{name:'UnidosUS Health',desc:{es:'Programas de salud comunitaria',en:'Community health programs'},url:'https://www.unidosus.org/issues/health',es:true}]},
+{cat:'trialInfo',items:[
+{name:'NIH Investigaci\u00f3n Cl\u00ednica',desc:{es:'Informaci\u00f3n del NIH en espa\u00f1ol',en:'NIH information in Spanish'},url:'https://salud.nih.gov/investigacion-clinica',es:true},
+{name:'American Cancer Society',desc:{es:'Informaci\u00f3n sobre c\u00e1ncer y ensayos',en:'Cancer and trial information'},url:'https://www.cancer.org/es',es:true}]},
+{cat:'helplines',items:[
+{name:'SAMHSA National Helpline',desc:{es:'Salud mental y abuso de sustancias',en:'Mental health and substance abuse'},url:'tel:1-800-662-4357',phone:'1-800-662-4357',es:true},
+{name:'Cancer Information Service',desc:{es:'Instituto Nacional del C\u00e1ncer',en:'National Cancer Institute'},url:'tel:1-800-422-6237',phone:'1-800-422-6237',es:true},
+{name:'988 Suicide & Crisis Lifeline',desc:{es:'L\u00ednea de crisis, servicio en espa\u00f1ol',en:'Crisis line, Spanish service available'},url:'tel:988',phone:'988',es:true}]}
+];
+
+const COORDS={'New York':[40.71,-74.01],'Los Angeles':[34.05,-118.24],'Chicago':[41.88,-87.63],'Houston':[29.76,-95.37],'Phoenix':[33.45,-112.07],'Philadelphia':[39.95,-75.17],'San Antonio':[29.42,-98.49],'San Diego':[32.72,-117.16],'Dallas':[32.78,-96.80],'San Jose':[37.34,-121.89],'Austin':[30.27,-97.74],'San Francisco':[37.77,-122.42],'Seattle':[47.61,-122.33],'Denver':[39.74,-104.98],'Washington':[38.91,-77.04],'El Paso':[31.76,-106.45],'Boston':[42.36,-71.06],'Miami':[25.76,-80.19],'Atlanta':[33.75,-84.39],'Minneapolis':[44.98,-93.27],'Tampa':[27.95,-82.46],'Orlando':[28.54,-81.38],'Detroit':[42.33,-83.05],'Santa Barbara':[34.42,-119.70],'Salt Lake City':[40.76,-111.89],'Bethesda':[38.98,-77.09],'Durham':[35.99,-78.90],'Ann Arbor':[42.28,-83.74],'Rochester':[43.16,-77.61],'Cleveland':[41.50,-81.69],'Pittsburgh':[40.44,-79.99],'Baltimore':[39.29,-76.61],'Albuquerque':[35.08,-106.65],'Tucson':[32.22,-110.97],'Sacramento':[38.58,-121.49],'Portland':[45.52,-122.68],'Las Vegas':[36.17,-115.14],'Mexico City':[19.43,-99.13],'Guadalajara':[20.67,-103.35],'Monterrey':[25.67,-100.31],'Bogota':[4.71,-74.07],'Buenos Aires':[-34.60,-58.38],'Sao Paulo':[-23.55,-46.63],'Santiago':[-33.45,-70.67],'Lima':[-12.05,-77.04]};
+const COUNTRIES=[{v:null,k:'all'},{v:'United States',k:'us'},{v:'Mexico',k:'mexico'},{v:'Colombia',k:'colombia'},{v:'Argentina',k:'argentina'},{v:'Brazil',k:'brazil'},{v:'Chile',k:'chile'},{v:'Peru',k:'peru'}];
+
+const API='https://clinicaltrials.gov/api/v2/studies';
+const FDA='https://api.fda.gov/drug/event.json';
+let lang='es',dark=window.matchMedia('(prefers-color-scheme:dark)').matches,tab='conditions',viewCond=null;
+let selCond=null,sq='',npt=null,tc=0,filters={phase:null,status:null,country:null},sto=null,counts={},loading=false;
+let ulat=null,ulng=null,geoReq=false,fdaC=new Map(),mlC=new Map(),studies=[];
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),t=k=>T[lang][k]||k;
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+
+function readURL(){const p=new URLSearchParams(location.search);if(p.get('tab'))tab=p.get('tab');if(p.get('cond')){const i=C.findIndex(c=>c.id===p.get('cond'));if(i>=0){viewCond=i;tab='conditions'}}if(p.get('q'))sq=p.get('q');if(p.get('phase'))filters.phase=p.get('phase');if(p.get('status'))filters.status=p.get('status');if(p.get('country'))filters.country=p.get('country');if(p.get('lang')==='en')lang='en'}
+function setURL(){const p=new URLSearchParams();if(tab!=='conditions')p.set('tab',tab);if(viewCond!==null)p.set('cond',C[viewCond].id);if(sq)p.set('q',sq);if(filters.phase)p.set('phase',filters.phase);if(filters.status)p.set('status',filters.status);if(filters.country)p.set('country',filters.country);if(lang!=='es')p.set('lang',lang);const s=p.toString();history.replaceState(null,'',s?'?'+s:location.pathname)}
+
+async function api(params){const u=new URL(API);Object.entries(params).forEach(([k,v])=>{if(v!=null&&v!=='')u.searchParams.set(k,v)});const r=await fetch(u);if(!r.ok)throw new Error(r.status);return r.json()}
+async function countTrials(c){try{const d=await api({'query.cond':c.q,'filter.overallStatus':'RECRUITING,NOT_YET_RECRUITING,ENROLLING_BY_INVITATION','countTotal':'true','pageSize':'0'});return d.totalCount||0}catch(e){return -1}}
+async function searchTrials(q,pt){const p={'countTotal':'true','pageSize':'10'};if(q)p['query.cond']=q;if(pt)p['pageToken']=pt;p['filter.overallStatus']=filters.status||'RECRUITING,NOT_YET_RECRUITING,ENROLLING_BY_INVITATION';if(filters.phase)p['filter.phase']=filters.phase;if(filters.country)p['query.locn']=filters.country;return api(p)}
+async function fetchFDA(drug){if(!drug)return null;const k=drug.toLowerCase();if(fdaC.has(k))return fdaC.get(k);try{const r=await fetch(FDA+'?search=patient.drug.openfda.generic_name:"'+encodeURIComponent(drug)+'"&count=patient.reaction.reactionmeddrapt.exact&limit=5');if(!r.ok){fdaC.set(k,null);return null}const d=await r.json();fdaC.set(k,d.results||[]);return d.results||[]}catch(e){fdaC.set(k,null);return null}}
+async function fetchML(icd){const ck=icd+'_'+lang;if(mlC.has(ck))return mlC.get(ck);try{const r=await fetch('https://connect.medlineplus.gov/service?mainSearchCriteria.v.cs=2.16.840.1.113883.6.90&mainSearchCriteria.v.c='+encodeURIComponent(icd)+'&knowledgeResponseType=application/json&informationRecipient.languageCode.c='+(lang==='es'?'es':'en'));if(!r.ok){mlC.set(ck,null);return null}const d=await r.json();const e=d.feed&&d.feed.entry&&d.feed.entry[0];if(!e){mlC.set(ck,null);return null}const res={title:e.title&&e.title._value||'',summary:e.summary&&e.summary._value||'',url:e.link&&e.link[0]&&e.link[0].href||''};mlC.set(ck,res);return res}catch(e){mlC.set(ck,null);return null}}
+
+function haversine(a,b,c,d){const R=3959,dL=(c-a)*Math.PI/180,dN=(d-b)*Math.PI/180,x=Math.sin(dL/2)**2+Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin(dN/2)**2;return R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x))}
+function cityCoords(city){if(!city)return null;const c=city.trim();if(COORDS[c])return COORDS[c];for(const[k,v]of Object.entries(COORDS)){if(c.toLowerCase().includes(k.toLowerCase()))return v}return null}
+function trialDist(s){if(!ulat)return null;const locs=s.protocolSection?.contactsLocationsModule?.locations||[];let m=Infinity;for(const l of locs){const co=cityCoords(l.city);if(co){const d=haversine(ulat,ulng,co[0],co[1]);if(d<m)m=d}}return m===Infinity?null:Math.round(m)}
+function reqGeo(){if(!navigator.geolocation){geoMsg(t('geoDenied'));return}navigator.geolocation.getCurrentPosition(p=>{ulat=p.coords.latitude;ulng=p.coords.longitude;geoReq=true;geoMsg(t('geoGranted'));reloadTrials()},()=>geoMsg(t('geoDenied')))}
+function geoMsg(m){const r=$('#geo-row');if(!r)return;r.style.display='flex';r.innerHTML='<button class="geo-btn'+(ulat?' active':'')+'" onclick="window._ns.reqGeo()">'+t('findNearMe')+'</button><span class="geo-msg">'+m+'</span>'}
+
+// =================== RENDER ===================
+function updateUI(){
+$('#site-title').textContent=t('siteTitle');$('#site-subtitle').textContent=t('siteSubtitle');$('#trust-tag').textContent=t('trustTag');
+$('#hero-title').textContent=t('heroTitle');$('#hero-desc').textContent=t('heroDesc');
+$('#cond-search').placeholder=t('searchCond');$('#conditions-label').textContent=t('conditionsLabel');
+$('#trials-hero-title').textContent=t('trialsHeroTitle');$('#trials-hero-desc').textContent=t('trialsHeroDesc');
+$('#trial-search').placeholder=t('searchTrial');$('#load-more').textContent=t('loadMore');
+$('#data-source').innerHTML=t('dataSource')+' <a href="https://clinicaltrials.gov" target="_blank" rel="noopener">ClinicalTrials.gov</a>';
+$('#footer-created').innerHTML=t('footerCreated')+' <a href="https://www.linkedin.com/in/sebastianbecerra1/" target="_blank" rel="noopener">Sebastian Becerra</a> | <a href="https://github.com/sbc1-code/ensayos-clinicos" target="_blank" rel="noopener">GitHub</a>';
+$('#footer-source').textContent=t('footerSource');$('#footer-disclaimer').textContent=t('footerDisclaimer');
+$('#disp-title').textContent=t('dispTitle');$('#disp-desc').textContent=t('dispDesc');
+$('#res-title').textContent=t('resTitle');$('#res-desc').textContent=t('resDesc');
+renderTabs();renderGrid();renderDisp();renderRes();
+if(viewCond!==null)renderDetail(viewCond);
+if($('#results-section').style.display!=='none'&&tc>0){$('#results-title').textContent=t('results');$('#results-count').textContent=tc.toLocaleString()+' '+t('totalFound')}}
+
+function renderTabs(){
+const tabs=[{id:'conditions',l:t('tabConditions')},{id:'disparities',l:t('tabDisparities')},{id:'resources',l:t('tabResources')},{id:'trials',l:t('tabTrials')}];
+$('#tab-pills').innerHTML=tabs.map(tb=>'<button class="tab-pill'+(tab===tb.id?' active':'')+'" data-tab="'+tb.id+'">'+tb.l+'</button>').join('');
+$$('.tab-pill').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)))}
+function switchTab(t2){tab=t2;$$('.tab-content').forEach(e=>e.classList.remove('active'));const el=$('#tab-'+t2);if(el)el.classList.add('active');if(t2==='conditions'&&viewCond===null)backToGrid();renderTabs();setURL();window.scrollTo({top:0,behavior:'smooth'})}
+
+function renderGrid(){
+const g=$('#conditions-grid');
+g.innerHTML=C.map((c,i)=>{const nm=lang==='es'?c.nEs:c.nEn;const sub=lang==='es'?c.nEn:c.nEs;const st=lang==='es'?c.sEs:c.sEn;
+return'<div class="condition-card" data-i="'+i+'"><span class="cond-icon">'+c.icon+'</span><div class="cond-name">'+nm+'</div><div class="cond-sub">'+sub+'</div><div class="cond-stat">'+st+'</div><span class="cond-cta">'+t('knowMore')+'</span></div>'}).join('');
+g.querySelectorAll('.condition-card').forEach(c=>c.addEventListener('click',()=>openCondition(parseInt(c.dataset.i))))}
+
+function openCondition(i){viewCond=i;$('#cond-grid-view').style.display='none';$('#cond-detail-view').style.display='block';renderDetail(i);setURL();window.scrollTo({top:0,behavior:'smooth'})}
+function backToGrid(){viewCond=null;$('#cond-grid-view').style.display='block';$('#cond-detail-view').style.display='none';setURL()}
+
+async function renderDetail(i){
+const c=C[i],nm=lang==='es'?c.nEs:c.nEn,sub=lang==='es'?c.nEn:c.nEs;
+const ctx=lang==='es'?c.cEs:c.cEn,acts=lang==='es'?c.aEs:c.aEn;
+const d=c.d,dd=lang==='es'?d.dEs:d.dEn,mlUrl=lang==='es'?c.mlEs:c.mlEn;
+const el=$('#cond-detail');
+el.innerHTML='<button class="back-btn" onclick="window._ns.backToGrid()">'+t('back')+'</button>'+
+'<div class="detail-header"><span class="icon">'+c.icon+'</span><div><h2>'+nm+'</h2><div class="sub">'+sub+'</div></div></div>'+
+// Section 1
+'<div class="detail-section"><h3>\uD83D\uDCCB '+t('whatIsIt')+'</h3><div class="detail-body" id="ml-detail"><div class="skel w80"></div><div class="skel w60"></div></div></div>'+
+// Section 2
+'<div class="detail-section"><h3>\uD83D\uDCCA '+t('whyAffectsUs')+'</h3><div class="detail-body">'+
+'<div class="bar-chart"><div class="bar-row"><span class="bar-label">'+t('latino')+'</span><div class="bar-track"><div class="bar-fill accent" style="width:'+d.lp+'%">'+d.ll+'</div></div></div>'+
+'<div class="bar-row"><span class="bar-label">'+t('nhWhite')+'</span><div class="bar-track"><div class="bar-fill gray" style="width:'+d.wp+'%">'+d.wl+'</div></div></div></div>'+
+'<p class="disp-source">'+t('source')+': '+d.src+'</p><p style="margin-top:10px">'+ctx+'</p></div></div>'+
+// Section 3
+'<div class="detail-section"><h3>\u2705 '+t('whatCanIDo')+'</h3><div class="detail-body"><ul>'+acts.map(a=>'<li>'+a+'</li>').join('')+'</ul></div></div>'+
+// Section 4
+'<div class="detail-section"><h3>\uD83D\uDD2C '+t('treatmentsInResearch')+'</h3>'+
+'<div class="trial-intro">'+t('trialsExplainer')+'</div>'+
+'<div id="detail-trials"></div><button class="load-more" id="detail-load-more" style="display:none" onclick="window._ns.loadDetailMore()">'+t('loadMore')+'</button></div>';
+// Load MedlinePlus
+const ml=await fetchML(c.icd);const mlEl=$('#ml-detail');
+if(ml&&ml.summary){const clean=ml.summary.replace(/<[^>]*>/g,'').substring(0,400);mlEl.innerHTML='<p>'+clean+(clean.length>=400?'...':'')+'</p><a href="'+(ml.url||mlUrl)+'" target="_blank" rel="noopener">'+t('readMore')+' \u2192</a>'}
+else{mlEl.innerHTML='<p>'+dd+'</p><a href="'+mlUrl+'" target="_blank" rel="noopener">'+t('readMore')+' \u2192</a>'}
+// Load trials for this condition
+loadDetailTrials(c.q)}
+
+let detailNPT=null;
+async function loadDetailTrials(q){
+const el=$('#detail-trials'),btn=$('#detail-load-more');
+el.innerHTML='<div class="trial-skeleton"><div class="skel-line w30"></div><div class="skel-line h20 w80"></div><div class="skel-line w60"></div></div>'.repeat(3);
+try{const data=await searchTrials(q,null);detailNPT=data.nextPageToken||null;const s=data.studies||[];studies=s;
+el.innerHTML=s.length?s.map(renderTrialCard).join(''):'<div class="no-results"><div class="nr-icon">\uD83D\uDD0D</div><p>'+t('noResults')+'</p></div>';
+btn.style.display=detailNPT?'block':'none';
+s.forEach(st=>{const nct=st.protocolSection?.identificationModule?.nctId;const drug=st.protocolSection?.armsInterventionsModule?.interventions?.find(iv=>iv.type==='DRUG'||iv.type==='BIOLOGICAL');if(drug&&nct)loadFDA(nct,drug.name)})}
+catch(e){el.innerHTML='<div class="error-msg">'+t('errorMsg')+'</div>'}}
+
+async function loadDetailMore(){
+if(!detailNPT||!viewCond)return;const btn=$('#detail-load-more');btn.disabled=true;btn.textContent='...';
+try{const data=await searchTrials(C[viewCond].q,detailNPT);detailNPT=data.nextPageToken||null;const s=data.studies||[];studies=studies.concat(s);
+$('#detail-trials').innerHTML+=s.map(renderTrialCard).join('');btn.style.display=detailNPT?'block':'none';btn.disabled=false;btn.textContent=t('loadMore');
+s.forEach(st=>{const nct=st.protocolSection?.identificationModule?.nctId;const drug=st.protocolSection?.armsInterventionsModule?.interventions?.find(iv=>iv.type==='DRUG'||iv.type==='BIOLOGICAL');if(drug&&nct)loadFDA(nct,drug.name)})}
+catch(e){btn.disabled=false;btn.textContent=t('loadMore')}}
+
+function renderFilters(){
+const row=$('#filter-row');if(!row)return;
+const ph=[{v:null,l:t('all')},{v:'EARLY_PHASE1',l:lang==='es'?'Temprana':'Early'},{v:'PHASE1',l:lang==='es'?'Fase 1':'Phase 1'},{v:'PHASE2',l:lang==='es'?'Fase 2':'Phase 2'},{v:'PHASE3',l:lang==='es'?'Fase 3':'Phase 3'},{v:'PHASE4',l:lang==='es'?'Fase 4':'Phase 4'}];
+const st=[{v:null,l:t('all')},{v:'RECRUITING',l:t('recruiting')},{v:'NOT_YET_RECRUITING',l:t('notYet')},{v:'ENROLLING_BY_INVITATION',l:t('byInvitation')}];
+const pills=(items,key)=>items.map(i=>'<button class="filter-pill'+(filters[key]===i.v?' active':'')+'" data-fk="'+key+'" data-fv="'+(i.v||'')+'">'+i.l+'</button>').join('');
+const opts=COUNTRIES.map(c=>'<option value="'+(c.v||'')+'"'+(filters.country===c.v?' selected':'')+'>'+t(c.k)+'</option>').join('');
+row.innerHTML='<div class="filter-group"><span class="filter-label">'+t('filterPhase')+'</span>'+pills(ph,'phase')+'</div>'+'<div class="filter-group"><span class="filter-label">'+t('filterStatus')+'</span>'+pills(st,'status')+'</div>'+'<div class="filter-group"><span class="filter-label">'+t('filterCountry')+'</span><select class="country-select" id="country-sel">'+opts+'</select></div>';
+row.querySelectorAll('.filter-pill').forEach(p=>p.addEventListener('click',()=>onFilter(p.dataset.fk,p.dataset.fv||null)));
+const sel=$('#country-sel');if(sel)sel.addEventListener('change',()=>onFilter('country',sel.value||null))}
+
+function statusBadge(s){const m={'RECRUITING':{c:'badge-recruiting',es:'Reclutando',en:'Recruiting'},'NOT_YET_RECRUITING':{c:'badge-not-yet',es:'Por iniciar',en:'Not yet recruiting'},'ENROLLING_BY_INVITATION':{c:'badge-invitation',es:'Por invitaci\u00f3n',en:'By invitation'}};const i=m[s]||{c:'',es:s,en:s};return'<span class="badge '+i.c+'">'+(lang==='es'?i.es:i.en)+'</span>'}
+function phaseBadge(p){if(!p||!p.length)return'';const m={'EARLY_PHASE1':'Temprana','PHASE1':'Fase 1','PHASE2':'Fase 2','PHASE3':'Fase 3','PHASE4':'Fase 4','NA':'N/A'};return p.map(x=>'<span class="badge badge-phase">'+(lang==='es'?(m[x]||x):x.replace('PHASE','Phase ').replace('EARLY_','Early ').replace('NA','N/A'))+'</span>').join(' ')}
+
+function renderTrialCard(study){
+const ps=study.protocolSection||{},id=ps.identificationModule||{},st=ps.statusModule||{},ds=ps.designModule||{},desc=ps.descriptionModule||{},loc=ps.contactsLocationsModule||{},el=ps.eligibilityModule||{},arms=ps.armsInterventionsModule||{},sp=ps.sponsorCollaboratorsModule||{};
+const nct=id.nctId||'',title=id.briefTitle||'Untitled',status=st.overallStatus||'',phases=ds.phases||[],summary=(desc.briefSummary||'').substring(0,200),locs=(loc.locations||[]).slice(0,3),ctURL='https://clinicaltrials.gov/study/'+nct,dist=trialDist(study);
+const sponsor=sp.leadSponsor?.name||'',enroll=ds.enrollmentInfo?.count,stype=ds.studyType||'',sDate=st.startDateStruct?.date||'',eDate=st.completionDateStruct?.date||'';
+const ivs=arms.interventions||[],drug=ivs.find(iv=>iv.type==='DRUG'||iv.type==='BIOLOGICAL'),dn=drug?drug.name:null;
+let locH=locs.length?locs.map(l=>'<span>\uD83D\uDCCD '+[l.city,l.state,l.country].filter(Boolean).join(', ')+'</span>').join(''):'<span>'+t('noLocation')+'</span>';
+const dB=dist!==null?' <span class="badge badge-distance">~'+dist+' '+t('miles')+'</span>':'';
+let meta='';if(sponsor)meta+='<span>'+t('sponsor')+': '+esc(sponsor)+'</span>';if(enroll)meta+='<span>'+t('seeking')+' '+enroll.toLocaleString()+' '+t('participants')+'</span>';if(stype)meta+='<span>'+t('studyType')+': '+(stype==='INTERVENTIONAL'?t('interventional'):stype==='OBSERVATIONAL'?t('observational'):stype)+'</span>';
+const minA=el.minimumAge||'',maxA=el.maximumAge||'',sex=el.sex||'ALL',hv=el.healthyVolunteers;
+const sexL=sex==='ALL'?t('allSexes'):sex==='FEMALE'?t('female'):sex==='MALE'?t('male'):sex;
+const hvL=hv===true?t('yes'):hv===false?t('no'):'---';
+let crit='';if(el.eligibilityCriteria){const lines=[];let inc=false;for(const ln of el.eligibilityCriteria.split('\n')){if(/inclusion/i.test(ln)){inc=true;continue}if(/exclusion/i.test(ln)){inc=false;continue}if(inc&&ln.trim().length>10&&lines.length<4)lines.push(ln.trim().replace(/^[\*\-\d\.]+\s*/,''))}
+if(lines.length)crit='<div style="margin-top:8px"><span class="elig-label">'+t('keyCriteria')+'</span><ul class="criteria-list">'+lines.map(l=>'<li>'+esc(l.substring(0,120))+'</li>').join('')+'</ul></div>'}
+const eligH='<div class="expand-section" id="elig-'+nct+'"><div class="expand-inner"><div class="eligibility-grid"><div class="elig-item"><span class="elig-label">'+t('age')+'</span><span class="elig-value">'+(minA&&maxA?t('between')+' '+minA+' '+t('and')+' '+maxA:minA||maxA||'---')+'</span></div><div class="elig-item"><span class="elig-label">'+t('sex')+'</span><span class="elig-value">'+sexL+'</span></div><div class="elig-item"><span class="elig-label">'+t('healthyVol')+'</span><span class="elig-value">'+hvL+'</span></div></div>'+crit+'</div></div>';
+let fdaH='';if(dn)fdaH='<div class="expand-section" id="fda-'+nct+'"><div class="expand-inner" id="fda-inner-'+nct+'"><div class="skel-line w60"></div><div class="skel-line w40"></div></div></div>';
+return'<div class="trial-card" data-nctid="'+nct+'">'+'<div class="trial-badges">'+statusBadge(status)+' '+phaseBadge(phases)+dB+'</div>'+'<div class="trial-title">'+esc(title)+'</div>'+(meta?'<div class="trial-meta">'+meta+'</div>':'')+'<div class="trial-locations">'+locH+'</div>'+(summary?'<div class="trial-summary">'+esc(summary)+(summary.length>=200?'...':'')+'</div>':'')+'<div class="trial-actions">'+'<a class="trial-link" href="'+ctURL+'" target="_blank" rel="noopener">'+t('viewOnCT')+' \u2192</a>'+'<button class="action-btn" onclick="window._ns.copyLink(\''+ctURL+'\',this)">'+t('copyLink')+'</button>'+'<button class="action-btn" onclick="window._ns.shareTrial(\''+nct+'\')">'+t('share')+'</button>'+'<button class="expand-toggle" onclick="window._ns.togExp(\'elig-'+nct+'\')">\uD83D\uDC64 '+t('canIJoin')+'</button>'+(dn?'<button class="expand-toggle" onclick="window._ns.togFDA(\''+nct+"','"+esc(dn).replace(/'/g,"\\'")+"')\">\uD83D\uDC8A "+t('drugSafety')+'</button>':'')+'</div>'+eligH+fdaH+'</div>'}
+
+function renderDisp(){$('#disp-grid').innerHTML=C.map((c,i)=>{const d=c.d,nm=lang==='es'?c.nEs:c.nEn,dd=lang==='es'?d.dEs:d.dEn;
+return'<div class="disp-card" onclick="window._ns.dispOpen('+i+')"><div class="disp-card-header"><span class="icon">'+c.icon+'</span><h3>'+nm+'</h3></div><div class="disp-desc">'+dd+'</div><div class="bar-chart"><div class="bar-row"><span class="bar-label">'+t('latino')+'</span><div class="bar-track"><div class="bar-fill accent" style="width:'+d.lp+'%">'+d.ll+'</div></div></div><div class="bar-row"><span class="bar-label">'+t('nhWhite')+'</span><div class="bar-track"><div class="bar-fill gray" style="width:'+d.wp+'%">'+d.wl+'</div></div></div></div><div class="disp-source">'+t('source')+': '+d.src+'</div><button class="disp-action">'+t('knowMore')+'</button></div>'}).join('')}
+
+function renderRes(){$('#res-content').innerHTML=RESOURCES.map(cat=>{const cards=cat.items.map(r=>{const d=lang==='es'?r.desc.es:r.desc.en;const eB=r.es?'<span class="res-badge-es">'+t('spanishAvail')+'</span>':'';const lt=r.phone||r.url.replace(/^https?:\/\/(www\.)?/,'').replace(/\/$/,'');return'<div class="res-card"><h4>'+r.name+eB+'</h4><p>'+d+'</p>'+(r.phone?'<div class="res-link"><a href="'+r.url+'">'+r.phone+'</a></div>':'<div class="res-link"><a href="'+r.url+'" target="_blank" rel="noopener">'+lt+'</a></div>')+'</div>'}).join('');return'<div class="res-category"><h3>'+t(cat.cat)+'</h3><div class="res-grid">'+cards+'</div></div>'}).join('')}
+
+// =================== TRIAL TAB ===================
+function onTrialSearch(q){if(!q||q.trim().length<2)return;sq=q.trim();selCond=null;npt=null;filters={phase:null,status:null,country:null};loadTrialResults(sq);setURL()}
+function onFilter(k,v){filters[k]=v;npt=null;renderFilters();setURL();const q=selCond!==null?C[selCond].q:sq;if(q)loadTrialResults(q)}
+function reloadTrials(){const q=selCond!==null?C[selCond].q:sq;if(q)loadTrialResults(q)}
+
+async function loadTrialResults(q,append){
+if(loading)return;loading=true;
+const sec=$('#results-section'),list=$('#results-list'),err=$('#error-container'),btn=$('#load-more');
+sec.style.display='block';err.innerHTML='';
+if(!append){list.innerHTML='<div class="trial-skeleton"><div class="skel-line w30"></div><div class="skel-line h20 w80"></div><div class="skel-line w60"></div><div class="skel-line w100"></div></div>'.repeat(4);btn.style.display='none';
+const gr=$('#geo-row');if(ulat){geoMsg(t('geoGranted'))}else{gr.style.display='flex';gr.innerHTML='<button class="geo-btn" onclick="window._ns.reqGeo()">'+t('findNearMe')+'</button>'}
+window.scrollTo({top:sec.offsetTop-120,behavior:'smooth'})}else{btn.disabled=true;btn.textContent='...'}
+renderFilters();
+try{const data=await searchTrials(q,append?npt:null);tc=data.totalCount||0;npt=data.nextPageToken||null;const s=data.studies||[];
+if(!append)studies=s;else studies=studies.concat(s);
+if(ulat&&!append)s.sort((a,b)=>{const da=trialDist(a),db=trialDist(b);if(da===null&&db===null)return 0;if(da===null)return 1;if(db===null)return-1;return da-db});
+$('#results-title').textContent=t('results');$('#results-count').textContent=tc.toLocaleString()+' '+t('totalFound');
+if(!append)list.innerHTML='';
+if(!s.length&&!append){list.innerHTML='<div class="no-results"><div class="nr-icon">\uD83D\uDD0D</div><p>'+t('noResults')+'</p><p style="margin-top:6px;font-size:.82rem">'+t('noResultsTip')+'</p></div>'}
+else{list.innerHTML+=s.map(renderTrialCard).join('');s.forEach(st=>{const nct=st.protocolSection?.identificationModule?.nctId;const drug=st.protocolSection?.armsInterventionsModule?.interventions?.find(iv=>iv.type==='DRUG'||iv.type==='BIOLOGICAL');if(drug&&nct)loadFDA(nct,drug.name)})}
+btn.style.display=npt?'block':'none';btn.disabled=false;btn.textContent=t('loadMore')}
+catch(e){if(!append)list.innerHTML='';err.innerHTML='<div class="error-msg">'+t('errorMsg')+'</div>';btn.style.display='none'}
+loading=false}
+
+async function loadFDA(nct,dn){const res=await fetchFDA(dn);const el=document.getElementById('fda-inner-'+nct);if(!el)return;if(!res||!res.length){el.innerHTML='<span style="font-size:.78rem;color:var(--text2)">'+t('noDrugData')+'</span>';return}el.innerHTML='<span class="elig-label">'+t('topReactions')+'</span><div class="fda-reactions">'+res.map(r=>'<span class="fda-pill">'+r.term.toLowerCase()+' ('+r.count.toLocaleString()+')</span>').join('')+'</div><div class="fda-disclaimer">'+t('drugDisclaimer')+'</div>'}
+
+function copyLink(url,btn){navigator.clipboard.writeText(url).then(()=>{btn.textContent=t('copied');btn.classList.add('copied');setTimeout(()=>{btn.textContent=t('copyLink');btn.classList.remove('copied')},2000)})}
+function shareTrial(nct){const s=studies.find(x=>x.protocolSection?.identificationModule?.nctId===nct);if(!s)return;const ps=s.protocolSection||{},title=ps.identificationModule?.briefTitle||'Trial',status=ps.statusModule?.overallStatus||'',phases=(ps.designModule?.phases||[]).join(', ').replace(/PHASE/g,'Phase '),locs=(ps.contactsLocationsModule?.locations||[]).slice(0,5).map(l=>[l.city,l.state,l.country].filter(Boolean).join(', ')).join('; '),el=ps.eligibilityModule||{},ctURL='https://clinicaltrials.gov/study/'+nct,co=(ps.contactsLocationsModule?.centralContacts||[])[0]||{};
+const w=window.open('','_blank','width=600,height=700');if(!w)return;
+w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(title)+'</title><style>body{font-family:-apple-system,sans-serif;padding:32px;max-width:560px;margin:0 auto;color:#1d1d1f;line-height:1.6}h1{font-size:1.1rem;margin-bottom:6px}.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.72rem;font-weight:600;background:#eee;margin-right:4px}.section{margin:14px 0;padding:12px;border:1px solid #ddd;border-radius:8px}.section h3{font-size:.82rem;margin-bottom:6px;color:#666}.link{color:#0071E3;font-weight:600;word-break:break-all}button{padding:8px 16px;border:1px solid #0071E3;background:#0071E3;color:#fff;border-radius:8px;font-size:.85rem;cursor:pointer;font-family:inherit;margin:8px 4px 0 0}.footer{margin-top:20px;font-size:.72rem;color:#999;text-align:center;border-top:1px solid #eee;padding-top:12px}@media print{button{display:none}}</style></head><body><h1>'+esc(title)+'</h1><div><span class="badge">'+status+'</span>'+(phases?'<span class="badge">'+phases+'</span>':'')+'</div><div class="section"><h3>Locations</h3><p>'+(locs||'Not specified')+'</p></div><div class="section"><h3>Eligibility</h3><p>Age: '+(el.minimumAge||'?')+' - '+(el.maximumAge||'?')+' | Sex: '+(el.sex||'?')+'</p></div>'+(co.name?'<div class="section"><h3>Contact</h3><p>'+esc(co.name)+(co.phone?' | '+co.phone:'')+(co.email?' | '+co.email:'')+'</p></div>':'')+'<p style="margin-top:14px"><a class="link" href="'+ctURL+'" target="_blank">'+ctURL+'</a></p><button onclick="navigator.clipboard.writeText(\''+ctURL+'\');this.textContent=\'Copied!\'">Copy Link</button><button onclick="window.print()">Print</button><div class="footer">Generado por Nuestra Salud | sbc1-code.github.io/ensayos-clinicos</div></body></html>');w.document.close()}
+function togExp(id){const el=document.getElementById(id);if(el)el.classList.toggle('open')}
+async function togFDA(nct,dn){const el=document.getElementById('fda-'+nct);if(!el)return;if(el.classList.contains('open')){el.classList.remove('open');return}el.classList.add('open');await loadFDA(nct,dn)}
+function dispOpen(i){switchTab('conditions');setTimeout(()=>openCondition(i),100)}
+
+function toggleLang(nl){lang=nl;document.documentElement.lang=lang;$$('#lang-toggle button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));mlC.clear();updateUI();setURL()}
+function toggleDark(){dark=!dark;document.documentElement.classList.toggle('dark',dark);$('#theme-toggle').textContent=dark?'\u2600\uFE0F':'\u263D'}
+
+function init(){
+readURL();if(dark){document.documentElement.classList.add('dark');$('#theme-toggle').textContent='\u2600\uFE0F'}
+$$('#lang-toggle button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
+updateUI();
+C.forEach(async c=>{counts[c.id]=await countTrials(c)});
+$$('#lang-toggle button').forEach(b=>b.addEventListener('click',()=>toggleLang(b.dataset.lang)));
+$('#theme-toggle').addEventListener('click',toggleDark);
+$('#cond-search').addEventListener('input',e=>{const v=e.target.value.toLowerCase();$$('.condition-card').forEach(c=>{const i=parseInt(c.dataset.i);const m=C[i];const show=!v||m.nEs.toLowerCase().includes(v)||m.nEn.toLowerCase().includes(v)||m.q.toLowerCase().includes(v);c.style.display=show?'':'none'})});
+const ts=$('#trial-search');ts.addEventListener('input',e=>{clearTimeout(sto);sto=setTimeout(()=>onTrialSearch(e.target.value),300)});
+ts.addEventListener('keydown',e=>{if(e.key==='Enter'){clearTimeout(sto);onTrialSearch(e.target.value)}});
+$('#load-more').addEventListener('click',()=>{const q=selCond!==null?C[selCond].q:sq;if(q&&npt)loadTrialResults(q,true)});
+if(sq){ts.value=sq;if(tab==='trials')loadTrialResults(sq)}
+if(viewCond!==null)openCondition(viewCond);
+if(tab!=='conditions')switchTab(tab)}
+
+window._ns={reqGeo,copyLink,shareTrial,togExp,togFDA,backToGrid,dispOpen,loadDetailMore};
+init();
+})();
+</script>
 </body>
 </html>
